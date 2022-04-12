@@ -5,12 +5,8 @@ import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-class Homepage extends React.Component {
-  state = {
-    collapsed: false,
-  };
+export default function Homepage() {
 
-  render() {
     return (
       <Layout>
       <Header className="header">
@@ -70,6 +66,3 @@ class Homepage extends React.Component {
     </Layout>
     );
   }
-}
-
-export default Homepage
