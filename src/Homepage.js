@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import Login from './Login';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -16,6 +17,7 @@ export default function Homepage() {
           <Menu.Item key="2">nav 2</Menu.Item>
           <Menu.Item key="3">nav 3</Menu.Item>
         </Menu>
+        <Login />
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
