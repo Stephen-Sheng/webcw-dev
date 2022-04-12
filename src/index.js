@@ -6,9 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Homepage from './Homepage'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Homepage />
-  </React.StrictMode>,
+    <Homepage />,
   document.getElementById('root')
 );
 

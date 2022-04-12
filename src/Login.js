@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { useInput } from 'react-hookedup';
 import { Modal, Button, Input, Space } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
@@ -8,6 +8,8 @@ export default function Login(){
 
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
+  const {username, changeUsername} = useInput('')
+  const {password, changePassword} = useInput('')
 
 
   const showModal = () => {
@@ -47,9 +49,11 @@ export default function Login(){
           ]}
         >
             <Space direction="vertical">
-                <Input placeholder="input username" prefix={<UserOutlined />} />
+                <Input placeholder="input username" value = {username} onChange = {changeUsername} prefix={<UserOutlined />} />
                 <Input.Password
                     placeholder="input password"
+                    value={password}
+                    onChange = {changePassword}
                     prefix={<LockOutlined />}
                     iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                 />
