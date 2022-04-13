@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useReducer, useEffect} from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import Login from './Login';
+import {userReducer} from './reducers'
+import { UserContext } from './context';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 export default function Homepage() {
 
+  const [user] = useReducer(userReducer, '')
+  useEffect(()=>{
+    if(user){
+      console.log(user);
+    }
+  },[user])
+
     return (
+      <UserContext.Provider value={user}>
       <Layout>
       <Header className="header">
         <div className="logo" />
@@ -66,5 +76,6 @@ export default function Homepage() {
         </Layout>
       </Layout>
     </Layout>
+    </UserContext.Provider>
     );
   }

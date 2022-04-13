@@ -1,5 +1,6 @@
 
 #login_btn {
-    bottom: 65px;
-    left: 1700px;
+    display: flex;
+    bottom: 75%;
+    left: 90%;
 }
