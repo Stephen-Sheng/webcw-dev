@@ -10,7 +10,7 @@ const { Header, Content, Sider } = Layout;
 
 export default function Homepage() {
 
-  const [user] = useReducer(userReducer, '')
+  const [user, dispatch] = useReducer(userReducer, '')
   useEffect(()=>{
     if(user){
       console.log(user);
@@ -18,7 +18,7 @@ export default function Homepage() {
   },[user])
 
     return (
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={{user, dispatch}}>
       <Layout>
       <Header className="header">
         <div className="logo" />

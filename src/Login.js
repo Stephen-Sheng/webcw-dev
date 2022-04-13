@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { useInput } from 'react-hookedup';
-import { Modal, Button, Input, Space } from 'antd';
+import { Modal, Button, Input, Space, Alert } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
 
-export default function Login(){
+export default function Login() {
 
-  const user = useContext(UserContext)
+  const { user, dispatch } = useContext(UserContext)
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
-  const {username, changeUsername} = useInput('')
-  const {password, changePassword} = useInput('')
+  const [loginErr, setLoginErr] = useState(false)
+  const usernameInfo = useInput('')
+  const passwordInfo = useInput('')
+
 
 
   const showModal = () => {
@@ -19,57 +21,75 @@ export default function Login(){
   };
 
   const handleOk = () => {
-    
-    setLoading(true)
-    setTimeout(() => {
+    const username = usernameInfo.value
+    const password = passwordInfo.value
+    if (username === 'Yutong' && password === "123") {
+      dispatch({ type: 'LOGIN', username, gender: 'M' })
+      setLoading(true)
       setVisible(false)
       setLoading(false)
-    }, 3000);
+    } else {
+      console.log("error");
+      setLoginErr(true)
+    }
+
+
+    // setTimeout(() => {
+
+    // }, 1000);
   };
 
   const handleCancel = () => {
+    setLoginErr(false)
     setVisible(false)
   };
 
-    // const { visible, loading } = this.state;
-    if (!user.username){
-      return (
-        <>
-          <Button id = "login_btn" type="primary" onClick={showModal}>
-            Login
-          </Button>
-          <Modal
-            visible={visible}
-            title="Login"
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={[
-              <Button key="back" onClick={handleCancel}>
-                Cancel
-              </Button>,
-              <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                Submit
-              </Button>
-            ]}
-          >
-              <Space direction="vertical">
-                  <Input placeholder="input username" value = {username} onChange = {changeUsername} prefix={<UserOutlined />} />
-                  <Input.Password
-                      placeholder="input password"
-                      value={password}
-                      onChange = {changePassword}
-                      prefix={<LockOutlined />}
-                      iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                  />
-              </Space>
-          </Modal>
-        </>
-      );
-    }else{
-      return(<Button id = "login_btn" type="primary">
+  // const { visible, loading } = this.state;
+  if (!user.username) {
+    return (
+      <>
+        <Button id="login_btn" type="primary" onClick={showModal}>
+          Login
+        </Button>
+        <Modal
+          visible={visible}
+          title="Login"
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={[
+            <Button key="back" onClick={handleCancel}>
+              Cancel
+            </Button>,
+            <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+              Submit
+            </Button>
+          ]}
+        >
+          {loginErr && <Alert
+            message="Login error"
+            description="Invalid username or password"
+            type="error"
+            showIcon /> 
+          }
+          {loginErr && <br></br>}
+          <Space direction="vertical">
+            <Input placeholder="input username" value={usernameInfo.value} onChange={usernameInfo.onChange} prefix={<UserOutlined />} />
+            <Input.Password
+              placeholder="input password"
+              value={passwordInfo.value}
+              onChange={passwordInfo.onChange}
+              prefix={<LockOutlined />}
+              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+            />
+          </Space>
+        </Modal>
+      </>
+    );
+  } else {
+    return (<Button id="login_btn" type="primary">
       {"Hello! " + user.username}
     </Button>)
-    }
-    
+  }
+
 }
 
