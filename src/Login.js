@@ -4,6 +4,7 @@ import { Modal, Button, Input, Space, Alert } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
+import Logout from './Logout';
 
 export default function Login() {
 
@@ -86,9 +87,7 @@ export default function Login() {
       </>
     );
   } else {
-    return (<Button id="login_btn" type="primary">
-      {"Hello! " + user.username}
-    </Button>)
+    return (<Logout />)
   }
 
 }
