@@ -1,7 +1,12 @@
 import React, { useReducer, useEffect} from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { mount, route } from 'navi';
+import { Router, View, Link } from 'react-navi'
+
 import Login from './Login';
+import Page1 from './pages/Page1';
+import Page2 from './pages/Page2';
 import {userReducer} from './reducers'
 import { UserContext } from './context';
 
@@ -11,6 +16,11 @@ const { Header, Content, Sider } = Layout;
 export default function Homepage() {
 
   const [user, dispatch] = useReducer(userReducer, '')
+  const routes = mount({
+    '/':route({view:<Page1 />}),
+    '/page2':route({view:<Page2 />})
+  })
+
   useEffect(()=>{
     if(user){
       console.log(user);
@@ -20,12 +30,15 @@ export default function Homepage() {
     return (
       <UserContext.Provider value={{user, dispatch}}>
       <Layout>
+      <Router routes={routes}>
       <Header className="header">
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
+        
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+          <Menu.Item key="1"><Link href={`/`}>nav 1</Link></Menu.Item>
+          <Menu.Item key="2"><Link href={`/page2`}>nav 2</Link></Menu.Item>
           <Menu.Item key="3">nav 3</Menu.Item>
+
         </Menu>
         <Login />
       </Header>
@@ -71,10 +84,11 @@ export default function Homepage() {
               minHeight: 280,
             }}
           >
-            Content
+            <View />
           </Content>
         </Layout>
       </Layout>
+      </Router>
     </Layout>
     </UserContext.Provider>
     );
