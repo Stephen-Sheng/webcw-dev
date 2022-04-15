@@ -5,6 +5,7 @@ import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@a
 import './Login.css'
 import { UserContext } from './context';
 import Logout from './Logout';
+import { useNavigation } from 'react-navi';
 
 export default function Login() {
 
@@ -14,7 +15,7 @@ export default function Login() {
   const [loginErr, setLoginErr] = useState(false)
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
-
+  let navigation = useNavigation()
 
 
   const showModal = () => {
@@ -25,10 +26,12 @@ export default function Login() {
     const username = usernameInfo.value
     const password = passwordInfo.value
     if (username === 'Yutong' && password === "123") {
-      dispatch({ type: 'LOGIN', username, gender: 'M' })
+      dispatch({ type: 'LOGIN', username, userType: 'ADMIN' })
+      navigation.navigate('/admin')
       setLoading(true)
       setVisible(false)
       setLoading(false)
+
     } else {
       console.log("error");
       setLoginErr(true)
@@ -70,7 +73,7 @@ export default function Login() {
             message="Login error"
             description="Invalid username or password"
             type="error"
-            showIcon /> 
+            showIcon />
           }
           {loginErr && <br></br>}
           <Space direction="vertical">

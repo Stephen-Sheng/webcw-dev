@@ -27,7 +27,7 @@ export default function Logout() {
     return (
         <>
             <Dropdown overlay={menu} placement="bottomRight" arrow>
-                <Button type="text" id="dropMenu_btn" > Hello,{user.username}! <DownOutlined /> </Button>
+                <Button type="text" id="dropMenu_btn" > Hello,{user.username}!{user.userType} <DownOutlined /> </Button>
             </Dropdown>
         </>
     )

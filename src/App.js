@@ -1,9 +1,12 @@
+import { Router, View } from 'react-navi';
 import './App.css';
-import Homepage from './Homepage';
+import { routes } from './routes'
 
 function App() {
   return (
-      <Homepage />
+    <Router routes={routes}>
+      <View />
+    </Router>
   );
 }
 
