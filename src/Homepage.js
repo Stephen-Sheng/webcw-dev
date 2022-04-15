@@ -19,7 +19,7 @@ export default function Homepage() {
 
   return (
     <Layout>
-      <Navmenu />
+      <Navmenu selected = {['1']} />
       <Layout>
         <Sidermenu />
         <Layout style={{ padding: '0 24px 24px' }}>

@@ -5,7 +5,7 @@ import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@a
 import './Login.css'
 import { UserContext } from './context';
 import Logout from './Logout';
-import { useNavigation } from 'react-navi';
+// import { useNavigation } from 'react-navi';
 
 export default function Login() {
 
@@ -15,19 +15,30 @@ export default function Login() {
   const [loginErr, setLoginErr] = useState(false)
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
-  let navigation = useNavigation()
+  // let navigation = useNavigation()
 
 
   const showModal = () => {
     setVisible(true)
   };
+  const listData = [];
+  for (let i = 0; i < 23; i++) {
+    listData.push({
+      href: 'https://ant.design',
+      title: `ant design part ${i}`,
+      avatar: 'https://joeschmoe.io/api/v1/random',
+      description:
+        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+      content:
+        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    });
+  }
 
   const handleOk = () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
     if (username === 'Yutong' && password === "123") {
-      dispatch({ type: 'LOGIN', username, userType: 'ADMIN' })
-      localStorage.setItem("userInfo",user)
+      dispatch({ type: 'LOGIN', username, userType: 'ADMIN', storeList: listData})
       // navigation.navigate('/admin')
       setLoading(true)
       setVisible(false)
