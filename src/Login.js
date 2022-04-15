@@ -27,7 +27,8 @@ export default function Login() {
     const password = passwordInfo.value
     if (username === 'Yutong' && password === "123") {
       dispatch({ type: 'LOGIN', username, userType: 'ADMIN' })
-      navigation.navigate('/admin')
+      localStorage.setItem("userInfo",user)
+      // navigation.navigate('/admin')
       setLoading(true)
       setVisible(false)
       setLoading(false)

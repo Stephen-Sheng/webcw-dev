@@ -1,11 +1,13 @@
-import { Router, View } from 'react-navi';
+import { NotFoundBoundary, Router, View } from 'react-navi';
 import './App.css';
-import { routes } from './routes'
+import {routes} from './routes'
 
 function App() {
   return (
     <Router routes={routes}>
-      <View />
+      <NotFoundBoundary render={() => <h1>404! Not Found</h1>}>
+        <View />
+      </NotFoundBoundary>
     </Router>
   );
 }
