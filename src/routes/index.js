@@ -1,7 +1,5 @@
-import { route, mount, compose, withView } from "navi";
-import { View } from "react-navi";
+import { route, mount } from "navi";
 import Homepage from "../Homepage";
-import Navmenu from "../Navmenu";
 import Admin from "../pages/Admin";
 import Page1 from "../pages/Page1";
 import Page2 from "../pages/Page2";

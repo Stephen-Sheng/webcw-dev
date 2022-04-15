@@ -1,6 +1,7 @@
 import { Layout, Menu } from 'antd';
 import Login from './Login';
 import { Link } from 'react-navi';
+import Register from './Register';
 const { Header } = Layout;
 
 
@@ -17,6 +18,7 @@ export default function Navmenu() {
 
             </Menu>
             <Login />
+            <Register />
 
         </Header>
     )
