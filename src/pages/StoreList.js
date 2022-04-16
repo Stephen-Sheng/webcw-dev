@@ -8,7 +8,7 @@ import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 
-export default function Page1() {
+export default function StoreList() {
 
   const { user } = useContext(UserContext)
 

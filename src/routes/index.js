@@ -1,14 +1,14 @@
 import { route, mount } from "navi";
 import Homepage from "../Homepage";
 import Admin from "../pages/Admin";
-import Page1 from "../pages/Page1";
-import Page2 from "../pages/Page2";
+import StoreList from "../pages/StoreList";
+import StoreDetails from "../pages/StoreDetails";
 
 
 export const routes = mount({
     '/': route({ view: <Homepage /> }),
-    '/page1':route({view: <Page1 />}),
-    '/page2': route({ view: <Page2 /> }),
+    '/Storelist':route({view: <StoreList />}),
+    '/Store-details': route({ view: <StoreDetails /> }),
     '/admin':route({view: <Admin />})
 })
 // export default compose(

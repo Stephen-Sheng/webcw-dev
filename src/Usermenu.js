@@ -2,11 +2,14 @@ import React, { useContext } from 'react';
 import { Menu, Dropdown, Button } from 'antd';
 import { UserContext } from './context';
 import { DownOutlined } from '@ant-design/icons';
+import { useNavigation } from 'react-navi';
 import './Logout.css'
 
-export default function Logout() {
+export default function Usermenu() {
 
     const { user, dispatch } = useContext(UserContext)
+      let navigation = useNavigation()
+
 
 
     const menu = (
@@ -21,6 +24,7 @@ export default function Logout() {
                     Log out
                 </Button>
             </Menu.Item>
+            {user.userType === 'STO' && <Menu.Item><Button className='dropItem' type='text' onClick={()=>{navigation.navigate('/Store-details')}}>Store detail</Button></Menu.Item>}
         </Menu>
     );
 

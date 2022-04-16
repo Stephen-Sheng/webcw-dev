@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { Layout, Breadcrumb } from 'antd';
-import { useCurrentRoute } from 'react-navi';
+// import { useCurrentRoute } from 'react-navi';
 import { UserContext } from './context';
 import Navmenu from './Navmenu';
 import Sidermenu from './Sidermenu';
@@ -10,13 +10,13 @@ const { Content } = Layout;
 export default function Homepage() {
 
   const { user } = useContext(UserContext)
-  let route = useCurrentRoute()
+  // let route = useCurrentRoute()
 
 
   useEffect(() => {
     if (user) {
 
-      console.log(route);
+      // console.log(route);
     }
   }, [user])
 
