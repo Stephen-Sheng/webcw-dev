@@ -3,7 +3,7 @@ import { Empty } from 'antd'
 import './App.css';
 import { routes } from './routes'
 import { userReducer } from './reducers'
-import React, { useReducer } from 'react';
+import React, { useReducer, Suspense } from 'react';
 import { UserContext } from './context';
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
   return (
     <UserContext.Provider value={{ user, dispatch }}>
       <Router routes={routes}>
+      <Suspense fallback={null}>
         <NotFoundBoundary render={() => <Empty
           imageStyle={{
             height: 660,
@@ -21,6 +22,8 @@ function App() {
         ></Empty>}>
           <View />
         </NotFoundBoundary>
+        </Suspense>
+
       </Router>
     </UserContext.Provider>
 

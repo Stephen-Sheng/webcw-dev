@@ -24,7 +24,7 @@ export default function Login() {
   const listData = [];
   for (let i = 0; i < 23; i++) {
     listData.push({
-      href: 'https://ant.design',
+      href: '/',
       title: `ant design part ${i}`,
       avatar: 'https://joeschmoe.io/api/v1/random',
       description:
