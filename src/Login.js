@@ -4,7 +4,7 @@ import { Modal, Button, Input, Space, Alert } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
-import Logout from './Logout';
+import Usermenu from './Usermenu';
 // import { useNavigation } from 'react-navi';
 
 export default function Login() {
@@ -38,7 +38,7 @@ export default function Login() {
     const username = usernameInfo.value
     const password = passwordInfo.value
     if (username === 'Yutong' && password === "123") {
-      dispatch({ type: 'LOGIN', username, userType: 'ADMIN', storeList: listData})
+      dispatch({ type: 'LOGIN', username, userType: 'STO', storeList: listData})
       // navigation.navigate('/admin')
       setLoading(true)
       setVisible(false)
@@ -102,7 +102,7 @@ export default function Login() {
       </>
     );
   } else {
-    return (<Logout />)
+    return (<Usermenu />)
   }
 
 }
