@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import './Register.css';
 import { useInput } from 'react-hookedup';
-import { Modal, Button, Input, Space, Alert, Radio } from 'antd';
+import { Select, Modal, Button, Input, Space, Alert, Radio } from 'antd';
 import { UserContext } from './context';
-import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined, PhoneOutlined, WechatOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons';
 
 export default function Register() {
 
@@ -11,6 +11,8 @@ export default function Register() {
   const { user, dispatch } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
   const [loginErr, setLoginErr] = useState(false)
+  const { Option } = Select;
+  const identityInfo = useInput('')
   const usernameInfo = useInput('')
   const password1Info = useInput('')
   const password2Info = useInput('')
@@ -18,23 +20,26 @@ export default function Register() {
   const phoneInfo = useInput('')
   const emailInfo = useInput('')
 
+  const [errorMessage, setErrorMessage] = useState("");
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
+    const identity = identityInfo.value
     const username = usernameInfo.value
     const password1 = password1Info.value
     const password2 = password2Info.value
     const sex = sexInfo.value
     const phone = phoneInfo.value
     const email = emailInfo.value
+    console.log(identity)
     if (password1 !== password2) {
-      console.log("mi ma bu yi zhi");
       setLoginErr(true)
+      setErrorMessage("The two passwords do not match")
     } else if (username === "" || password1 === "" || password2 === "" || sex === "" || phone === "" || email === "") {
-      console.log("you kong");
       setLoginErr(true)
+      setErrorMessage("Please fill in the complete information")
     } else {
       dispatch({ type: 'LOGIN', username, gender: sex })
       setLoading(true)
@@ -64,12 +69,16 @@ export default function Register() {
           ]}>
           {loginErr && <Alert
             message="Register error"
-            description="fail!!!!"
+            description={ errorMessage }
             type="error"
             showIcon />
           }
           {loginErr && <br></br>}
           <Space direction="vertical">
+            <Select defaultValue="merchant"  >
+               <Option value="merchant">Merchant</Option>
+               <Option value="customer">Customer</Option>
+            </Select>
             <Input placeholder="input username" value={usernameInfo.value} onChange={usernameInfo.onChange} prefix={<UserOutlined />} />
             <Input.Password
               placeholder="input password"
@@ -90,7 +99,7 @@ export default function Register() {
               <Radio value={"M"}>Man</Radio>
               <Radio value={"W"}>Women</Radio>
             </Radio.Group>
-            <Input placeholder="input email" value={emailInfo.value} onChange={emailInfo.onChange} prefix={<WechatOutlined />} />
+            <Input placeholder="input email" value={emailInfo.value} onChange={emailInfo.onChange} prefix={<MailOutlined />} />
           </Space>
         </Modal>
       </>
