@@ -41,7 +41,7 @@ export default function Register() {
       setLoginErr(true)
       setErrorMessage("Please fill in the complete information")
     } else {
-      dispatch({ type: 'LOGIN', username, gender: sex })
+      dispatch({ type: 'REGISTER', username, password1, sex, phone, email})
       setLoading(true)
       setIsModalVisible(false)
       setLoading(false)
