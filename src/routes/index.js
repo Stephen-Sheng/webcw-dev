@@ -7,7 +7,7 @@ import StoreOrder from "../pages/StoreOrder";
 
 async function fetchMenu(id){
     const obj = {
-        "store_name": "shop",
+        "store_name": "Nanthans Famous",
         "items": [
             {
                 "name": "egg",
