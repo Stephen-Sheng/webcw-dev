@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
+import { Layout, Breadcrumb,List, Avatar, Space } from 'antd';
+import { Link } from "react-navi";
+import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+
 import Navmenu from "../Navmenu"
 import Sidermenu from "../Sidermenu"
 import { UserContext } from "../context";
-import { Layout, Breadcrumb } from 'antd';
-import { List, Avatar, Space } from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 
@@ -52,7 +53,7 @@ export default function StoreList() {
         >
           <List.Item.Meta
             avatar={<Avatar src={item.avatar} />}
-            title={<a href={item.href}>{item.title}</a>}
+            title={<Link href={item.href}>{item.title}</Link>}
             description={item.description}
           />
           {item.content}
@@ -68,8 +69,8 @@ export default function StoreList() {
         <Sidermenu />
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Page1</Breadcrumb.Item>
+            <Breadcrumb.Item><Link href={'/'}>Home</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>Store list</Breadcrumb.Item>
           </Breadcrumb>
           <Content
             className="site-layout-background"
