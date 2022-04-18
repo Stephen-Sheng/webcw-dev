@@ -9,22 +9,25 @@ const { Content, Footer } = Layout;
 const { Title } = Typography;
 
 
-  const formItemLayoutWithOutLabel = {
+const formItemLayoutWithOutLabel = {
     wrapperCol: {
-      xs: { span: 24, offset: 0 },
-      sm: { span: 20, offset: 4 },
+        xs: { span: 24, offset: 0 },
+        sm: { span: 20, offset: 4 },
     },
-  };
+};
 
 export default function StoreOrder(props) {
 
     // const { user } = useContext(UserContext)
-    const [orderInfo, setOrderInfo] = useState([])
+    const [itemPrice, setItemPrice] = useState(0)
 
     const onFinish = values => {
         console.log('Received values of form:', values);
 
-      };
+    };
+    const onChange = (value) => {
+        setItemPrice(value)
+    }
     return (
         <Layout>
             <Navmenu selected={['2']} />
@@ -37,25 +40,44 @@ export default function StoreOrder(props) {
                 <div className="site-layout-background" style={{ padding: 24, minHeight: 780 }}>
                     <Title>Welcome to {props.menu.store_name}</Title>
                     <Divider dashed />
-                    <Form name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
-                    {
-                        props.menu.items.map(item=>{
-                            return(
-                                <span key = {item.name}>
-                                {item.name}{item.description}{item.price}
-                                <Form.Item  name = {item.name} initialValue={0}>
-                                    <InputNumber min={0} max={10} />
-                                </Form.Item>
-                                </span>
-                            )
-                        })
-                    }  
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                            
+                    <Form name="dynamic_form_item" onFinish={onFinish}>
+                        {
+                            props.menu.items.map(item => {
+                                return (
+                                    <Row key={item.name}>
+                                        <Col span={4}>
+                                            <img
+                                                width={150}
+                                                alt="logo"
+                                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                            />
+                                        </Col>
+                                        <Col span={4}>
+                                            <Title level={5}>{item.name}</Title>
+                                            {item.description}
+                                        </Col>
+                                        <Col span={4}>
+                                            £{item.price}
+                                        </Col>
+                                        <Col span={4}>
+                                            <Form.Item name={item.name} initialValue={0}>
+                                                <InputNumber min={0} max={10} onChange={onChange} />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={4}>
+                                            £{item.price * itemPrice}
+                                        </Col>
+                                        <Divider />
+                                    </Row>
+                                )
+                            })
+                        }
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+
                     </Form>
                 </div>
             </Content>
