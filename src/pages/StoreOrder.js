@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link } from 'react-navi';
-import { Layout, Breadcrumb, Typography, Divider, Row, Col, InputNumber, Form, Input, Button } from 'antd';
+import { Link, useNavigation } from 'react-navi';
+import { Layout, Breadcrumb, Typography, Divider, Row, Col, InputNumber, Form, Button } from 'antd';
 import Navmenu from "../Navmenu"
 // import { UserContext } from "../context";
 import './StoreOrder.css'
@@ -8,21 +8,23 @@ import './StoreOrder.css'
 const { Content, Footer } = Layout;
 const { Title } = Typography;
 
-
-const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 20, offset: 4 },
-    },
-};
-
 export default function StoreOrder(props) {
 
     // const { user } = useContext(UserContext)
     const [itemPrice, setItemPrice] = useState(0)
+    const [form] = Form.useForm()
+    const navigation = useNavigation()
 
     const onFinish = values => {
         console.log('Received values of form:', values);
+        console.log(props.menu.items);
+        const menuInfo = props.menu.items
+        let orderSummary = []
+        menuInfo.forEach((item, index ) => {
+            let obj = {'key':index, 'name':item.name,'price':item.price, 'num':values[item.name],'total':item.price*values[item.name]}
+            orderSummary.push(obj)
+        })
+        navigation.navigate('/checkout',{body:orderSummary})
 
     };
     const onChange = (value) => {
@@ -40,7 +42,7 @@ export default function StoreOrder(props) {
                 <div className="site-layout-background" style={{ padding: 24, minHeight: 780 }}>
                     <Title>Welcome to {props.menu.store_name}</Title>
                     <Divider dashed />
-                    <Form name="dynamic_form_item" onFinish={onFinish}>
+                    <Form form={form} name="dynamic_form_item" onFinish={onFinish}>
                         {
                             props.menu.items.map(item => {
                                 return (
@@ -65,7 +67,7 @@ export default function StoreOrder(props) {
                                             </Form.Item>
                                         </Col>
                                         <Col span={4}>
-                                            £{item.price * itemPrice}
+                                        £{form.getFieldValue(item.name) ? item.price * form.getFieldValue(item.name) : 0}
                                         </Col>
                                         <Divider />
                                     </Row>

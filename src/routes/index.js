@@ -1,9 +1,10 @@
-import { route, mount } from "navi";
+import { map, route, mount } from "navi";
 import Homepage from "../Homepage";
 import Admin from "../pages/Admin";
 import StoreList from "../pages/StoreList";
 import StoreDetails from "../pages/StoreDetails";
 import StoreOrder from "../pages/StoreOrder";
+import Checkout from "../pages/Checkout";
 
 async function fetchMenu(id){
     const obj = {
@@ -31,6 +32,10 @@ async function fetchMenu(id){
                         "status": "error"
                     }
                 ]
+            },{ "name": "Big egg",
+            "price": "12",
+            "description": "just a big egg",
+
             }
         ]
     }
@@ -49,5 +54,8 @@ export const routes = mount({
         }
 
     }),
-    '/admin':route({view: <Admin />})
+    '/admin':route({view: <Admin />}),
+    '/checkout':map(req=>
+        route({view: <Checkout orderSummary={req.body} />})
+    ) 
 })
