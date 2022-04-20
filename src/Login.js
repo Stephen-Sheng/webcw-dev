@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useInput } from 'react-hookedup';
-import { Modal, Button, Input, Space, Alert } from 'antd';
+import { Form,Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
@@ -59,7 +59,6 @@ export default function Login() {
     setLoginErr(false)
     setVisible(false)
   };
-
   // const { visible, loading } = this.state;
   if (!user.username) {
     return (
@@ -73,12 +72,13 @@ export default function Login() {
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[
-            <Button key="back" onClick={handleCancel}>
+             <Button key="back" onClick={handleCancel}>
               Cancel
             </Button>,
             <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
               Submit
             </Button>
+
           ]}
         >
           {loginErr && <Alert
@@ -97,6 +97,18 @@ export default function Login() {
               prefix={<LockOutlined />}
               iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
+            <Form.Item>
+              <Form.Item name="remember" noStyle>
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
+              <a className="login-form-forgot" href="">
+                Forgot password
+              </a>
+            </Form.Item>
+            <Form.Item>
+                New to here?<a href="">register now!</a>
+            </Form.Item>
+
           </Space>
         </Modal>
       </>
