@@ -16,7 +16,6 @@ export default function Login() {
     url:`/login?username=${username}&password=${password}`,
     method:'GET'
   }))
-  const {userReqData, userReqLoading} = userReq
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const [loginErr, setLoginErr] = useState(false)
@@ -45,8 +44,8 @@ export default function Login() {
     const username = usernameInfo.value
     const password = passwordInfo.value
     if (username === 'Yutong' && password === "123") {
-      getUserReq(username, password).then(console.log(userReqData)).then(
-        dispatch({ type: 'LOGIN', username: userReqData.username, userType: 'STO', storeList: listData}),
+      getUserReq(username, password).then(console.log(userReq.data)).then(
+        dispatch({ type: 'LOGIN', username: userReq.data.username, userType: 'STO', storeList: listData}),
         setLoading(true),
         setVisible(false),
         setLoading(false)
