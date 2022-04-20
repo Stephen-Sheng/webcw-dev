@@ -1,5 +1,8 @@
-import { Table, Tag, Space } from 'antd';
-import Title from 'antd/lib/skeleton/Title';
+import { Table, Layout } from 'antd';
+import { Typography } from 'antd';
+import './Checkout.css'
+
+const { Title } = Typography;
 
 export default function Checkout(orderSummary) {
 
@@ -28,5 +31,9 @@ export default function Checkout(orderSummary) {
     ];
 
     const data = orderSummary.orderSummary
-    return <Table columns={columns} dataSource={data} />
+    return (
+    <Layout>
+    <Table className='order-table' title={()=>{return <Title>Order Summary</Title>}} columns={columns} dataSource={data} />
+    </Layout>
+    )
 }

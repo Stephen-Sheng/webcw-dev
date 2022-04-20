@@ -5,11 +5,18 @@ import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@a
 import './Login.css'
 import { UserContext } from './context';
 import Usermenu from './Usermenu';
+import { Link } from 'react-navi';
+import { useResource } from 'react-request-hook';
 // import { useNavigation } from 'react-navi';
 
 export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
+  const {userReq, getUserReq } = useResource((username,password)=>({
+    url:`/login?username=${username}&password=${password}`,
+    method:'GET'
+  }))
+  const {userReqData, userReqLoading} = userReq
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const [loginErr, setLoginErr] = useState(false)
@@ -38,11 +45,15 @@ export default function Login() {
     const username = usernameInfo.value
     const password = passwordInfo.value
     if (username === 'Yutong' && password === "123") {
-      dispatch({ type: 'LOGIN', username, userType: 'STO', storeList: listData})
+      getUserReq(username, password).then(console.log(userReqData)).then(
+        dispatch({ type: 'LOGIN', username: userReqData.username, userType: 'STO', storeList: listData}),
+        setLoading(true),
+        setVisible(false),
+        setLoading(false)
+      )
+      
       // navigation.navigate('/admin')
-      setLoading(true)
-      setVisible(false)
-      setLoading(false)
+      
 
     } else {
       console.log("error");
@@ -106,7 +117,7 @@ export default function Login() {
               </a>
             </Form.Item>
             <Form.Item>
-                New to here?<a href="">register now!</a>
+                New to here?<Link href="/">register now!</Link>
             </Form.Item>
 
           </Space>

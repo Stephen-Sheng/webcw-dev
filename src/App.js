@@ -5,12 +5,15 @@ import { routes } from './routes'
 import { userReducer } from './reducers'
 import React, { useReducer, Suspense } from 'react';
 import { UserContext } from './context';
+import { axiosInstance } from './axios'
+import {RequestProvider} from 'react-request-hook';
 
 function App() {
 
   const [user, dispatch] = useReducer(userReducer, '')
 
   return (
+    <RequestProvider value={axiosInstance}>
     <UserContext.Provider value={{ user, dispatch }}>
       <Router routes={routes}>
       <Suspense fallback={null}>
@@ -26,6 +29,7 @@ function App() {
 
       </Router>
     </UserContext.Provider>
+    </RequestProvider>
 
   );
 }
