@@ -107,6 +107,7 @@ export default function Login() {
               prefix={<LockOutlined />}
               iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
+          <Form>
             <Form.Item>
               <Form.Item name="remember" noStyle>
                 <Checkbox>Remember me</Checkbox>
@@ -118,7 +119,7 @@ export default function Login() {
             <Form.Item>
                 New to here?<Link href="/">register now!</Link>
             </Form.Item>
-
+          </Form>
           </Space>
         </Modal>
       </>
@@ -128,4 +129,5 @@ export default function Login() {
   }
 
 }
+
 
