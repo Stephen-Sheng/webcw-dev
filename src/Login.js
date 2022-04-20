@@ -43,7 +43,7 @@ export default function Login() {
   const handleOk = () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
-    if (username === 'Yutong' && password === "123") {
+    // if (username === 'Yutong' && password === "123") {
       getUserReq(username, password).then(console.log(userReq.data)).then(
         dispatch({ type: 'LOGIN', username: userReq.data.username, userType: 'STO', storeList: listData}),
         setLoading(true),
@@ -54,10 +54,10 @@ export default function Login() {
       // navigation.navigate('/admin')
       
 
-    } else {
-      console.log("error");
-      setLoginErr(true)
-    }
+    // } else {
+    //   console.log("error");
+    //   setLoginErr(true)
+    // }
 
 
     // setTimeout(() => {
