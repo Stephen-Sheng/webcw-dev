@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useInput } from 'react-hookedup';
-import { Form, Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
+import { Form,Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
@@ -12,7 +12,7 @@ import { useRequest } from 'react-request-hook';
 export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
-  const [, getUserReq] = useRequest((username, password) => ({
+  const [userReq, getUserReq] = useRequest((username, password) => ({
     url: `/login?username=${username}&password=${password}`,
     method: 'GET'
   }))
@@ -22,6 +22,7 @@ export default function Login() {
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
   // let navigation = useNavigation()
+
 
   const showModal = () => {
     setVisible(true)
@@ -42,14 +43,31 @@ export default function Login() {
   const handleOk = async () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
+    // if (username === 'Yutong' && password === "123") {
     const { ready } = getUserReq(username, password);
+<<<<<<< HEAD
     const data = await ready()
     // ready().then((data) => {
+=======
+    ready().then((data) => {
+      console.log(data);
+>>>>>>> cb1f786d40562ad58bcda8b5d6327b9c3df47d9b
       dispatch({ type: 'LOGIN', username: data.list[0].name, userType: 'STO', storeList: listData })
       setLoading(true)
       setVisible(false)
       setLoading(false)
+<<<<<<< HEAD
     // })
+=======
+      console.log(user);
+    })
+    // getUserReq(username, password).then(console.log(userReq.data)).then(console.log(userReq.data))
+
+
+    // navigation.navigate('/admin')
+
+
+>>>>>>> cb1f786d40562ad58bcda8b5d6327b9c3df47d9b
     // } else {
     //   console.log("error");
     //   setLoginErr(true)
