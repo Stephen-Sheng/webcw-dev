@@ -14,7 +14,7 @@ export default function Login() {
   const { user, dispatch } = useContext(UserContext)
   const [, getUserReq] = useRequest((username, password) => ({
     url: `/login?username=${username}&password=${password}`,
-    method: 'GET'
+    method: 'POST',
   }))
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -44,7 +44,7 @@ export default function Login() {
     const password = passwordInfo.value
     const { ready } = getUserReq(username, password);
     const data = await ready()
-    dispatch({ type: 'LOGIN', username: data.list[0].name, userType: 'STO', storeList: listData })
+    dispatch({ type: 'LOGIN', username: data.name, userType: 'STO', storeList: listData })
     setLoading(true)
     setVisible(false)
     setLoading(false)
