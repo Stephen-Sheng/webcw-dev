@@ -39,16 +39,17 @@ export default function Login() {
     });
   }
 
-  const handleOk = () => {
+  const handleOk = async () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
     const { ready } = getUserReq(username, password);
-    ready().then((data) => {
+    const data = await ready()
+    // ready().then((data) => {
       dispatch({ type: 'LOGIN', username: data.list[0].name, userType: 'STO', storeList: listData })
       setLoading(true)
       setVisible(false)
       setLoading(false)
-    })
+    // })
     // } else {
     //   console.log("error");
     //   setLoginErr(true)

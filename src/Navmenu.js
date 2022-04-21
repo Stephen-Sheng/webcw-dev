@@ -13,9 +13,9 @@ export default function Navmenu(props) {
 
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={props.selected}>
 
-                <Menu.Item key="1"><Link href={'/'}>nav 1</Link></Menu.Item>
-                <Menu.Item key="2"><Link href={'/Storelist'}>nav 2</Link></Menu.Item>
-                <Menu.Item key="3">nav 3</Menu.Item>
+                <Menu.Item key="1"><Link href={'/'}>Homepage</Link></Menu.Item>
+                <Menu.Item key="2"><Link href={'/Storelist'}>Nearby restaurants</Link></Menu.Item>
+                <Menu.Item key="3"><Link href={'/orders'}>Orders</Link></Menu.Item>
 
             </Menu>
             <Login />

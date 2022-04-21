@@ -11,7 +11,7 @@ const { Title } = Typography;
 export default function StoreOrder(props) {
 
     // const { user } = useContext(UserContext)
-    const [itemPrice, setItemPrice] = useState(0)
+    const [, setItemPrice] = useState(0)
     const [form] = Form.useForm()
     const navigation = useNavigation()
 
@@ -20,10 +20,16 @@ export default function StoreOrder(props) {
         console.log(props.menu.items);
         const menuInfo = props.menu.items
         let orderSummary = []
+        let total = 0
         menuInfo.forEach((item, index ) => {
-            let obj = {'key':index, 'name':item.name,'price':item.price, 'num':values[item.name],'total':item.price*values[item.name]}
+            let obj = {'key':index, 'name':item.name,'price':`￡${item.price}`, 'num':values[item.name],'total':item.price*values[item.name]}
+            total += obj.total
+            obj['total'] = `￡${obj['total']}`
             orderSummary.push(obj)
+
         })
+        orderSummary.push({'key':'total', 'name':'Total','num':'','total':`￡${total}`})
+        
         navigation.navigate('/checkout',{body:orderSummary})
 
     };
