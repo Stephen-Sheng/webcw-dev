@@ -12,7 +12,7 @@ import { useRequest } from 'react-request-hook';
 export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
-  const [userReq, getUserReq] = useRequest((username, password) => ({
+  const [, getUserReq] = useRequest((username, password) => ({
     url: `/login?username=${username}&password=${password}`,
     method: 'GET'
   }))
@@ -22,7 +22,6 @@ export default function Login() {
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
   // let navigation = useNavigation()
-
 
   const showModal = () => {
     setVisible(true)
@@ -43,22 +42,13 @@ export default function Login() {
   const handleOk = () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
-    // if (username === 'Yutong' && password === "123") {
     const { ready } = getUserReq(username, password);
     ready().then((data) => {
-      console.log(data);
       dispatch({ type: 'LOGIN', username: data.list[0].name, userType: 'STO', storeList: listData })
       setLoading(true)
       setVisible(false)
       setLoading(false)
-      console.log(user);
     })
-    // getUserReq(username, password).then(console.log(userReq.data)).then(console.log(userReq.data))
-
-
-    // navigation.navigate('/admin')
-
-
     // } else {
     //   console.log("error");
     //   setLoginErr(true)
