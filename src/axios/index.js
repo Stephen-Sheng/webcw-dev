@@ -3,5 +3,5 @@ import axios from 'axios';
  
 // More info about configuration: https://github.com/axios/axios#axioscreateconfig
 export const axiosInstance = axios.create({
-  baseURL: 'https://localhost:5020/',
+  baseURL: 'http://localhost:5020/',
 });

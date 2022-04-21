@@ -10,7 +10,10 @@ log = (req, res)=>{
             console.log('connection failed')
         } else {
             if(data.length){
-                console.log('登陆成功')
+                console.log('登陆成功111')
+                res.send({
+                    'list': data
+                })
             } else {
                 console.log('用户名或密码错误')
             }

@@ -1,20 +1,20 @@
 import React, { useState, useContext } from 'react';
 import { useInput } from 'react-hookedup';
-import { Form,Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
+import { Form, Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
 import Usermenu from './Usermenu';
 import { Link } from 'react-navi';
-import { useResource } from 'react-request-hook';
+import { useRequest } from 'react-request-hook';
 // import { useNavigation } from 'react-navi';
 
 export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
-  const {userReq, getUserReq } = useResource((username,password)=>({
-    url:`/login?username=${username}&password=${password}`,
-    method:'GET'
+  const [userReq, getUserReq] = useRequest((username, password) => ({
+    url: `/login?username=${username}&password=${password}`,
+    method: 'GET'
   }))
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -44,15 +44,20 @@ export default function Login() {
     const username = usernameInfo.value
     const password = passwordInfo.value
     // if (username === 'Yutong' && password === "123") {
-      getUserReq(username, password).then(console.log(userReq.data)).then(
-        dispatch({ type: 'LOGIN', username: userReq.data.username, userType: 'STO', storeList: listData}),
-        setLoading(true),
-        setVisible(false),
-        setLoading(false)
-      )
-      
-      // navigation.navigate('/admin')
-      
+    const { ready } = getUserReq(username, password);
+    ready().then((data) => {
+      console.log(data);
+      dispatch({ type: 'LOGIN', username: data.list[0].name, userType: 'STO', storeList: listData })
+      setLoading(true)
+      setVisible(false)
+      setLoading(false)
+      console.log(user);
+    })
+    // getUserReq(username, password).then(console.log(userReq.data)).then(console.log(userReq.data))
+
+
+    // navigation.navigate('/admin')
+
 
     // } else {
     //   console.log("error");
@@ -82,7 +87,7 @@ export default function Login() {
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[
-             <Button key="back" onClick={handleCancel}>
+            <Button key="back" onClick={handleCancel}>
               Cancel
             </Button>,
             <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
@@ -107,19 +112,19 @@ export default function Login() {
               prefix={<LockOutlined />}
               iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
-          <Form>
-            <Form.Item>
-              <Form.Item name="remember" noStyle>
-                <Checkbox>Remember me</Checkbox>
+            <Form>
+              <Form.Item>
+                <Form.Item name="remember" noStyle>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+                <a className="login-form-forgot" href="">
+                  Forgot password
+                </a>
               </Form.Item>
-              <a className="login-form-forgot" href="">
-                Forgot password
-              </a>
-            </Form.Item>
-            <Form.Item>
+              <Form.Item>
                 New to here?<Link href="/">register now!</Link>
-            </Form.Item>
-          </Form>
+              </Form.Item>
+            </Form>
           </Space>
         </Modal>
       </>

@@ -5,7 +5,7 @@ module.exports = {
         host:'localhost',
         port:'3306',
         user:'root',
-        password:'wyb990819',
+        password:'aa123456',
         database:'cw'
     },
     //连接数据库，使用mysql的连接池连接方式
