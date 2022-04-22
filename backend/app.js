@@ -22,5 +22,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //app.use('/public/',express.static(‘./public/’))
-
+app.use(express.static('public'));
 server.listen(5020);
