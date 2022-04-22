@@ -11,7 +11,7 @@ const formItemLayout = {
       span: 24,
     },
     sm: {
-      span: 8,
+      span: 10,
     },
   },
   wrapperCol: {
@@ -167,7 +167,7 @@ export default function Register() {
           },
         ]}
       >
-      <Select defaultValue="merchant"  >
+      <Select placeholder="select your usertype"  >
                <Option value="merchant">Merchant</Option>
                <Option value="customer">Customer</Option>
             </Select>
@@ -211,8 +211,8 @@ export default function Register() {
         </Button>
       </Form.Item>
     </Form>
-    <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <Link href="/">agreement</Link>
+    <Modal title="Registered successfully" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Link href="/">Click here to login now </Link>
       </Modal>
     </Row>
       </>
