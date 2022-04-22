@@ -1,107 +1,220 @@
 import React, { useState, useContext } from 'react';
 import './Register.css';
-import { useInput } from 'react-hookedup';
-import { Select, Modal, Button, Input, Space, Alert, Radio } from 'antd';
+import { Select, Button, Input,  Row,Form, Checkbox, Modal } from 'antd';
 import { UserContext } from './context';
-import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons';
+import { Link } from 'react-navi';
+
+
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
+
+
 
 export default function Register() {
 
-  const [isModalVisible, setIsModalVisible] = useState(false)
   const { user, dispatch } = useContext(UserContext)
-  const [loading, setLoading] = useState(false)
-  const [loginErr, setLoginErr] = useState(false)
   const { Option } = Select;
-  const identityInfo = useInput('')
-  const usernameInfo = useInput('')
-  const password1Info = useInput('')
-  const password2Info = useInput('')
-  const sexInfo = useInput('')
-  const phoneInfo = useInput('')
-  const emailInfo = useInput('')
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const showModal = () => {
-    setIsModalVisible(true);
+  const onFinish = (values) => {
+    console.log('Received values of form: ', values);
+    console.log( values.email);
+    if(values.email){
+       setIsModalVisible(true);
+       }
   };
-
   const handleOk = () => {
-    const identity = identityInfo.value
-    const username = usernameInfo.value
-    const password1 = password1Info.value
-    const password2 = password2Info.value
-    const sex = sexInfo.value
-    const phone = phoneInfo.value
-    const email = emailInfo.value
-    console.log(identity)
-    if (password1 !== password2) {
-      setLoginErr(true)
-      setErrorMessage("The two passwords do not match")
-    } else if (username === "" || password1 === "" || password2 === "" || sex === "" || phone === "" || email === "") {
-      setLoginErr(true)
-      setErrorMessage("Please fill in the complete information")
-    } else {
-      dispatch({ type: 'REGISTER', username, password1, sex, phone, email})
-      setLoading(true)
-      setIsModalVisible(false)
-      setLoading(false)
-    }
-  };
-
-  const handleCancel = () => {
-    setLoginErr(false)
     setIsModalVisible(false);
   };
+  
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  
+
   if (!user.username) {
     return (
       <>
-        <Button id="register_btn" type="primary" onClick={showModal}>
-          Register
-        </Button>
-        <Modal title="Register" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
-          footer={[
-            <Button key="back" onClick={handleCancel}>
-              Cancel
-            </Button>,
-            <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-              Register
-            </Button>
-          ]}>
-          {loginErr && <Alert
-            message="Register error"
-            description={ errorMessage }
-            type="error"
-            showIcon />
-          }
-          {loginErr && <br></br>}
-          <Space direction="vertical">
-            <Select defaultValue="merchant"  >
+          <h1 id="header">Register</h1>  
+    <Row id="box">
+
+    <Form
+      {...formItemLayout}
+      form={form}
+      name="register"
+      onFinish={onFinish}
+      scrollToFirstError
+    >
+      <Form.Item
+        name="email"
+        label="E-mail"
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+          {
+            required: true,
+            message: 'Please input your E-mail!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        name="confirm"
+        label="Confirm Password"
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+
+              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+            },
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        name="nickname"
+        label="Nickname"
+        tooltip="What do you want others to call you?"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your nickname!',
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="phone"
+        label="Phone Number"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your phone number!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="usertype"
+        label="Usertype"
+        rules={[
+          {
+            required: true,
+            message: 'Please select your usertype!',
+          },
+        ]}
+      >
+      <Select defaultValue="merchant"  >
                <Option value="merchant">Merchant</Option>
                <Option value="customer">Customer</Option>
             </Select>
-            <Input placeholder="input username" value={usernameInfo.value} onChange={usernameInfo.onChange} prefix={<UserOutlined />} />
-            <Input.Password
-              placeholder="input password"
-              prefix={<LockOutlined />}
-              value={password1Info.value}
-              onChange={password1Info.onChange}
-              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
-            <Input.Password
-              placeholder="input password again"
-              prefix={<LockOutlined />}
-              value={password2Info.value}
-              onChange={password2Info.onChange}
-              iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
-            <Input placeholder="input phone" value={phoneInfo.value} onChange={phoneInfo.onChange} prefix={<PhoneOutlined />} />
-            <Radio.Group onChange={sexInfo.onChange} value={sexInfo.value}>
-              <Radio value={"M"}>Man</Radio>
-              <Radio value={"W"}>Women</Radio>
-            </Radio.Group>
-            <Input placeholder="input email" value={emailInfo.value} onChange={emailInfo.onChange} prefix={<MailOutlined />} />
-          </Space>
-        </Modal>
+      </Form.Item>
+
+      <Form.Item
+        name="gender"
+        label="Gender"
+        rules={[
+          {
+            required: true,
+            message: 'Please select gender!',
+          },
+        ]}
+      >
+        <Select placeholder="select your gender">
+          <Option value="male">Male</Option>
+          <Option value="female">Female</Option>
+          <Option value="other">Other</Option>
+        </Select>
+      </Form.Item>
+
+      <Form.Item
+        name="agreement"
+        valuePropName="checked"
+        rules={[
+          {
+            validator: (_, value) =>
+              value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+          },
+        ]}
+        {...tailFormItemLayout}
+      >
+        <Checkbox>
+          I have read the <Link href="">agreement</Link>
+        </Checkbox>
+      </Form.Item>
+      <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit" onClick={onFinish}>
+          Register
+        </Button>
+      </Form.Item>
+    </Form>
+    <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Link href="/">agreement</Link>
+      </Modal>
+    </Row>
       </>
     );
   } else {

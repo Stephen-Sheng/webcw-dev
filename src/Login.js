@@ -117,7 +117,7 @@ export default function Login() {
               </Link>
             </Form.Item>
             <Form.Item>
-                New to here?<Link href="/">register now!</Link>
+                New to here?<Link href="Register">register now!</Link>
             </Form.Item>
           </Form>
           </Space>
