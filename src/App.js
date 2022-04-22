@@ -15,7 +15,7 @@ function App() {
   return (
     <RequestProvider value={axiosInstance}>
     <UserContext.Provider value={{ user, dispatch }}>
-      <Router routes={routes}>
+      <Router routes={routes} context={{user}}>
       <Suspense fallback={null}>
         <NotFoundBoundary render={() => <Empty
           imageStyle={{

@@ -1,20 +1,20 @@
 import React, { useState, useContext } from 'react';
 import { useInput } from 'react-hookedup';
-import { Form,Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
+import { Form, Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
 import Usermenu from './Usermenu';
 import { Link } from 'react-navi';
-import { useResource } from 'react-request-hook';
+import { useRequest } from 'react-request-hook';
 // import { useNavigation } from 'react-navi';
 
 export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
-  const {userReq, getUserReq } = useResource((username,password)=>({
-    url:`/login?username=${username}&password=${password}`,
-    method:'GET'
+  const [, getUserReq] = useRequest((username, password) => ({
+    url: `/login?username=${username}&password=${password}`,
+    method: 'POST',
   }))
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -22,7 +22,6 @@ export default function Login() {
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
   // let navigation = useNavigation()
-
 
   const showModal = () => {
     setVisible(true)
@@ -40,20 +39,16 @@ export default function Login() {
     });
   }
 
-  const handleOk = () => {
+  const handleOk = async () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
-    // if (username === 'Yutong' && password === "123") {
-      getUserReq(username, password).then(console.log(userReq.data)).then(
-        dispatch({ type: 'LOGIN', username: userReq.data.username, userType: 'STO', storeList: listData}),
-        setLoading(true),
-        setVisible(false),
-        setLoading(false)
-      )
-      
-      // navigation.navigate('/admin')
-      
-
+    const { ready } = getUserReq(username, password);
+    const data = await ready()
+    dispatch({ type: 'LOGIN', username: data.name, userType: 'STO', storeList: listData })
+    setLoading(true)
+    setVisible(false)
+    setLoading(false)
+    // })
     // } else {
     //   console.log("error");
     //   setLoginErr(true)
@@ -82,7 +77,7 @@ export default function Login() {
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[
-             <Button key="back" onClick={handleCancel}>
+            <Button key="back" onClick={handleCancel}>
               Cancel
             </Button>,
             <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
@@ -107,19 +102,20 @@ export default function Login() {
               prefix={<LockOutlined />}
               iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
-          <Form>
-            <Form.Item>
-              <Form.Item name="remember"valuePropName='checked' noStyle>
-                <Checkbox>Remember me</Checkbox>
+
+            <Form>
+              <Form.Item>
+                <Form.Item name="remember" valuePropName='checked' noStyle>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+                <Link className="login-form-forgot" href="/">
+                  Forgot password
+                </Link>
               </Form.Item>
-              <Link className="login-form-forgot" href="/">
-                Forgot password
-              </Link>
-            </Form.Item>
-            <Form.Item>
-                New to here?<Link href="Register">register now!</Link>
-            </Form.Item>
-          </Form>
+              <Form.Item>
+                New to here?<Link href="/">register now!</Link>
+              </Form.Item>
+            </Form>
           </Space>
         </Modal>
       </>

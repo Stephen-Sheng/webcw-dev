@@ -6,6 +6,7 @@ import StoreList from "../pages/StoreList";
 import StoreDetails from "../pages/StoreDetails";
 import StoreOrder from "../pages/StoreOrder";
 import Checkout from "../pages/Checkout";
+import Orderwait from "../pages/Orderwait";
 
 async function fetchMenu(id){
     const obj = {
@@ -59,5 +60,6 @@ export const routes = mount({
     '/admin':route({view: <Admin />}),
     '/checkout':map(req=>
         route({view: <Checkout orderSummary={req.body} />})
-    ) 
+    ),
+    '/orders':route({view: <Orderwait />}) 
 })

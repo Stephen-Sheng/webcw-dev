@@ -5,6 +5,6 @@ var register = require('../controllers/register')
 var login = require('../controllers/login')
 router.get('/', user.getUser);
 router.get('/getOrder', user.getOrder)
-router.get('/login', login.log)
+router.post('/login', login.log)
 router.post('/register', register.reg)
 module.exports = router;
