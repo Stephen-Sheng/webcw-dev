@@ -10,7 +10,6 @@ resIn = (req, res)=> {
             console.log('connection failed')
         } else {
             res.send(data)
-            console.log(data)
         }
     }
     dbConfig.sqlConnect(sql, sqlArr, callBack)
