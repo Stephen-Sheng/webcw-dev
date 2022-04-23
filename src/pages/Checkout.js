@@ -2,12 +2,17 @@ import { Table, Layout, Row, Col, Typography,Button } from 'antd';
 import './Checkout.css'
 import { useNavigation } from 'react-navi';
 import Navmenu from '../Navmenu'
+import { useEffect } from 'react';
 
 const { Title } = Typography;
 const { Content } = Layout;
 
 export default function Checkout(orderSummary) {
     let navigation = useNavigation()
+
+    useEffect(()=>{
+        console.log('order SUmmary: ', orderSummary);
+    })
     const columns = [
         {
             title: 'Name',
@@ -39,7 +44,9 @@ export default function Checkout(orderSummary) {
         navigation.goBack()
     } 
 
-    const data = orderSummary.orderSummary
+    const data = orderSummary.orderSummary.orderSummary
+
+    console.log(orderSummary);
     return (
         <Layout>
             <Navmenu selected = {'2'}/>

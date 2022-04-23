@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigation } from 'react-navi';
 import { useResource } from 'react-request-hook';
 import { Layout, Breadcrumb, Typography, Divider, Row, Col, InputNumber, Form, Button, Spin } from 'antd';
 import Navmenu from "../Navmenu"
-// import { UserContext } from "../context";
+import { UserContext } from "../context";
 import './StoreOrder.css'
 
 const { Content, Footer } = Layout;
@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 export default function StoreOrder() {
 
-    // const { user } = useContext(UserContext)
+    const { user } = useContext(UserContext)
     const [, setItemPrice] = useState(0)
     const [form] = Form.useForm()
     const navigation = useNavigation()
@@ -20,7 +20,7 @@ export default function StoreOrder() {
         method: 'GET',
     }))
     const resId = window.location.pathname.split('/')[2]
-    useEffect(()=>{
+    useEffect(() => {
         getStoreInfo(resId)
     }, [resId, getStoreInfo])
     const onFinish = values => {
@@ -28,15 +28,17 @@ export default function StoreOrder() {
         let orderSummary = []
         let total = 0
         storeInfo.data.forEach((item, index) => {
-            let obj = { 'key': index, 'name': item.itemName, 'price': `￡${item.price}`, 'num': values[item.itemName], 'total': item.price * values[item.itemName] }
-            total += obj.total
-            obj['total'] = `￡${obj['total']}`
-            orderSummary.push(obj)
-
+            if (values[item.itemName] !== 0) {
+                let obj = { 'key': index, 'name': item.itemName, 'price': `￡${item.price}`, 'num': values[item.itemName], 'total': item.price * values[item.itemName] }
+                total += obj.total
+                obj['total'] = `￡${obj['total']}`
+                orderSummary.push(obj)
+            }
         })
         orderSummary.push({ 'key': 'total', 'name': 'Total', 'num': '', 'total': `￡${total}` })
-
-        navigation.navigate('/checkout', { body: orderSummary })
+        const orderObj = { resId, username: user.username, orderSummary }
+        console.log(orderObj);
+        navigation.navigate('/checkout', { body: orderObj })
 
     };
     const onChange = (value) => {
