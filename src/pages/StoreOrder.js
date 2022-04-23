@@ -21,12 +21,8 @@ export default function StoreOrder() {
     }))
     const resId = window.location.pathname.split('/')[2]
     useEffect(()=>{
-        console.log('resId: ',resId);
         getStoreInfo(resId)
-    }, [resId])
-    useEffect(()=>{
-        console.log(storeInfo);
-    },[storeInfo])
+    }, [resId, getStoreInfo])
     const onFinish = values => {
         console.log('Received values of form:', values);
         let orderSummary = []
@@ -47,12 +43,9 @@ export default function StoreOrder() {
         setItemPrice(value)
     }
     if (storeInfo.isLoading || !storeInfo.data) {
-        console.log('spin');
         return <Spin />
     } else {
-        console.log(resId);
         const data = storeInfo.data
-        console.log(storeInfo);
         return (
             <Layout>
                 <Navmenu selected={['2']} />
