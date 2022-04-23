@@ -7,7 +7,7 @@ import { UserContext } from './context';
 import Usermenu from './Usermenu';
 import { Link } from 'react-navi';
 import { useRequest } from 'react-request-hook';
-// import { useNavigation } from 'react-navi';
+import { useNavigation } from 'react-navi';
 
 export default function Login() {
 
@@ -21,7 +21,7 @@ export default function Login() {
   const [loginErr, setLoginErr] = useState(false)
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
-  // let navigation = useNavigation()
+  let navigation = useNavigation()
 
   const showModal = () => {
     setVisible(true)
@@ -48,6 +48,8 @@ export default function Login() {
     setLoading(true)
     setVisible(false)
     setLoading(false)
+    navigation.navigate('/')
+
     // })
     // } else {
     //   console.log("error");
