@@ -46,7 +46,7 @@ export default function StoreOrder() {
     const onChange = (value) => {
         setItemPrice(value)
     }
-    if (storeInfo.isLoading) {
+    if (storeInfo.isLoading || !storeInfo.data) {
         console.log('spin');
         return <Spin />
     } else {
@@ -85,12 +85,12 @@ export default function StoreOrder() {
                                                 £{item.price}
                                             </Col>
                                             <Col span={4}>
-                                                <Form.Item name={item.name} initialValue={0}>
+                                                <Form.Item name={item.itemName} initialValue={0}>
                                                     <InputNumber min={0} max={10} onChange={onChange} />
                                                 </Form.Item>
                                             </Col>
                                             <Col span={4}>
-                                                £{form.getFieldValue(item.name) ? item.price * form.getFieldValue(item.name) : 0}
+                                                £{form.getFieldValue(item.itemName) ? item.price * form.getFieldValue(item.itemName) : 0}
                                             </Col>
                                             <Divider />
                                         </Row>

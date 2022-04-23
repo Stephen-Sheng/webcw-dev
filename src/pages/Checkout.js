@@ -33,6 +33,7 @@ export default function Checkout(orderSummary) {
 
     const handleOk = () => {
         navigation.navigate('/orders')
+        console.log(orderSummary.orderSummary);
     } 
     const handleGoBack = () => {
         navigation.goBack()
