@@ -35,7 +35,7 @@ checkIn = (req, res)=> {
                 }
                 dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
             }
-            res.send(orderCode);
+            res.send("{\"orderId\":\"" + orderCode + "\"}");
         }
 
     }
