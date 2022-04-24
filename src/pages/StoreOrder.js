@@ -24,7 +24,6 @@ export default function StoreOrder() {
         getStoreInfo(resId)
     }, [resId, getStoreInfo])
     const onFinish = values => {
-        console.log('Received values of form:', values);
         let orderSummary = []
         let total = 0
         storeInfo.data.forEach((item, index) => {
@@ -36,8 +35,7 @@ export default function StoreOrder() {
             }
         })
         orderSummary.push({ 'key': 'total', 'name': 'Total', 'num': '', 'total': `￡${total}` })
-        const orderObj = { resId, username: user.username, orderSummary }
-        console.log(orderObj);
+        const orderObj = { resId, username: user.username, menu:orderSummary }
         navigation.navigate('/checkout', { body: orderObj })
 
     };

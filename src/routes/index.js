@@ -20,5 +20,7 @@ export const routes = mount({
         route({view: <Checkout orderSummary={req.body} />})
     ),
     '/orders':route({view: <Orderwait />}),
-    '/complete':route({view: <OrderSuccess />}) 
+    '/complete':map(req=>
+        route({view: <OrderSuccess orderInfo={req.body} />})
+    ), 
 })

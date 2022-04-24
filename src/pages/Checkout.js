@@ -9,10 +9,7 @@ const { Content } = Layout;
 
 export default function Checkout(orderSummary) {
     let navigation = useNavigation()
-
-    useEffect(()=>{
-        console.log('order SUmmary: ', orderSummary);
-    })
+    const data = orderSummary.orderSummary.menu
     const columns = [
         {
             title: 'Name',
@@ -37,16 +34,13 @@ export default function Checkout(orderSummary) {
     ];
 
     const handleOk = () => {
-        navigation.navigate('/complete')
-        console.log(orderSummary.orderSummary);
+        navigation.navigate('/complete', { body: orderSummary.orderSummary })
     } 
     const handleGoBack = () => {
         navigation.goBack()
     } 
 
-    const data = orderSummary.orderSummary.orderSummary
 
-    console.log(orderSummary);
     return (
         <Layout>
             <Navmenu selected = {'2'}/>

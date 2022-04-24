@@ -13,8 +13,9 @@ export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
   const [, getUserReq] = useRequest((username, password) => ({
-    url: `/login?username=${username}&password=${password}`,
+    url: '/login',
     method: 'POST',
+    data:{username, password}
   }))
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
