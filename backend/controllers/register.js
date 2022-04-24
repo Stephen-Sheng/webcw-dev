@@ -2,7 +2,7 @@ const dbConfig = require("../util/dbconfig");
 
 //注册接口
 reg = (req, res)=>{
-    let {username,password} = req.query;
+    let {username,password} = req.body;
     var sql = "SELECT * FROM cw.user WHERE name=?";
     var sqlArr = [username];
     var callBack = async (err, data)=>{

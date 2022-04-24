@@ -2,9 +2,9 @@ const dbConfig = require("../util/dbconfig");
 
 //提交订单接口
 checkIn = (req, res)=> {
-    let {orderInfo} = req.query;
+    let {orderInfo} = req.body;
     console.log(typeof orderInfo);
-    console.log();
+    console.log(orderInfo);
     //订单号
     var orderCode='';
     for (var i = 0; i < 6; i++){
@@ -18,14 +18,14 @@ checkIn = (req, res)=> {
     console.log(timeStamp);
 
     var sql = "INSERT INTO cw.orderList values(?,?,?,'1',?,'uncompleted',?)";
-    var sqlArr = [orderCode,JSON.parse(orderInfo).resId,JSON.parse(orderInfo).username,JSON.parse(orderInfo).menu.pop().total,timeStamp];
+    var sqlArr = [orderCode,orderInfo.resId,orderInfo.username,orderInfo.menu.pop().total,timeStamp];
     var callBack = (err, data) => {
         if(err){
             console.log('checkInfo failed')
         } else {
-            for (let i = 0; i < JSON.parse(orderInfo).menu.length-1; ++i){
+            for (let i = 0; i < orderInfo.menu.length-1; ++i){
                 var sql2 = "INSERT INTO cw.orderInfo values(?,?,?,?)";
-                var sqlArr2 = [orderCode,JSON.parse(orderInfo).menu[i].name,JSON.parse(orderInfo).menu[i].num,JSON.parse(orderInfo).menu[i].price];
+                var sqlArr2 = [orderCode,orderInfo.menu[i].name,orderInfo.menu[i].num,orderInfo.menu[i].price];
                 var callBack2 = (err, data) => {
                     if (err) {
                         console.log("fail")
