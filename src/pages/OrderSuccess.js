@@ -15,8 +15,8 @@ export default function OrderSuccess(props) {
     }))
     useEffect(() => {
         getOrderId(props.orderInfo)
-    }, [getOrderId])
-    const orderNumber = '129038129381787123'
+    }, [getOrderId, props.orderInfo])
+
     if (orderId.isLoading || !orderId.data) {
         return <Spin />
     } else {

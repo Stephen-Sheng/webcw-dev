@@ -2,7 +2,6 @@ import { Table, Layout, Row, Col, Typography,Button } from 'antd';
 import './Checkout.css'
 import { useNavigation } from 'react-navi';
 import Navmenu from '../Navmenu'
-import { useEffect } from 'react';
 
 const { Title } = Typography;
 const { Content } = Layout;

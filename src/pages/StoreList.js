@@ -65,7 +65,8 @@ export default function StoreList() {
                       key={item.resName}
                       extra={
                         <img
-                          width={272}
+                          width={172}
+                          height={172}
                           alt="logo"
                           src={item.resImg}
                         />
