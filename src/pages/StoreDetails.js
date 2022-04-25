@@ -9,7 +9,7 @@ const { Content } = Layout;
 const { TextArea } = Input;
 const props = {
     name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    action: 'http://localhost:5020/upload',
     headers: {
         authorization: 'authorization-text',
     },

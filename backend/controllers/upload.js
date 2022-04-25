@@ -12,7 +12,6 @@ upload = (req, res) => {
         if(err){
             console.log(err)
         } else {
-            res.setHeader('Access-Control-Allow-Headers','authorization"');
             res.send("111")
         }
     }

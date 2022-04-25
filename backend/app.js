@@ -6,15 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+const cors = require('cors');
 var app = express();
-
 //改写
 var http = require('http');
 var server = http.createServer(app);
 
 
-
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
