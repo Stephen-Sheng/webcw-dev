@@ -6,13 +6,14 @@ upload = (req, res) => {
     let {orderInfo} = req.body;
     console.log(req.body);
     console.log("接收完request")
-    var sql = "";
+    var sql = "SELECT * FROM cw.user";
     var sqlArr = [];
     var callBack = (err, data) => {
         if(err){
-            console.log("upload fail")
+            console.log(err)
         } else {
-
+            res.setHeader('Access-Control-Allow-Headers','authorization"');
+            res.send("111")
         }
     }
     dbConfig.sqlConnect(sql, sqlArr, callBack)
