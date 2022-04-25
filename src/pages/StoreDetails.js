@@ -37,9 +37,6 @@ const normFile = (e) => {
 export default function StoreDetails() {
 
     // const { user } = useContext(UserContext)
-
-
-
     const [form] = Form.useForm();
 
     const onFinish = values => {
@@ -47,8 +44,6 @@ export default function StoreDetails() {
         navigation.goBack()
     };
     let navigation = useNavigation()
-
-
     return (
         <Layout>
             <PageHeader
@@ -86,6 +81,7 @@ export default function StoreDetails() {
                                             {() => (
                                                 <Form.Item
                                                     {...field}
+                                                    key="name"
                                                     label="Item Name"
                                                     name={[field.name, 'name']}
                                                     rules={[{ required: true, message: 'Missing Item' }]}
@@ -96,6 +92,7 @@ export default function StoreDetails() {
                                         </Form.Item>
                                         <Form.Item
                                             {...field}
+                                            key="price"
                                             label="Price"
                                             name={[field.name, 'price']}
                                             rules={[{ required: true, message: 'Missing price' }]}
@@ -104,6 +101,7 @@ export default function StoreDetails() {
                                         </Form.Item>
                                         <Form.Item
                                             {...field}
+                                            key="desc"
                                             label="Description"
                                             name={[field.name, 'description']}
                                             rules={[{ required: true, message: 'Missing description' }]}
@@ -115,13 +113,14 @@ export default function StoreDetails() {
                                         </Form.Item>
                                         <Form.Item
                                             {...field}
+                                            key="figure"
                                             label="Figure"
                                             name={[field.name, 'figure']}
                                             valuePropName="fileList"
                                             getValueFromEvent={normFile}
                                             rules={[{ required: true, message: 'Missing figure' }]}
                                         >
-                                            <Upload {...props}>
+                                            <Upload {...props} maxCount={1}>
                                                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
                                             </Upload>
                                         </Form.Item>

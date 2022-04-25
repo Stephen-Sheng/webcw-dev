@@ -14,17 +14,17 @@ export default function Usermenu() {
 
     const menu = (
         <Menu>
-            <Menu.Item>
+            <Menu.Item key='profile'>
                 <Button className="dropItem" type="text">
                     User Profile
                 </Button>
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item key='logout'>
                 <Button className="dropItem" type="text" onClick={()=>{dispatch({type:'LOGOUT'})}}>
                     Log out
                 </Button>
-            </Menu.Item>
-            {user.userType === 'STO' && <Menu.Item><Button className='dropItem' type='text' onClick={()=>{navigation.navigate('/Store-details')}}>Store detail</Button></Menu.Item>}
+            </Menu.Item >
+            {user.userType === 'STO' && <Menu.Item key='storedetail'><Button className='dropItem' type='text' onClick={()=>{navigation.navigate('/Store-details')}}>Store detail</Button></Menu.Item>}
         </Menu>
     );
 
