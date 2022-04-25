@@ -11,6 +11,7 @@ var resList = require('../controllers/resList')
 var resInfo = require('../controllers/resInfo')
 var checkInfo = require('../controllers/checkInfo')
 var order = require('../controllers/order')
+var upload = require('../controllers/upload')
 router.get('/', user.getUser);
 router.get('/getOrder', user.getOrder)
 router.post('/login', login.log)
@@ -20,4 +21,5 @@ router.get('/resInfo',resInfo.resIn)
 router.post('/checkInfo',checkInfo.checkIn)
 router.get('/orderList',order.orderList)
 router.get('/orderInfo',order.orderInfo)
+router.post('/upload',upload.upload)
 module.exports = router;
