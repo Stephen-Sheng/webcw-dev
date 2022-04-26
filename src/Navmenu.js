@@ -2,7 +2,6 @@ import { Layout, Menu, message } from 'antd';
 import Login from './Login';
 import Register_btn from './Register_btn';
 import { Link } from 'react-navi';
-import Register from './Register';
 import { UserContext } from './context';
 import { useContext } from "react";
 
