@@ -47,7 +47,6 @@ export default function Register() {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
-    console.log( values.email);
     if(values.email){
        setIsModalVisible(true);
        }
@@ -158,6 +157,19 @@ export default function Register() {
       </Form.Item>
 
       <Form.Item
+        name="postcode"
+        label="Postcode"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your postcode!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
         name="usertype"
         label="Usertype"
         rules={[
@@ -208,6 +220,8 @@ export default function Register() {
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit" onClick={onFinish}>
           Register
+        </Button>
+        <Button id="back_btn"> <Link href="/">Back</Link>
         </Button>
       </Form.Item>
     </Form>
