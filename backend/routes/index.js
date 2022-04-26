@@ -1,8 +1,13 @@
 var express = require('express');
 var router = express.Router();
+
 var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
+
+var multer = require('multer');
+
+
 
 var user = require('../controllers/userController')
 var register = require('../controllers/register')
@@ -23,7 +28,9 @@ router.get('/resInfo',resInfo.resIn)
 router.post('/checkInfo',checkInfo.checkIn)
 router.get('/orderList',order.orderList)
 router.get('/orderInfo',order.orderInfo)
-router.post('/upload',upload.upload)
+router.post('/upload', multer({
+    dest: 'public/images'
+}).single('file'),upload.upload)
 router.post('/changeOrderStatus',changeOrderStatus.changeOS)
 router.get("/resGetOrder",restaurant.resGetOrder)
 module.exports = router;

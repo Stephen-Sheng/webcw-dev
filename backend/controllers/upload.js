@@ -3,8 +3,8 @@ const dbConfig = require("../util/dbconfig");
 //上传文件接口
 upload = (req, res) => {
     console.log("进入upload")
-    let {orderInfo} = req.body;
-    console.log(req.body);
+
+    console.log(req.file);
     console.log("接收完request")
     var sql = "SELECT * FROM cw.user";
     var sqlArr = [];
