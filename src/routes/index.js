@@ -8,6 +8,8 @@ import StoreOrder from "../pages/StoreOrder";
 import Checkout from "../pages/Checkout";
 import Orderwait from "../pages/Orderwait";
 import OrderSuccess from "../pages/OrderSuccess";
+import StoHomePage from "../pages/stopages/StoHomePage";
+import CurrentOrders from "../pages/stopages/CurrentOrders"
 
 export const routes = mount({
     '/': route({ view: <Homepage /> }),
@@ -22,5 +24,7 @@ export const routes = mount({
     '/orders':route({view: <Orderwait />}),
     '/complete':map(req=>
         route({view: <OrderSuccess orderInfo={req.body} />})
-    ), 
+    ),
+    '/home':route ({view: <StoHomePage />}),
+    '/current-orders':route ({view: <CurrentOrders />})
 })

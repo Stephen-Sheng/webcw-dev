@@ -49,7 +49,8 @@ export default function Login() {
     setLoading(true)
     setVisible(false)
     setLoading(false)
-    navigation.navigate('/')
+    navigation.navigate('/home')
+    // navigation.navigate('/')
 
     // })
     // } else {
