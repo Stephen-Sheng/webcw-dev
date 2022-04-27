@@ -45,12 +45,15 @@ export default function Login() {
     const password = passwordInfo.value
     const { ready } = getUserReq(username, password);
     const data = await ready()
-    dispatch({ type: 'LOGIN', username: data.name, userType: 'STO', storeList: listData })
+    dispatch({ type: 'LOGIN', username: data.name, userType: data.userType, storeList: listData })
     setLoading(true)
     setVisible(false)
     setLoading(false)
-    navigation.navigate('/home')
-    // navigation.navigate('/')
+    if(data.userType === "STO"){
+      navigation.navigate('/home')
+    }else{
+      navigation.navigate('/')
+    }
 
     // })
     // } else {
