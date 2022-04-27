@@ -37,8 +37,7 @@ io.on('connection', (client) => {
                     console.log('socket failed');
                 } else {
                     if((data != null) && (data != value)){
-                        client.emit(data)
-                        client.emit(data)
+                        client.emit("orderLst",[data,value])
                     }
 
 
