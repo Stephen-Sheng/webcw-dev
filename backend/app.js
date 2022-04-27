@@ -27,7 +27,7 @@ app.use(express.static( 'public'));
 
 const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
-    client.on('resOder', (username) => {
+    client.on('resOrder', (username) => {
         let value = null;
         setInterval(() => {
             var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=?";
@@ -37,7 +37,7 @@ io.on('connection', (client) => {
                     console.log('socket failed');
                 } else {
                     if((data != null) && (data != value))
-                        client.emit(data)
+                        client.emit("orderLst",data)
                     value = data;
                 }
             }

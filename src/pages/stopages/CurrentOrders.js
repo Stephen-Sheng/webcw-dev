@@ -7,7 +7,6 @@ import { UserContext } from "../../context";
 import { useContext } from "react";
 import { CreditCardOutlined, ClockCircleFilled } from '@ant-design/icons'
 import { subscribeToTimer } from "../../utils";
-import openSocket from 'socket.io-client'
 
 
 export default function CurrentOrders() {
@@ -36,8 +35,7 @@ export default function CurrentOrders() {
         }
     }
     useEffect(() => {
-        const socket = openSocket('http://localhost:12312');
-        subscribeToTimer(socket,10000,(err, timestamp) => {setMydate(timestamp)});
+        subscribeToTimer(user.username,(err, orderLst) => {console.log(orderLst);});
         getOrderLst(user.username, "uncompleted")
     }, [user.username])
 
