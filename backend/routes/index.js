@@ -19,6 +19,7 @@ var order = require('../controllers/order')
 var upload = require('../controllers/upload')
 var changeOrderStatus = require("../controllers/changeOrderStatus")
 var restaurant = require("../controllers/restaurant")
+var soc = require("../controllers/socket")
 router.get('/', user.getUser);
 router.get('/getOrder', user.getOrder)
 router.post('/login', login.log)
@@ -33,4 +34,5 @@ router.post('/upload', multer({
 }).single('file'),upload.upload)
 router.post('/changeOrderStatus',changeOrderStatus.changeOS)
 router.get("/resGetOrder",restaurant.resGetOrder)
+router.get("/soc",soc.soc)
 module.exports = router;
