@@ -10,6 +10,7 @@ const cors = require('cors');
 var app = express();
 //改写
 var http = require('http');
+const dbConfig = require("./util/dbconfig");
 var server = http.createServer(app);
 
 
@@ -26,11 +27,23 @@ app.use(express.static( 'public'));
 
 const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
-    client.on('subscribeToTimer', (interval) => {
-        console.log('client is subscribing to timer with interval ', interval);
+    client.on('resOder', (username) => {
+        let value = null;
         setInterval(() => {
-            client.emit('timer', new Date());
-        }, interval);
+            var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=?";
+            var sqlArr = [username];
+            var callBack = (err, data) => {
+                if(err){
+                    console.log('socket failed');
+                } else {
+                    if((data != null) && (data != value))
+                        client.emit(data)
+                    value = data;
+                }
+            }
+            dbConfig.sqlConnect(sql, sqlArr, callBack)
+            //client.emit('timer', new Date());
+        }, 5000);
     });
 });
 
