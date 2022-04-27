@@ -26,7 +26,7 @@ export default function StoreOrder() {
     const onFinish = values => {
         let orderSummary = []
         let total = 0
-        storeInfo.data.forEach((item, index) => {
+        storeInfo.data.menu.forEach((item, index) => {
             if (values[item.itemName] !== 0) {
                 let obj = { 'key': index, 'name': item.itemName, 'price': `￡${item.price}`, 'num': values[item.itemName], 'total': item.price * values[item.itemName] }
                 total += obj.total
@@ -56,11 +56,11 @@ export default function StoreOrder() {
                         <Breadcrumb.Item>Order</Breadcrumb.Item>
                     </Breadcrumb>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 780 }}>
-                        <Title>Welcome to Nanthans</Title>
+                        <Title>Welcome to {data.resName}</Title>
                         <Divider dashed />
                         <Form form={form} name="dynamic_form_item" onFinish={onFinish}>
                             {
-                                data.map(item => {
+                                data.menu.map(item => {
                                     return (
                                         <Row key={item.itemName}>
                                             <Col span={4}>
