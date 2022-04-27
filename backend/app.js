@@ -27,6 +27,35 @@ app.use(express.static('public'));
 
 const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
+    client.on('orderList', (username) => {
+        let value = [];
+        var sql = "SELECT orderId,price,orderStatus,date,riderName,resName FROM cw.orderList,cw.rider,cw.restaurant WHERE cw.orderList.riderId=cw.rider.riderId AND cw.orderList.resId=cw.restaurant.resId AND username=?";
+        var sqlArr = [username];
+        let callBack = (err, data) => {
+            if (err) {
+                console.log('socket failed');
+            } else {
+                client.emit("cusOrderLst", data)
+                value = data;
+            }
+        }
+        dbConfig.sqlConnect(sql, sqlArr, callBack)
+        setInterval(() => {
+            let callBack1 = (err, data) => {
+                if (err) {
+                    console.log('socket failed');
+                } else {
+                    if (JSON.stringify(data) !== JSON.stringify(value)) {
+                        client.emit("CusOrderLst", data)
+                    }
+                    value = data;
+                }
+            }
+            dbConfig.sqlConnect(sql, sqlArr, callBack1)
+            //client.emit('timer', new Date());
+        }, 5000);
+    });
+
     client.on('resOrder', (username) => {
         let value = [];
         var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
