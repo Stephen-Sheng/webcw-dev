@@ -46,7 +46,7 @@ io.on('connection', (client) => {
                     console.log('socket failed');
                 } else {
                     if (JSON.stringify(data) !== JSON.stringify(value)) {
-                        client.emit("CusOrderLst", data)
+                        client.emit("cusOrderLst", data)
                     }
                     value = data;
                 }
