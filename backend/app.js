@@ -36,8 +36,12 @@ io.on('connection', (client) => {
                 if(err){
                     console.log('socket failed');
                 } else {
-                    if((data != null) && (data != value))
-                        client.emit("orderLst",data)
+                    if((data != null) && (data != value)){
+                        client.emit(data)
+                        client.emit(data)
+                    }
+
+
                     value = data;
                 }
             }
