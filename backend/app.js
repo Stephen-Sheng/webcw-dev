@@ -22,36 +22,55 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //app.use('/public/',express.static(‘./public/’))
-app.use(express.static( 'public'));
+app.use(express.static('public'));
 
 
 const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
     client.on('resOrder', (username) => {
-        let value = null;
+        let value = [];
+        var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
+        var sqlArr = [username];
+        let callBack = (err, data) => {
+            if (err) {
+                console.log('socket failed');
+            } else {
+                    client.emit("orderLst", data)
+                value = data;
+            }
+        }
+        dbConfig.sqlConnect(sql, sqlArr, callBack)
         setInterval(() => {
-            var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=?";
-            var sqlArr = [username];
-            var callBack = (err, data) => {
-                if(err){
+            let callBack1 = (err, data) => {
+                if (err) {
                     console.log('socket failed');
                 } else {
-                    if((data != null) && (data != value)){
-                        client.emit("orderLst",[data,value])
+                    if (JSON.stringify(data) !== JSON.stringify(value)) {
+                        client.emit("orderLst", data)
                     }
 
 
                     value = data;
                 }
             }
-            dbConfig.sqlConnect(sql, sqlArr, callBack)
+            dbConfig.sqlConnect(sql, sqlArr, callBack1)
             //client.emit('timer', new Date());
         }, 5000);
     });
 });
 
-const port=12312;
+const port = 12312;
 io.listen(port);
 console.log('listening on port ', port);
 
+const objectsEqual = (o1, o2) => {
+    typeof o1 === 'object' && Object.keys(o1).length > 0
+        ? Object.keys(o1).length === Object.keys(o2).length
+        && Object.keys(o1).every(p => objectsEqual(o1[p], o2[p]))
+        : o1 === o2;
+}
+
+const arraysEqual = (a1, a2) => {
+    a1.length === a2.length && a1.every((o, idx) => objectsEqual(o, a2[idx]));
+}
 server.listen(5020);

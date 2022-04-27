@@ -43,7 +43,6 @@ export default function CurrentOrders() {
         if (orderLst.isLoading || !orderLst.data) {
             return <Spin size="large" />
         } else {
-            console.log(myDate);
             return (
                 <Layout>
                     <StoNavmenu selected={'2'} />
