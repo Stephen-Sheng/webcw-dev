@@ -1,6 +1,6 @@
-import { Layout, List, Card, Spin, Tag, Row, Col } from "antd";
+import { Layout, List, Card, Tag, Row, Col, Button, Modal, message } from "antd";
 import { useEffect, useState } from "react";
-import { useResource } from "react-request-hook";
+import { useResource, useRequest } from "react-request-hook";
 import { Content } from "antd/lib/layout/layout";
 import Navmenu from "../Navmenu";
 import { UserContext } from "../context";
@@ -11,6 +11,7 @@ import { subscribeUserOrderLst, subscribeUserOrderItem } from "../utils";
 export default function Orderwait() {
 
     const { user } = useContext(UserContext)
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const style = { padding: '8px 0' };
     const [cusOrderLst, setCusOrderLst] = useState([])
     // const [orderLst, getOrderLst] = useResource((username) => ({
@@ -18,9 +19,38 @@ export default function Orderwait() {
     //     method: 'GET'
 
     // }))
+    const [, getChangeOrderStatus] = useRequest((orderId, status) => ({
+        url: '/changeOrderStatus',
+        method: 'POST',
+        data: { orderId, status }
+    }))
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+    const handleOk = async (orderId) => {
+        const { ready } = getChangeOrderStatus(orderId, "completed")
+        const msg = await ready()
+        console.log(msg);
+        if (msg === 'Status changed!') {
+            message.success('Enjoy your food!');
+            setIsModalVisible(false);
+        }
+
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleNavigateToDetail = (orderId)=> {
+
+
+    }
+
     useEffect(() => {
         subscribeUserOrderLst(user.username, (err, userOrderLst) => { setCusOrderLst(userOrderLst) });
-        subscribeUserOrderItem("1651100545777238189",(err, userOrderItem) => { console.log(userOrderItem)})
+        subscribeUserOrderItem("1651100545777238189", (err, userOrderItem) => { console.log(userOrderItem) })
     }, [user.username])
 
     if (user) {
@@ -46,8 +76,10 @@ export default function Orderwait() {
                         }}
                         dataSource={cusOrderLst}
                         renderItem={item => (
-                            <List.Item>
-                                <Card title={` Order ID: ${item.orderId}  Store name: ${item.resName}`}>
+                            <List.Item >
+                                <Card title={` Order ID: ${item.orderId}  Store name: ${item.resName}`}
+                                onClick={()=>handleNavigateToDetail(item.orderId)}
+                                >
                                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                                         <Col className="gutter-row" span={6}>
                                             <div style={style}><CreditCardOutlined style={{ fontSize: '24px' }} /> {item.price}</div>
@@ -67,6 +99,13 @@ export default function Orderwait() {
                                             </div>
                                         </Col>
                                     </Row>
+                                    {item.orderStatus === 'in delivery' ? <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                                       <Col className="gutter-row" span={6}> <Button type="primary" onClick={showModal}> Order Received!</Button></Col>
+                                    </Row> : <div></div>}
+                                    <Modal title="Confirmation" visible={isModalVisible} onOk={()=>handleOk(item.orderId)} onCancel={handleCancel}>
+                                        <p>Do you have received your order?</p>
+
+                                    </Modal>
                                 </Card>
                             </List.Item>
                         )}

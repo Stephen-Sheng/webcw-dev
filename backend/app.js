@@ -25,6 +25,13 @@ app.use('/users', usersRouter);
 app.use(express.static('public'));
 
 
+function compare(status){
+    return function (a,b){
+        var value1 = a[status]
+        var value2 = b[status]
+        return value2 - value1;
+    }
+}
 const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
     client.on('orderList', (username) => {
@@ -35,7 +42,7 @@ io.on('connection', (client) => {
             if (err) {
                 console.log('socket failed');
             } else {
-                client.emit("cusOrderLst", data)
+                client.emit("cusOrderLst", data.sort(compare(orderStatus)))
                 value = data;
             }
         }
@@ -46,14 +53,14 @@ io.on('connection', (client) => {
                     console.log('socket failed');
                 } else {
                     if (JSON.stringify(data) !== JSON.stringify(value)) {
-                        client.emit("cusOrderLst", data)
+                        client.emit("CusOrderLst", data.sort(compare(orderStatus)))
                     }
                     value = data;
                 }
             }
             dbConfig.sqlConnect(sql, sqlArr, callBack1)
             //client.emit('timer', new Date());
-        }, 5000);
+        }, 1000);
     });
 
     client.on('SendItemOrderID', (orderId) => {
@@ -66,7 +73,7 @@ io.on('connection', (client) => {
                 console.log('socket connection failed')
             } else {
                 value = data[0];
-                
+
                 //res.send(value);
                 var sql2 = "SELECT * FROM cw.orderInfo WHERE orderId=?"
                 var sqlArr2 = [orderId];
@@ -123,7 +130,7 @@ io.on('connection', (client) => {
             }
             dbConfig.sqlConnect(sql, sqlArr, callBack)
             //client.emit('timer', new Date());
-        }, 5000);
+        }, 1000);
     });
 
     client.on('resOrder', (username) => {
@@ -154,7 +161,7 @@ io.on('connection', (client) => {
             }
             dbConfig.sqlConnect(sql, sqlArr, callBack1)
             //client.emit('timer', new Date());
-        }, 5000);
+        }, 1000);
     });
 });
 
