@@ -136,69 +136,50 @@ io.on('connection', (client) => {
         let value = [];
         var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
         var sqlArr = [username];
-        let callBack = (err, data) => {
+        let callBack = async (err, data) => {
             if (err) {
                 console.log('socket failed');
             } else {
                 val = data;
                 value = JSON.stringify(val);
                 for(let i = 0; i < val.length; ++i){
-                    var sql2 = "SELECT itemName,amount,price FROM cw.orderInfo WHERE orderId=?";
-                    var sqlArr2 = [val[i].orderId];
-                    var callBack2 = (err,data) => {
-                        if(err){
-                            console.log('socket failed')
-                        } else {
-                            var key = "dish";
-                            var value1 = data;
-                            val[i][key] = value1;
-                        }
-                    }
-                    dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
+                    var sql1 = "SELECT itemName,amount,price FROM cw.orderInfo WHERE orderId=?";
+                    var sqlArr1 = [val[i].orderId];
+                    let res = await dbConfig.SySqlConnect(sql1, sqlArr1);
+                    var key = "dish";
+                    var value1 = res;
+                    val[i][key] = value1;
                 }
-                setTimeout(function () {
-                    client.emit("orderLst",val)
-                },1000);
+                client.emit("orderLst",val)
                 //client.emit("orderLst", data)
-
-
             }
         }
         dbConfig.sqlConnect(sql, sqlArr, callBack)
         setInterval(() => {
-            var sql1 = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
-            var sqlArr1 = [username];
-            let callBack1 = (err, data) => {
+            var sql2 = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
+            var sqlArr2 = [username];
+            let callBack2 = async (err, data) => {
                 if (err) {
                     console.log('socket failed');
                 } else {
-                    let val_cur = null;
                     val = data;
-                    val_cur = JSON.stringify(data);
+                    var val_cur = JSON.stringify(val);
                     for(let i = 0; i < val.length; ++i){
                         var sql3 = "SELECT itemName,amount,price FROM cw.orderInfo WHERE orderId=?";
                         var sqlArr3 = [val[i].orderId];
-                        var callBack3 = (err,data) => {
-                            if(err){
-                                console.log('socket failed')
-                            } else {
-                                var key = "dish";
-                                var value1 = data;
-                                val[i][key] = value1;
-                            }
-                        }
-                        dbConfig.sqlConnect(sql3, sqlArr3, callBack3)
+                        let res = await dbConfig.SySqlConnect(sql3, sqlArr3);
+                        var key = "dish";
+                        var value1 = res;
+                        val[i][key] = value1;
                     }
-                    setTimeout(function () {
-                         if (val_cur !== value) {
-                             client.emit("orderLst", val)
-                         }
-                    },1000);
+                    if (val_cur !== value) {
+                        client.emit("orderLst", val)
+                    }
+                    //client.emit("orderLst", data)
                     value = val_cur;
                 }
             }
-            dbConfig.sqlConnect(sql1, sqlArr1, callBack1)
-            //client.emit('timer', new Date());
+            dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
         }, 1000);
     });
 });
