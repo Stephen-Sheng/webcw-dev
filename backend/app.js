@@ -66,7 +66,7 @@ io.on('connection', (client) => {
                 console.log('socket connection failed')
             } else {
                 value = data[0];
-                //console.log(typeof value)
+                
                 //res.send(value);
                 var sql2 = "SELECT * FROM cw.orderInfo WHERE orderId=?"
                 var sqlArr2 = [orderId];
@@ -79,8 +79,9 @@ io.on('connection', (client) => {
                         value[key] = value1;
                         //console.log(typeof value)
                         //res.send(value);
-                        client.emit("SendItemInfo", data)
-                        val = data;
+                        //console.log(value)
+                        client.emit("SendItemInfo", value)
+                        val = value;
                     }
                 }
                 dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
@@ -108,12 +109,12 @@ io.on('connection', (client) => {
                             value[key] = value1;
                             //console.log(typeof value)
                             //res.send(value);
-                            if (JSON.stringify(data) !== JSON.stringify(val)) {
-                                client.emit("SendItemInfo", data)
+                            if (JSON.stringify(value) !== JSON.stringify(val)) {
+                                client.emit("SendItemInfo", value)
                             }
 
 
-                            val = data;
+                            val = value;
 
                         }
                     }

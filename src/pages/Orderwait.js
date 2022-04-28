@@ -6,7 +6,7 @@ import Navmenu from "../Navmenu";
 import { UserContext } from "../context";
 import { useContext } from "react";
 import { CarFilled, CreditCardOutlined, ClockCircleFilled } from '@ant-design/icons'
-import { subscribeUserOrderLst } from "../utils";
+import { subscribeUserOrderLst, subscribeUserOrderItem } from "../utils";
 
 export default function Orderwait() {
 
@@ -20,6 +20,7 @@ export default function Orderwait() {
     // }))
     useEffect(() => {
         subscribeUserOrderLst(user.username, (err, userOrderLst) => { setCusOrderLst(userOrderLst) });
+        subscribeUserOrderItem("1651100545777238189",(err, userOrderItem) => { console.log(userOrderItem)})
     }, [user.username])
 
     if (user) {
