@@ -26,11 +26,10 @@ export default function CurrentOrders() {
         console.log(msg);
         if (msg === 'Status changed!') {
             message.success('Distributing a delivery staff');
-            orderLst.data.splice(index, 1)
         }
     }
     useEffect(() => {
-        subscribeUncompletedOrderLst(user.username, (err, orderLst) => { setOrderLst(orderLst) });
+        subscribeUncompletedOrderLst(user.username, (err, orderLst) => { setOrderLst(orderLst);console.log(orderLst); });
     }, [user.username])
 
     if (user) {
