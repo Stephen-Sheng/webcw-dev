@@ -42,7 +42,7 @@ io.on('connection', (client) => {
             if (err) {
                 console.log('socket failed');
             } else {
-                client.emit("cusOrderLst", data.sort(compare("orderStatus")))
+                client.emit("cusOrderLst", data.reverse())
                 value = data;
             }
         }
@@ -53,7 +53,7 @@ io.on('connection', (client) => {
                     console.log('socket failed');
                 } else {
                     if (JSON.stringify(data) !== JSON.stringify(value)) {
-                        client.emit("cusOrderLst", data.sort(compare("orderStatus")))
+                        client.emit("cusOrderLst", data.reverse())
                     }
                     value = data;
                 }
