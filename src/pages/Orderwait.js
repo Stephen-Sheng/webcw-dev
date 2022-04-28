@@ -43,11 +43,6 @@ export default function Orderwait() {
         setIsModalVisible(false);
     };
 
-    const handleNavigateToDetail = (orderId)=> {
-
-
-    }
-
     useEffect(() => {
         subscribeUserOrderLst(user.username, (err, userOrderLst) => { setCusOrderLst(userOrderLst) });
         subscribeUserOrderItem("1651100545777238189", (err, userOrderItem) => { console.log(userOrderItem) })
