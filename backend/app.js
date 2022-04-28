@@ -132,6 +132,7 @@ io.on('connection', (client) => {
     });
 
     client.on('resOrder', (username) => {
+        var val = null;
         let value = [];
         var sql = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
         var sqlArr = [username];
@@ -139,25 +140,64 @@ io.on('connection', (client) => {
             if (err) {
                 console.log('socket failed');
             } else {
-                    client.emit("orderLst", data)
-                value = data;
+                val = data;
+                value = JSON.stringify(val);
+                for(let i = 0; i < val.length; ++i){
+                    var sql2 = "SELECT itemName,amount,price FROM cw.orderInfo WHERE orderId=?";
+                    var sqlArr2 = [val[i].orderId];
+                    var callBack2 = (err,data) => {
+                        if(err){
+                            console.log('socket failed')
+                        } else {
+                            var key = "dish";
+                            var value1 = data;
+                            val[i][key] = value1;
+                        }
+                    }
+                    dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
+                }
+                setTimeout(function () {
+                    client.emit("orderLst",val)
+                },1000);
+                //client.emit("orderLst", data)
+
+
             }
         }
         dbConfig.sqlConnect(sql, sqlArr, callBack)
         setInterval(() => {
+            var sql1 = "SELECT resName,orderId,username,price,orderStatus,date FROM cw.restaurant,cw.orderList WHERE cw.restaurant.resId=cw.orderList.resid AND ownerName=? AND orderStatus=\"uncompleted\"";
+            var sqlArr1 = [username];
             let callBack1 = (err, data) => {
                 if (err) {
                     console.log('socket failed');
                 } else {
-                    if (JSON.stringify(data) !== JSON.stringify(value)) {
-                        client.emit("orderLst", data)
+                    let val_cur = null;
+                    val = data;
+                    val_cur = JSON.stringify(data);
+                    for(let i = 0; i < val.length; ++i){
+                        var sql3 = "SELECT itemName,amount,price FROM cw.orderInfo WHERE orderId=?";
+                        var sqlArr3 = [val[i].orderId];
+                        var callBack3 = (err,data) => {
+                            if(err){
+                                console.log('socket failed')
+                            } else {
+                                var key = "dish";
+                                var value1 = data;
+                                val[i][key] = value1;
+                            }
+                        }
+                        dbConfig.sqlConnect(sql3, sqlArr3, callBack3)
                     }
-
-
-                    value = data;
+                    setTimeout(function () {
+                         if (val_cur !== value) {
+                             client.emit("orderLst", val)
+                         }
+                    },1000);
+                    value = val_cur;
                 }
             }
-            dbConfig.sqlConnect(sql, sqlArr, callBack1)
+            dbConfig.sqlConnect(sql1, sqlArr1, callBack1)
             //client.emit('timer', new Date());
         }, 1000);
     });

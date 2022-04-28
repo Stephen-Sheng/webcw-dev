@@ -23,7 +23,7 @@ checkIn = (req, res)=> {
         if(err){
             console.log('checkInfo failed')
         } else {
-            for (let i = 0; i < orderInfo.menu.length-1; ++i){
+            for (let i = 0; i <= orderInfo.menu.length-1; ++i){
                 var sql2 = "INSERT INTO cw.orderInfo values(?,?,?,?)";
                 var sqlArr2 = [orderCode,orderInfo.menu[i].name,orderInfo.menu[i].num,orderInfo.menu[i].price];
                 var callBack2 = (err, data) => {
