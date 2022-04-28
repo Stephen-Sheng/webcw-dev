@@ -25,13 +25,6 @@ app.use('/users', usersRouter);
 app.use(express.static('public'));
 
 
-function compare(status){
-    return function (a,b){
-        var value1 = a[status]
-        var value2 = b[status]
-        return value2 - value1;
-    }
-}
 const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
     client.on('orderList', (username) => {
@@ -43,6 +36,7 @@ io.on('connection', (client) => {
                 console.log('socket failed');
             } else {
                 client.emit("cusOrderLst", data.reverse())
+                data.reverse()
                 value = data;
             }
         }
@@ -54,6 +48,7 @@ io.on('connection', (client) => {
                 } else {
                     if (JSON.stringify(data) !== JSON.stringify(value)) {
                         client.emit("cusOrderLst", data.reverse())
+                        data.reverse()
                     }
                     value = data;
                 }
