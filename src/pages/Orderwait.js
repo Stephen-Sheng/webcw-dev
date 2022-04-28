@@ -45,7 +45,7 @@ export default function Orderwait() {
 
     useEffect(() => {
         subscribeUserOrderLst(user.username, (err, userOrderLst) => { setCusOrderLst(userOrderLst) });
-        subscribeUserOrderItem("1651100545777238189", (err, userOrderItem) => { console.log(userOrderItem) })
+        // subscribeUserOrderItem("1651100545777238189", (err, userOrderItem) => { console.log(userOrderItem) })
     }, [user.username])
 
     if (user) {
@@ -73,7 +73,7 @@ export default function Orderwait() {
                         renderItem={item => (
                             <List.Item >
                                 <Card title={` Order ID: ${item.orderId}  Store name: ${item.resName}`}
-                                onClick={()=>handleNavigateToDetail(item.orderId)}
+                             
                                 >
                                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                                         <Col className="gutter-row" span={6}>
