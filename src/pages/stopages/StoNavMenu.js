@@ -1,6 +1,6 @@
 import { Layout, Menu, message } from 'antd';
 import Login from '../../Login';
-import Register_btn from '../../Register_btn';
+import RegisterBtn from '../../RegisterBtn';
 import { Link } from 'react-navi';
 import { UserContext } from '../../context';
 import { useContext } from "react";
@@ -36,7 +36,7 @@ export default function StoNavmenu(props) {
 
             </Menu>
             <Login />
-            <Register_btn />
+            <RegisterBtn />
 
         </Header>
     )

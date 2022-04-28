@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import './Register_btn.css';
+import './RegisterBtn.css';
 import { Button} from 'antd';
 import { Link } from 'react-navi';
 import { UserContext } from './context';
 
 
 
-export default function Register_btn() {
+export default function RegisterBtn() {
 
   const { user, dispatch } = useContext(UserContext)
   if (!user.username) {
