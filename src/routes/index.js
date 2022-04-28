@@ -10,6 +10,7 @@ import Orderwait from "../pages/Orderwait";
 import OrderSuccess from "../pages/OrderSuccess";
 import StoHomePage from "../pages/stopages/StoHomePage";
 import CurrentOrders from "../pages/stopages/CurrentOrders"
+import CusOrderDetail from "../pages/CusOrderDetail";
 
 export const routes = mount({
     '/': route({ view: <Homepage /> }),
@@ -26,5 +27,6 @@ export const routes = mount({
         route({view: <OrderSuccess orderInfo={req.body} />})
     ),
     '/home':route ({view: <StoHomePage />}),
-    '/current-orders':route ({view: <CurrentOrders />})
+    '/current-orders':route ({view: <CurrentOrders />}),
+    '/Order/:id':route({view: <CusOrderDetail />})
 })

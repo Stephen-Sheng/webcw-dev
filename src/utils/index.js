@@ -17,7 +17,7 @@ function subscribeUserOrderLst(username, cb) {
 
 function subscribeUserOrderItem(orderID, cb) {
   const socket = openSocket('http://localhost:12312');
-  socket.on('SendItemInfo', userOrderLst => cb(null, userOrderLst));
+  socket.on('SendItemInfo', orderDetail => cb(null, orderDetail));
   socket.emit('SendItemOrderID', orderID);
   
 }

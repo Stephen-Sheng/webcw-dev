@@ -1,23 +1,20 @@
-import { Layout, List, Card, Tag, Row, Col, Button, Modal, message } from "antd";
+import { Layout, List, Card, Tag, Row, Col, Button, message } from "antd";
 import { useEffect, useState } from "react";
-import { useResource, useRequest } from "react-request-hook";
+import { useRequest } from "react-request-hook";
 import { Content } from "antd/lib/layout/layout";
 import Navmenu from "../Navmenu";
 import { UserContext } from "../context";
 import { useContext } from "react";
 import { CarFilled, CreditCardOutlined, ClockCircleFilled } from '@ant-design/icons'
-import { subscribeUserOrderLst, subscribeUserOrderItem } from "../utils";
+import { subscribeUserOrderLst } from "../utils";
+import { useNavigation } from "react-navi";
 
 export default function Orderwait() {
 
     const { user } = useContext(UserContext)
     const style = { padding: '8px 0' };
     const [cusOrderLst, setCusOrderLst] = useState([])
-    // const [orderLst, getOrderLst] = useResource((username) => ({
-    //     url: `/orderList?username=${username}`,
-    //     method: 'GET'
-
-    // }))
+    let navigation = useNavigation()
     const [, getChangeOrderStatus] = useRequest((orderId, status) => ({
         url: '/changeOrderStatus',
         method: 'POST',
@@ -34,9 +31,13 @@ export default function Orderwait() {
         }
 
     };
+    const handleNavigateToDetail = (orderId)=>{
+        navigation.navigate(`/Order/${orderId}`)
+
+    }
 
     useEffect(() => {
-        subscribeUserOrderLst(user.username, (err, userOrderLst) => { setCusOrderLst(userOrderLst); console.log(userOrderLst);});
+        subscribeUserOrderLst(user.username, (err, userOrderLst) => { setCusOrderLst(userOrderLst); console.log(userOrderLst); });
     }, [user.username])
 
     if (user) {
@@ -63,8 +64,8 @@ export default function Orderwait() {
                         dataSource={cusOrderLst}
                         renderItem={item => (
                             <List.Item >
-                                <Card title={` Order ID: ${item.orderId}  Store name: ${item.resName}`}
-                             
+                                <Card title={<Button type="text" onClick={()=>handleNavigateToDetail(item.orderId)}>Order ID: {item.orderId}  Store name: {item.resName}</Button>}
+
                                 >
                                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                                         <Col className="gutter-row" span={6}>
@@ -86,7 +87,7 @@ export default function Orderwait() {
                                         </Col>
                                     </Row>
                                     {item.orderStatus === 'in delivery' ? <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                                       <Col className="gutter-row" span={6}> <Button type="primary" onClick={()=>handleOk(item.orderId)}> Food Received</Button></Col>
+                                        <Col className="gutter-row" span={6}> <Button type="primary" onClick={() => handleOk(item.orderId)}> Food Received</Button></Col>
                                     </Row> : <div></div>}
                                 </Card>
                             </List.Item>
