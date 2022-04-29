@@ -25,7 +25,7 @@ log = (req, res)=>{
                 var sql2 = "DELETE FROM cw.notify WHERE username=?"
                 var sqlArr2 = [username]
                 await dbConfig.SySqlConnect(sql2, sqlArr2)
-                res.status(200).send("{\"store\":[" + resName + "]}")
+                res.status(200).send("{\"store\":[" + resName + "],\"userInfo\":" + JSON.stringify(data[0]) + "}")
             } else {
                 console.log('用户名或密码错误')
                 res.status(530).send("login failed")
