@@ -25,11 +25,11 @@ export default function StoNavmenu(props) {
                 <Menu.Item key="1"><Link href={'/home'}>Homepage</Link></Menu.Item>
 
                 {user ? <><Menu.Item key="2"><Link href={'/current-orders'}>Current Orders</Link></Menu.Item>
-                    <Menu.Item key="3"><Link href={'/orders'}>History Orders</Link></Menu.Item>
+                    <Menu.Item key="3"><Link href={'/history-orders'}>History Orders</Link></Menu.Item>
                 </> :
                     <>
                     <Menu.Item key="2"><Link href={'/current-orders'} onClick={loginInfo}>Current Orders</Link></Menu.Item>
-                    <Menu.Item key="3"><Link href={'/orders'}><div onClick={loginInfo}>History Orders</div></Link></Menu.Item>
+                    <Menu.Item key="3"><Link href={'/history-orders'}><div onClick={loginInfo}>History Orders</div></Link></Menu.Item>
                     </>
                 }
 

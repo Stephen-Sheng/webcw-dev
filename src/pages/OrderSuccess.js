@@ -14,6 +14,7 @@ export default function OrderSuccess(props) {
         data:{orderInfo: order}
     }))
     useEffect(() => {
+        console.log(props.orderInfo);
         getOrderId(props.orderInfo)
     }, [getOrderId, props.orderInfo])
 

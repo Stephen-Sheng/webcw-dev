@@ -1,6 +1,7 @@
 import React from "react";
 import './StoreDetails.css'
-// import { UserContext } from "../context";
+import { UserContext } from "../context";
+import { useContext } from "react";
 import { Layout, PageHeader, Divider, Form, Input, Button, Space, Upload, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useNavigation } from 'react-navi';
@@ -15,9 +16,9 @@ const props = {
     },
     onChange(info) {
         if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
+            console.log(info.file, info.fileList);
             message.success(`${info.file.name} file uploaded successfully`);
         } else if (info.file.status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
@@ -28,19 +29,22 @@ const normFile = (e) => {
     console.log('Upload event:', e);
 
     if (Array.isArray(e)) {
+        console.log("error");
         return e;
     }
 
-    return e && e.fileList;
+    return e.file.response;
 };
 
 export default function StoreDetails() {
 
     // const { user } = useContext(UserContext)
     const [form] = Form.useForm();
+    const { user } = useContext(UserContext)
 
     const onFinish = values => {
-        console.log('Received values of form:', values);
+        let infoObj = {username:user.username,values}
+        console.log('Received values of form:', infoObj);
         navigation.goBack()
     };
     let navigation = useNavigation()
@@ -116,7 +120,7 @@ export default function StoreDetails() {
                                             key="figure"
                                             label="Figure"
                                             name={[field.name, 'figure']}
-                                            valuePropName="fileList"
+                                            valuePropName="file"
                                             getValueFromEvent={normFile}
                                             rules={[{ required: true, message: 'Missing figure' }]}
                                         >
