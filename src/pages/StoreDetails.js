@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { Layout, PageHeader, Divider, Form, Input, Button, Space, Upload, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useNavigation } from 'react-navi';
+import { useRequest, useResource } from "react-request-hook";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -41,11 +42,22 @@ export default function StoreDetails() {
     // const { user } = useContext(UserContext)
     const [form] = Form.useForm();
     const { user } = useContext(UserContext)
+    const [updateDetails, getUpdateDetails] = useRequest((info)=>({
+        url:'/resDetails',
+        method:'POST',
+        data:info
 
-    const onFinish = values => {
+    }))
+
+    const onFinish = async values => {
+        
         let infoObj = {username:user.username,values}
-        console.log('Received values of form:', infoObj);
-        navigation.goBack()
+        const {ready} = getUpdateDetails(infoObj)
+        const msg = await ready()
+        console.log(msg);
+        if(msg === 'changed'){
+            navigation.goBack()
+        }
     };
     let navigation = useNavigation()
     return (
