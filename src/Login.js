@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useInput } from 'react-hookedup';
-import { Form, Modal, Button, Input, Space, Alert, Checkbox } from 'antd';
+import { Form, Modal, Button, Input, Space, Alert, Checkbox, notification } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css'
 import { UserContext } from './context';
@@ -9,7 +9,31 @@ import { Link } from 'react-navi';
 import { useRequest } from 'react-request-hook';
 import { useNavigation } from 'react-navi';
 
+const close = () => {
+  console.log(
+    'Notification was closed. Either the close button was clicked or duration time elapsed.',
+  );
+};
+
+const openNotification = (info) => {
+  const key = `open${Date.now()}`;
+  const btn = (
+    <Button type="primary" size="small" onClick={() => notification.close(key)}>
+      Confirm
+    </Button>
+  );
+  notification.open({
+    message: 'Notification Title',
+    description:
+      info,
+    btn,
+    key,
+    onClose: close,
+  });
+};
+
 export default function Login() {
+
 
   const { user, dispatch } = useContext(UserContext)
   const [, getUserReq] = useRequest((username, password) => ({
@@ -27,19 +51,6 @@ export default function Login() {
   const showModal = () => {
     setVisible(true)
   };
-  const listData = [];
-  for (let i = 0; i < 23; i++) {
-    listData.push({
-      href: `/Store/${i}`,
-      title: `ant design part ${i}`,
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-      content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    });
-  }
-
   const handleOk = async () => {
     const username = usernameInfo.value
     const password = passwordInfo.value
@@ -47,11 +58,14 @@ export default function Login() {
     try {
       const data = await ready()
       console.log(data);
-      dispatch({ type: 'LOGIN', username: data.name, userType: data.userType, storeList: listData })
+      dispatch({ type: 'LOGIN', username: data.userInfo.name, userType: data.userInfo.userType, storeList: [] })
       setLoading(true)
       setVisible(false)
       setLoading(false)
-      if (data.userType === "STO") {
+      if(data.store.length !== 0){
+        openNotification(data.store)
+      }
+      if (data.userInfo.userType === "STO") {
         navigation.navigate('/home')
       } else {
         navigation.navigate('/')
