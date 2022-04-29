@@ -15,7 +15,7 @@ export default function Login() {
   const [, getUserReq] = useRequest((username, password) => ({
     url: '/login',
     method: 'POST',
-    data:{username, password}
+    data: { username, password }
   }))
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -44,27 +44,22 @@ export default function Login() {
     const username = usernameInfo.value
     const password = passwordInfo.value
     const { ready } = getUserReq(username, password);
-    const data = await ready()
-    dispatch({ type: 'LOGIN', username: data.name, userType: data.userType, storeList: listData })
-    setLoading(true)
-    setVisible(false)
-    setLoading(false)
-    if(data.userType === "STO"){
-      navigation.navigate('/home')
-    }else{
-      navigation.navigate('/')
+    try {
+      const data = await ready()
+      console.log(data);
+      dispatch({ type: 'LOGIN', username: data.name, userType: data.userType, storeList: listData })
+      setLoading(true)
+      setVisible(false)
+      setLoading(false)
+      if (data.userType === "STO") {
+        navigation.navigate('/home')
+      } else {
+        navigation.navigate('/')
+      }
+
+    } catch (error) {
+      setLoginErr(true)
     }
-
-    // })
-    // } else {
-    //   console.log("error");
-    //   setLoginErr(true)
-    // }
-
-
-    // setTimeout(() => {
-
-    // }, 1000);
   };
 
   const handleCancel = () => {
