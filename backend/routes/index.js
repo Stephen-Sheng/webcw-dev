@@ -20,6 +20,7 @@ var upload = require('../controllers/upload')
 var changeOrderStatus = require("../controllers/changeOrderStatus")
 var restaurant = require("../controllers/restaurant")
 
+
 router.get('/', user.getUser);
 router.get('/getOrder', user.getOrder)
 router.post('/login', login.log)
@@ -35,4 +36,5 @@ router.post('/upload', multer({
 router.post('/changeOrderStatus',changeOrderStatus.changeOS)
 router.get("/resGetOrder",restaurant.resGetOrder)
 router.post('/resDetails',restaurant.resDetails)
+
 module.exports = router;

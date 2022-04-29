@@ -60,6 +60,20 @@ resDetails = (req,res) => {
                 var sqlArr1 = [resId[0].resId,values.items[i].name,values.items[i].price,values.items[i].description,values.items[i].figure];
                 let res = await dbConfig.SySqlConnect(sql1, sqlArr1);
             }
+
+
+            var sql3 = "SELECT DISTINCT username FROM cw.orderList WHERE resid=?"
+            var sqlArr3 = [resId[0].resId]
+            let userList = await dbConfig.SySqlConnect(sql3, sqlArr3);
+
+
+            var sql4 = "INSERT INTO cw.notify(resId,username) VALUES (?,?)"
+            for(let i = 0; i < userList.length; ++i){
+                var sqlArr4 = [resId[0].resId, userList[i].username]
+                await dbConfig.SySqlConnect(sql4, sqlArr4);
+            }
+
+
             res.status(200).send("changed")
         }
     }
