@@ -55,7 +55,6 @@ resDetails = (req,res) => {
             var sql2 = "SELECT resId FROM cw.restaurant WHERE ownerName=?"
             var sqlArr2 = [username]
             let resId = await dbConfig.SySqlConnect(sql2, sqlArr2);
-            console.log(resId)
             for(let i = 0; i < values.items.length; ++i){
                 var sql1 = "INSERT INTO cw.item (resId, itemName, price, description, figure) VALUES (?,?,?,?,?)";
                 var sqlArr1 = [resId[0].resId,values.items[i].name,values.items[i].price,values.items[i].description,values.items[i].figure];
