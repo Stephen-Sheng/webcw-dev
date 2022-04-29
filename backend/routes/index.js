@@ -34,5 +34,5 @@ router.post('/upload', multer({
 }).single('file'),upload.upload)
 router.post('/changeOrderStatus',changeOrderStatus.changeOS)
 router.get("/resGetOrder",restaurant.resGetOrder)
-
+router.post('/resDetails',restaurant.resDetails)
 module.exports = router;

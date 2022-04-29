@@ -42,6 +42,32 @@ resGetOrder = (req,res) => {
 
 }
 
+//修改信息接口
+resDetails = (req,res) => {
+    let {username,values} = req.body;
 
+    var sql = "UPDATE cw.restaurant SET resName=? WHERE ownerName=?"
+    var sqlArr = [values.store_name, username]
+    var callBack = async (err, data)=>{
+        if(err){
+            console.log("change res detail failed")
+        } else {
+            var sql2 = "SELECT resId FROM cw.restaurant WHERE ownerName=?"
+            var sqlArr2 = [username]
+            let resId = await dbConfig.SySqlConnect(sql2, sqlArr2);
+            console.log(resId)
+            for(let i = 0; i < values.items.length; ++i){
+                var sql1 = "INSERT INTO cw.item (resId, itemName, price, description, figure) VALUES (?,?,?,?,?)";
+                var sqlArr1 = [resId[0].resId,values.items[i].name,values.items[i].price,values.items[i].description,values.items[i].figure];
+                let res = await dbConfig.SySqlConnect(sql1, sqlArr1);
+            }
+            res.status(200).send("changed")
+        }
+    }
+    dbConfig.sqlConnect(sql, sqlArr, callBack)
+}
 
-module.exports = {resGetOrder};
+module.exports = {
+    resGetOrder,
+    resDetails
+};
