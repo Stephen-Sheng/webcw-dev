@@ -6,16 +6,7 @@ upload = (req, res) => {
 
     console.log(req.file);
     console.log("接收完request")
-    var sql = "SELECT * FROM cw.user";
-    var sqlArr = [];
-    var callBack = (err, data) => {
-        if(err){
-            console.log(err)
-        } else {
-            res.send("111")
-        }
-    }
-    dbConfig.sqlConnect(sql, sqlArr, callBack)
+    res.send(`http://localhost:5020/images/${req.file.filename}`)
 }
 module.exports = {upload};
 
