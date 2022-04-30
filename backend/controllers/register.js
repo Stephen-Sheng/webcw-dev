@@ -63,12 +63,12 @@ ver = async (req, res) => {
         var sql3 = "DELETE FROM cw.verify WHERE name=?"
         var sqlArr3 = [username]
         await dbConfig.SySqlConnect(sql3,sqlArr3)
-        res.send("approved success")
+        res.status(200).send("approved success")
     } else {
         var sql = "DELETE FROM cw.verify WHERE name=?"
         var sqlArr = [username]
         await dbConfig.SySqlConnect(sql,sqlArr)
-        res.send("rejected success")
+        res.status(200).send("rejected success")
     }
 }
 
