@@ -35,7 +35,7 @@ log = (req, res)=>{
                 var sqlArr = [username,password]
                 var data = await dbConfig.SySqlConnect(sql,sqlArr)
                 if(data.length){
-                    res.status(202).send("during the verification")
+                    res.status(911).send("during the verification")
                 } else {
                     console.log('用户名或密码错误')
                     res.status(530).send("login failed")
