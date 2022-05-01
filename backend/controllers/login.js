@@ -30,7 +30,7 @@ log = (req, res)=>{
                 result[key] = resName
                 res.status(200).send(result)
             } else {
-                var sql = "SELECT name FROM cw.verify WHERE name=? AND password=?"
+                var sql = "SELECT name,status FROM cw.verify WHERE name=? AND password=?"
                 var sqlArr = [username,password]
                 var data = await dbConfig.SySqlConnect(sql,sqlArr)
                 if(data.length){
