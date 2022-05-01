@@ -41,7 +41,7 @@ reg = async (req, res)=>{
 
 
 verPage = async (req,res) => {
-    var sql = "SELECT * FROM cw.verify"
+    var sql = "SELECT * FROM cw.verify WHERE status IS NULL"
     var sqlArr = []
     let data = await dbConfig.SySqlConnect(sql, sqlArr)
     res.send(data)
@@ -65,9 +65,10 @@ ver = async (req, res) => {
         await dbConfig.SySqlConnect(sql3,sqlArr3)
         res.status(200).send("approved success")
     } else {
-        var sql = "DELETE FROM cw.verify WHERE name=?"
+        var sql = "UPDATE cw.verify SET status = 'rejected' WHERE name=?"
         var sqlArr = [username]
         await dbConfig.SySqlConnect(sql,sqlArr)
+
         res.status(200).send("rejected success")
     }
 }

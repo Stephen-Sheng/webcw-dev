@@ -35,7 +35,15 @@ log = (req, res)=>{
                 var sqlArr = [username,password]
                 var data = await dbConfig.SySqlConnect(sql,sqlArr)
                 if(data.length){
-                    res.status(911).send("during the verification")
+                    if(data[0].status === "rejected"){
+                        var sql = "DELETE FROM cw.verify WHERE name=?"
+                        var sqlArr = [username]
+                        await dbConfig.SySqlConnect(sql,sqlArr)
+                        res.status(912).send("rejected")
+                    } else {
+                        res.status(911).send("during the verification")
+                    }
+
                 } else {
                     console.log('用户名或密码错误')
                     res.status(530).send("login failed")
