@@ -37,5 +37,5 @@ router.post('/changeOrderStatus',changeOrderStatus.changeOS)
 router.get("/resGetOrder",restaurant.resGetOrder)
 router.post('/resDetails',restaurant.resDetails)
 router.post("/verify",register.ver)
-router.post("/verifyPage",register.verPage)
+router.get("/verifyPage",register.verPage)
 module.exports = router;
