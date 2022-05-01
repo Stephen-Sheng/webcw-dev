@@ -34,7 +34,7 @@ reg = async (req, res)=>{
             let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
             let sqlArr_insert = [username,password,postcode,"STO",resName,resImg,description,timeStamp];
             let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
-            res.status(200).send("Waiting for verification")
+            res.status(911).send("Waiting for verification")
         }
     }
 }
