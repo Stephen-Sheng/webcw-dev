@@ -13,7 +13,7 @@ reg = async (req, res)=>{
         } else {
             let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
             let sqlArr_insert = [username,password,postcode,"CUS"];
-            let res = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+            let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
             res.status(200).send("Registration success")
         }
     } else {
@@ -33,7 +33,7 @@ reg = async (req, res)=>{
             var timeStamp = currentTime.toLocaleString();
             let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
             let sqlArr_insert = [username,password,postcode,"STO",resName,resImg,description,timeStamp];
-            let res = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+            let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
             res.status(200).send("Waiting for verification")
         }
     }
