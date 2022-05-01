@@ -15,6 +15,7 @@ reg = async (req, res)=>{
             let sqlArr_insert = [username,password,postcode,"CUS"];
             let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
             res.status(200).send("Registration success")
+
         }
     } else {
         let {username,password,postcode,resName,resImg,description} = req.body

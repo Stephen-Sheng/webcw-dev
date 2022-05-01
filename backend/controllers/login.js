@@ -29,7 +29,6 @@ log = (req, res)=>{
                 var key = "store"
                 result[key] = resName
                 res.status(200).send(result)
-
             } else {
                 var sql = "SELECT name FROM cw.verify WHERE name=? AND password=?"
                 var sqlArr = [username,password]
