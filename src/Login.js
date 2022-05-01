@@ -44,6 +44,7 @@ export default function Login() {
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const [loginErr, setLoginErr] = useState(false)
+  const [alreadyRegErr, setAlreadyRegErr] = useState(false)
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
   let navigation = useNavigation()
@@ -72,13 +73,20 @@ export default function Login() {
       }
 
     } catch (error) {
-      setLoginErr(true)
+      if(error.code === 530){
+        setLoginErr(true)
+      }else if(error.code === 911){
+        setAlreadyRegErr(true)
+      }
+      
     }
   };
 
   const handleCancel = () => {
     setLoginErr(false)
     setVisible(false)
+    setAlreadyRegErr(false)
+
   };
   if (!user.username) {
     return (
@@ -104,6 +112,13 @@ export default function Login() {
           {loginErr && <Alert
             message="Login error"
             description="Invalid username or password"
+            type="error"
+            showIcon />
+          }
+          {loginErr && <br></br>}
+          {alreadyRegErr && <Alert
+            message="Login error"
+            description="Your account is still being pended, please wait!"
             type="error"
             showIcon />
           }
