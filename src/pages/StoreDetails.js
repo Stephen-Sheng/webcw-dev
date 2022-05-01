@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { Layout, PageHeader, Divider, Form, Input, Button, Space, Upload, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useNavigation } from 'react-navi';
-import { useRequest, useResource } from "react-request-hook";
+import { useRequest } from "react-request-hook";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -42,7 +42,7 @@ export default function StoreDetails() {
     // const { user } = useContext(UserContext)
     const [form] = Form.useForm();
     const { user } = useContext(UserContext)
-    const [updateDetails, getUpdateDetails] = useRequest((info)=>({
+    const [, getUpdateDetails] = useRequest((info)=>({
         url:'/resDetails',
         method:'POST',
         data:info

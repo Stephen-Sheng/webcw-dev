@@ -57,11 +57,11 @@ export default function Login() {
     const { ready } = getUserReq(username, password);
     try {
       const data = await ready()
-      console.log(data);
       dispatch({ type: 'LOGIN', username: data.userInfo.name, userType: data.userInfo.userType, storeList: [] })
       setLoading(true)
       setVisible(false)
       setLoading(false)
+
       if(data.store.length !== 0){
         openNotification(data.store)
       }
@@ -80,7 +80,6 @@ export default function Login() {
     setLoginErr(false)
     setVisible(false)
   };
-  // const { visible, loading } = this.state;
   if (!user.username) {
     return (
       <>

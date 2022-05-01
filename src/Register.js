@@ -1,9 +1,40 @@
 import React, { useState, useContext } from 'react';
 import './Register.css';
-import { Select, Button, Input, Row, Form, Checkbox, Modal } from 'antd';
+import { Select, Button, Input, Row, Form, Checkbox, Modal, Upload, message } from 'antd';
 import { UserContext } from './context';
 import { Link } from 'react-navi';
+import { HomeOutlined, UploadOutlined } from '@ant-design/icons';
+import { useRequest } from 'react-request-hook';
+import { useNavigation } from 'react-navi';
 
+const { TextArea } = Input;
+const props = {
+  name: 'file',
+  action: 'http://localhost:5020/upload',
+  headers: {
+    authorization: 'authorization-text',
+  },
+  onChange(info) {
+    if (info.file.status !== 'uploading') {
+    }
+    if (info.file.status === 'done') {
+      console.log(info.file, info.fileList);
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
+const normFile = (e) => {
+  console.log('Upload event:', e);
+
+  if (Array.isArray(e)) {
+    console.log("error");
+    return e;
+  }
+
+  return e.file.response;
+};
 
 const formItemLayout = {
   labelCol: {
@@ -35,22 +66,41 @@ const tailFormItemLayout = {
     },
   },
 };
-
-
-
 export default function Register() {
 
-  const { user, dispatch } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const { Option } = Select;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
+  const usertypeInput = Form.useWatch('usertype', form)
+  let navigation = useNavigation()
+  const [, getRegisterSubmit] = useRequest((data) => ({
+    url: '/register',
+    method: 'POST',
+    data
+  }))
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values);
-    if (values.email) {
-      setIsModalVisible(true);
+    const { ready } = getRegisterSubmit(values)
+    try {
+      const msg = await ready()
+      console.log("msg", msg);
+      if(msg === "Waiting for verification"){
+        message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
+      }else{
+        message.success("You have registered successfully! ");
+      }
+      navigation.goBack()
+    } catch (error) {
+      console.log(error);
+      if(error.code === 530){
+        message.error(error.data);
+      }
     }
+    
   };
+
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -65,7 +115,6 @@ export default function Register() {
       <>
         <h1 id="header">Register</h1>
         <Row id="box">
-
           <Form
             {...formItemLayout}
             form={form}
@@ -74,22 +123,19 @@ export default function Register() {
             scrollToFirstError
           >
             <Form.Item
-              name="email"
-              label="E-mail"
+              name="username"
+              label="Username"
+              tooltip="What do you want others to call you?"
               rules={[
                 {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
                   required: true,
-                  message: 'Please input your E-mail!',
+                  message: 'Please input your username!',
+                  whitespace: true,
                 },
               ]}
             >
               <Input />
             </Form.Item>
-
             <Form.Item
               name="password"
               label="Password"
@@ -127,22 +173,6 @@ export default function Register() {
             >
               <Input.Password />
             </Form.Item>
-
-            <Form.Item
-              name="nickname"
-              label="Nickname"
-              tooltip="What do you want others to call you?"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your nickname!',
-                  whitespace: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
             <Form.Item
               name="phone"
               label="Phone Number"
@@ -184,8 +214,7 @@ export default function Register() {
                 <Option value="customer">Customer</Option>
               </Select>
             </Form.Item>
-
-            <Form.Item
+            {/* <Form.Item
               name="gender"
               label="Gender"
               rules={[
@@ -200,7 +229,29 @@ export default function Register() {
                 <Option value="female">Female</Option>
                 <Option value="other">Other</Option>
               </Select>
+            </Form.Item> */}
+            {usertypeInput === 'merchant' ? <><Form.Item name="resName" label="Store Name" required={true}>
+              <Input
+                placeholder="Enter your store name"
+                prefix={<HomeOutlined className="site-form-item-icon" />}
+              />
             </Form.Item>
+              <Form.Item name={"description"} label="Store Description" required={true}>
+                <TextArea placeholder="Autosize height based on content lines" autoSize />
+              </Form.Item>
+              <Form.Item
+                label="Store Figure"
+                name="resImg"
+                valuePropName='file'
+                getValueFromEvent={normFile}
+                rules={[{ required: true, message: 'Missing figure' }]}
+              >
+                <Upload {...props} maxCount={1}>
+                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                </Upload>
+              </Form.Item>
+            </>
+              : null}
 
             <Form.Item
               name="agreement"

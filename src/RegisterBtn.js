@@ -8,7 +8,7 @@ import { UserContext } from './context';
 
 export default function RegisterBtn() {
 
-  const { user, dispatch } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   if (!user.username) {
     return (
       <>

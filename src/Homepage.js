@@ -1,8 +1,7 @@
 import React, { useEffect, useContext } from 'react';
-import { Layout, Breadcrumb, Carousel } from 'antd';
+import { Layout, Carousel } from 'antd';
 import { UserContext } from './context';
 import Navmenu from './Navmenu';
-import Sidermenu from './Sidermenu';
 
 const contentStyle = {
   height: '660px',
