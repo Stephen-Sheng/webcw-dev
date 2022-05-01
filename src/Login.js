@@ -45,6 +45,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [loginErr, setLoginErr] = useState(false)
   const [alreadyRegErr, setAlreadyRegErr] = useState(false)
+  const [pendingRej, setPendingRej] = useState(false)
   const usernameInfo = useInput('')
   const passwordInfo = useInput('')
   let navigation = useNavigation()
@@ -77,6 +78,8 @@ export default function Login() {
         setLoginErr(true)
       }else if(error.code === 911){
         setAlreadyRegErr(true)
+      }else if(error.code === 912){
+        setPendingRej(true)
       }
       
     }
@@ -86,6 +89,7 @@ export default function Login() {
     setLoginErr(false)
     setVisible(false)
     setAlreadyRegErr(false)
+    setPendingRej(false)
 
   };
   if (!user.username) {
@@ -122,7 +126,14 @@ export default function Login() {
             type="error"
             showIcon />
           }
-          {loginErr && <br></br>}
+          {alreadyRegErr && <br></br>}
+          {pendingRej && <Alert
+            message="Login error"
+            description="Your account application is rejected by the admin."
+            type="error"
+            showIcon />
+          }
+          {pendingRej && <br></br>}
           <Space direction="vertical">
             <Input placeholder="input username" value={usernameInfo.value} onChange={usernameInfo.onChange} prefix={<UserOutlined />} />
             <Input.Password
