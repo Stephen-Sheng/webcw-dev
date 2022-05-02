@@ -4,6 +4,7 @@ import RegisterBtn from './RegisterBtn';
 import { Link } from 'react-navi';
 import { UserContext } from './context';
 import { useContext } from "react";
+import { isBigScreen, isTabletOrMobile, isPortrait, isRetina } from './responsive';
 
 const { Header } = Layout;
 

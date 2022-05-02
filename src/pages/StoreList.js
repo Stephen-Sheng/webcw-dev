@@ -31,7 +31,6 @@ export default function StoreList() {
         <Layout>
           <Navmenu selected={['2']} />
           <Layout>
-            <Sidermenu />
             <Layout style={{ padding: '0 24px 24px' }}>
               <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item><Link href={'/'}>Home</Link></Breadcrumb.Item>
@@ -90,7 +89,6 @@ export default function StoreList() {
           <Layout>
             <Navmenu selected={['2']} />
             <Layout>
-              <Sidermenu />
               <Layout style={{ padding: '0 24px 24px' }}>
                 <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
                   <Breadcrumb.Item><Link href={'/'}>Home</Link></Breadcrumb.Item>

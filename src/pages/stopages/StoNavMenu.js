@@ -13,7 +13,7 @@ export default function StoNavmenu(props) {
 
     const { user } = useContext(UserContext)
     const loginInfo = () => {
-        message.info('Please login first and then check your nearby restaurants and orders');
+        message.info('Please login first and then check your orders');
     };
 
     return (

@@ -91,7 +91,7 @@ export default function StoHistoryOrders() {
             <Layout>
                 <StoNavmenu selected={'3'} />
                 <Content style={{ margin: '2%', background: '#fff' }}>
-                    Please login first and then check your upcoming orders
+                    Please login first and then check your history orders
                 </Content>
             </Layout>
         )

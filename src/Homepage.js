@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { Layout, Carousel } from 'antd';
 import { UserContext } from './context';
 import Navmenu from './Navmenu';
+import { isBigScreen, isTabletOrMobile, isPortrait, isRetina } from './responsive';
 
 const contentStyle = {
   height: '660px',
