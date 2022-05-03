@@ -2,5 +2,9 @@
 #login_btn {
     display: flex;
     bottom: 75%;
-    left: 90%;
+    left: 70%;
+}
+
+.mobile#login_btn{
+    left: 60%
 }

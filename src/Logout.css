@@ -6,3 +6,7 @@
 .dropItem{
     color: black;
 }
+
+.mobile#dropMenu_btn{
+    left: 76%;
+}

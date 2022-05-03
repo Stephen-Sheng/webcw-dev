@@ -21,3 +21,10 @@
 #back_btn {
     left:-10%;
 }
+
+#back_btn.mobile{
+    left:5%;
+}
+#reg_btn.mobile{
+    left:10%
+}
