@@ -8,6 +8,7 @@ import Usermenu from './Usermenu';
 import { Link } from 'react-navi';
 import { useRequest } from 'react-request-hook';
 import { useNavigation } from 'react-navi';
+import { BigScreen, Mobile, Retina } from './responsive';
 
 const close = () => {
   console.log(
@@ -33,7 +34,6 @@ const openNotification = (info) => {
 };
 
 export default function Login() {
-
 
   const { user, dispatch } = useContext(UserContext)
   const [, getUserReq] = useRequest((username, password) => ({
@@ -64,7 +64,7 @@ export default function Login() {
       setVisible(false)
       setLoading(false)
 
-      if(data.store.length !== 0){
+      if (data.store.length !== 0) {
         openNotification(data.store)
       }
       if (data.userInfo.userType === "STO") {
@@ -74,14 +74,14 @@ export default function Login() {
       }
 
     } catch (error) {
-      if(error.code === 530){
+      if (error.code === 530) {
         setLoginErr(true)
-      }else if(error.code === 911){
+      } else if (error.code === 911) {
         setAlreadyRegErr(true)
-      }else if(error.code === 912){
+      } else if (error.code === 912) {
         setPendingRej(true)
       }
-      
+
     }
   };
 
@@ -95,9 +95,23 @@ export default function Login() {
   if (!user.username) {
     return (
       <>
-        <Button id="login_btn" type="primary" onClick={showModal}>
-          Login
-        </Button>
+        <BigScreen>
+          <Button className='big-screen' id="login_btn" type="primary" onClick={showModal}>
+            Login
+          </Button>
+        </BigScreen>
+        <Mobile>
+          <Button className='mobile' id="login_btn" type="primary" onClick={showModal}>
+            Login
+          </Button>
+        </Mobile>
+        <Retina>
+          <Button id="login_btn" type="primary" onClick={showModal}>
+            Login
+          </Button>
+        </Retina>
+
+
         <Modal
           visible={visible}
           title="Login"

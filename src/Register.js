@@ -6,6 +6,7 @@ import { Link } from 'react-navi';
 import { HomeOutlined, UploadOutlined } from '@ant-design/icons';
 import { useRequest } from 'react-request-hook';
 import { useNavigation } from 'react-navi';
+import { BigScreen, Mobile, Retina } from './responsive';
 
 const { TextArea } = Input;
 const props = {
@@ -86,19 +87,19 @@ export default function Register() {
     try {
       const msg = await ready()
       console.log("msg", msg);
-      if(msg === "Waiting for verification"){
+      if (msg === "Waiting for verification") {
         message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
-      }else{
+      } else {
         message.success("You have registered successfully! ");
       }
       navigation.goBack()
     } catch (error) {
       console.log(error);
-      if(error.code === 530){
+      if (error.code === 530) {
         message.error(error.data);
       }
     }
-    
+
   };
 
   const handleOk = () => {
@@ -269,11 +270,27 @@ export default function Register() {
               </Checkbox>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button id="back_btn"> <Link href="/">Back</Link>
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Register
-              </Button>
+              <Mobile>
+                <Button id="back_btn" className='mobile'> <Link href="/">Back</Link>
+                </Button>
+                <Button id="reg_btn" type="primary" htmlType="submit" className='mobile'>
+                  Register
+                </Button>
+              </Mobile>
+              <BigScreen>
+                <Button id="back_btn"> <Link href="/">Back</Link>
+                </Button>
+                <Button type="primary" htmlType="submit">
+                  Register
+                </Button>
+              </BigScreen>
+              <Retina>
+                <Button id="back_btn"> <Link href="/">Back</Link>
+                </Button>
+                <Button id="reg_btn" type="primary" htmlType="submit">
+                  Register
+                </Button>
+              </Retina>
             </Form.Item>
           </Form>
           <Modal title="Registered successfully" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

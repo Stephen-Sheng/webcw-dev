@@ -2,5 +2,8 @@
 #register_btn {
     display: flex;
     bottom: 125%;
-    left: 95%;
+    left: 80%;
+}
+.mobile#register_btn  {
+    left: 85%;
 }

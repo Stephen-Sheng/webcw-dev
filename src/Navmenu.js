@@ -4,7 +4,7 @@ import RegisterBtn from './RegisterBtn';
 import { Link } from 'react-navi';
 import { UserContext } from './context';
 import { useContext } from "react";
-import { isBigScreen, isTabletOrMobile, isPortrait, isRetina } from './responsive';
+
 
 const { Header } = Layout;
 
@@ -29,16 +29,13 @@ export default function Navmenu(props) {
                     <Menu.Item key="3"><Link href={'/orders'}>Orders</Link></Menu.Item>
                 </> :
                     <>
-                    <Menu.Item key="2"><Link href={'/Storelist'} onClick={loginInfo}>Nearby restaurants</Link></Menu.Item>
-                    <Menu.Item key="3"><Link href={'/orders'}><div onClick={loginInfo}>Orders</div></Link></Menu.Item>
+                        <Menu.Item key="2"><Link href={'/Storelist'} onClick={loginInfo}>Nearby restaurants</Link></Menu.Item>
+                        <Menu.Item key="3"><Link href={'/orders'}><div onClick={loginInfo}>Orders</div></Link></Menu.Item>
                     </>
                 }
-
-
             </Menu>
             <Login />
             <RegisterBtn />
-
         </Header>
     )
 }

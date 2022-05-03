@@ -1,6 +1,21 @@
 import { useMediaQuery } from 'react-responsive'
 
-export const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-export const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-export const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
-export const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
+const BigScreen = ({ children }) => {
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+    return isBigScreen ? children : null
+}
+const Mobile = ({ children }) => {
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    return isTabletOrMobile ? children : null
+}
+const Retina = ({ children }) => {
+    const isRetina = useMediaQuery({ minWidth: 1225, maxWidth: 1823 })  
+    return isRetina ? children : null
+}
+const Default = ({ children }) => {
+  const isNotMobile = useMediaQuery({ minWidth: 768 })
+  return isNotMobile ? children : null
+}
+
+export {BigScreen, Mobile, Retina, Default}
+
