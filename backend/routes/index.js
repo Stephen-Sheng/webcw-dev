@@ -19,7 +19,7 @@ var order = require('../controllers/order')
 var upload = require('../controllers/upload')
 var changeOrderStatus = require("../controllers/changeOrderStatus")
 var restaurant = require("../controllers/restaurant")
-
+var rider = require("../controllers/rider")
 
 router.get('/', user.getUser);
 router.get('/getOrder', user.getOrder)
@@ -38,4 +38,5 @@ router.get("/resGetOrder",restaurant.resGetOrder)
 router.post('/resDetails',restaurant.resDetails)
 router.post("/verify",register.ver)
 router.get("/verifyPage",register.verPage)
+router.get("/riderList",rider.rider)
 module.exports = router;
