@@ -117,10 +117,7 @@ io.on('connection', (client) => {
                             if (JSON.stringify(value) !== JSON.stringify(val)) {
                                 client.emit("SendItemInfo", value)
                             }
-
-
                             val = value;
-
                         }
                     }
                     dbConfig.sqlConnect(sql3, sqlArr3, callBack3)
