@@ -71,9 +71,9 @@ export default function Orderwait() {
                                         <Col className="gutter-row" span={6}>
                                             <div style={style}><CreditCardOutlined style={{ fontSize: '24px' }} /> {item.price}</div>
                                         </Col>
-                                        <Col className="gutter-row" span={6}>
+                                        {item.orderStatus === "in delivery" || item.orderStatus === "completed" ? <Col className="gutter-row" span={6}>
                                             <div style={style}><CarFilled style={{ fontSize: '24px' }} />  Your delivery by {item.riderName}</div>
-                                        </Col>
+                                        </Col>: <Col className="gutter-row" span={6}><div style={style}><CarFilled style={{ fontSize: '24px' }} /> Not Assigned</div></Col>}
                                     </Row>
                                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                                         <Col className="gutter-row" span={6}>

@@ -30,12 +30,17 @@ export default function CurrentOrders() {
         method: 'GET'
     }))
     const handleSubmit = async (orderId, index) => {
+        // if(rider === ''){
+        //     setRider(riderListData[0].riderName)
+        // }
         const { ready } = getChangeOrderStatus(orderId, "in delivery", rider)
         const msg = await ready()
         console.log(msg);
         if (msg === 'Status changed!') {
             message.success('Distributing a delivery staff');
+            // setRider('')
         }
+
     }
 
     function handleChange(value) {
@@ -109,7 +114,7 @@ export default function CurrentOrders() {
                                             </List.Item>}
                                     />
 
-                                    <Button type="primary" onClick={() => handleSubmit(item.orderId, index)}>Orders Ready</Button>
+                                    <Button type="primary" onClick={() => handleSubmit(item.orderId, index)} style={{marginRight:"1%",marginTop:"1%"}}>Orders Ready</Button>
                                     <Select style={{ width: 120 }} onChange={handleChange} onDropdownVisibleChange={handleKeyDown} loading={isDropLoading}>
                                         {riderListData.map((item) => {
                                             return <Option key={item.riderName} value={item.riderName}>{item.riderName}</Option>

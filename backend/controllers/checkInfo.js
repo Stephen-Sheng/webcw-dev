@@ -28,7 +28,7 @@ checkIn = (req, res)=> {
                 var sqlArr2 = [orderCode,orderInfo.menu[i].name,orderInfo.menu[i].num,orderInfo.menu[i].price];
                 var callBack2 = (err, data) => {
                     if (err) {
-                        console.log("fail")
+                        console.log(err)
                     } else {
 
                     }
