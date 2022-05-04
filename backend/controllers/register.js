@@ -11,10 +11,15 @@ reg = async (req, res)=>{
         if(data0.length){
             res.status(530).send("The username is already registered")
         } else {
-            let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
-            let sqlArr_insert = [username,password,postcode,"CUS"];
-            let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
-            res.status(200).send("Registration success")
+            const postcodeResult = await getValidate(postcode)
+            if(postcodeResult.data.result){
+                let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
+                let sqlArr_insert = [username,password,postcode,"CUS"];
+                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+                res.status(200).send("Registration success")
+            } else {
+                res.status(903).send("The postcode is invalid")
+            }
 
         }
     } else {
@@ -30,12 +35,17 @@ reg = async (req, res)=>{
         if(data0.length || data1.length){
             res.status(530).send("The username is already registered")
         } else {
-            var currentTime = new Date();
-            var timeStamp = currentTime.toLocaleString();
-            let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
-            let sqlArr_insert = [username,password,postcode,"STO",resName,resImg,description,timeStamp];
-            let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
-            res.status(200).send("Waiting for verification")
+            const postcodeResult = await getValidate(postcode)
+            if(postcodeResult.data.result){
+                var currentTime = new Date();
+                var timeStamp = currentTime.toLocaleString();
+                let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
+                let sqlArr_insert = [username,password,postcode,"STO",resName,resImg,description,timeStamp];
+                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+                res.status(200).send("Waiting for verification")
+            } else {
+                res.status(903).send("The postcode is invalid")
+            }
         }
     }
 }
@@ -72,6 +82,12 @@ ver = async (req, res) => {
 
         res.status(200).send("rejected success")
     }
+}
+
+async function getValidate(postcode) {
+    const axios = require('axios')
+    const data = await axios.get(`http://api.postcodes.io/postcodes/${postcode}/validate`)
+    return data
 }
 
 module.exports = {reg,verPage,ver};
