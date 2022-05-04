@@ -12,6 +12,7 @@ import StoHomePage from "../pages/stopages/StoHomePage";
 import CurrentOrders from "../pages/stopages/CurrentOrders"
 import CusOrderDetail from "../pages/CusOrderDetail";
 import StoHistoryOrders from "../pages/stopages/StoHistoryOrders";
+import GoogleReg from "../GoogleReg";
 
 export const routes = mount({
     '/': route({ view: <Homepage /> }),
@@ -30,5 +31,6 @@ export const routes = mount({
     '/home':route ({view: <StoHomePage />}),
     '/current-orders':route ({view: <CurrentOrders />}),
     '/Order/:id':route({view: <CusOrderDetail />}),
-    '/history-orders':route({view: <StoHistoryOrders />})
+    '/history-orders':route({view: <StoHistoryOrders />}),
+    '/google-reg':map(req=>route({view: <GoogleReg googleInfo={req.body}/>})) 
 })

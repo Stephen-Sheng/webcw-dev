@@ -9,6 +9,7 @@ import { Link } from 'react-navi';
 import { useRequest } from 'react-request-hook';
 import { useNavigation } from 'react-navi';
 import { BigScreen, Mobile, Retina } from './responsive';
+import { GoogleLogin } from 'react-google-login';
 
 const close = () => {
   console.log(
@@ -92,6 +93,10 @@ export default function Login() {
     setPendingRej(false)
 
   };
+  const responseGoogle = (response) => {
+    console.log(response);
+    navigation.navigate('/google-reg',{ body: response})
+  }
   if (!user.username) {
     return (
       <>
@@ -171,6 +176,13 @@ export default function Login() {
                 New to here?<Link href="Register">register now!</Link>
               </Form.Item>
             </Form>
+            <GoogleLogin
+              clientId="529729795538-rqabdhqfgvhg3lcjuoj8mc7muhakn92m.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
           </Space>
         </Modal>
       </>
