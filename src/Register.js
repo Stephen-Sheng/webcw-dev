@@ -98,6 +98,9 @@ export default function Register() {
       if (error.code === 530) {
         message.error(error.data);
       }
+      if (error.code === 903) {
+        message.error(error.data)
+      }
     }
 
   };

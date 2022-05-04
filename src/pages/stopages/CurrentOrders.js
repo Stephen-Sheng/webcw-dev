@@ -1,6 +1,6 @@
-import { Layout, List, Card, Row, Col, Divider, Button, message } from "antd";
+import { Layout, List, Card, Row, Col, Divider, Button, message, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
-import { useRequest } from "react-request-hook";
+import { useRequest, useResource } from "react-request-hook";
 import { Content } from "antd/lib/layout/layout";
 import StoNavmenu from "./StoNavMenu";
 import { UserContext } from "../../context";
@@ -8,28 +8,50 @@ import { useContext } from "react";
 import { CreditCardOutlined, ClockCircleFilled } from '@ant-design/icons'
 import { subscribeUncompletedOrderLst } from "../../utils";
 
+const { Option } = Select;
+
 
 export default function CurrentOrders() {
 
 
     const { user } = useContext(UserContext)
+    const [isDropLoading, setIsDropLoading] = useState(false)
+    const [rider, setRider] = useState('')
     const [orderLst, setOrderLst] = useState([])
+    const [riderListData, setRiderListData] = useState([])
     const style = { padding: '8px 0' };
-    const [, getChangeOrderStatus] = useRequest((orderId, status) => ({
+    const [, getChangeOrderStatus] = useRequest((orderId, status, rider) => ({
         url: '/changeOrderStatus',
         method: 'POST',
-        data: { orderId, status }
+        data: { orderId, status, rider }
+    }))
+    const [riderList, getRiderList] = useRequest(() => ({
+        url: '/riderList',
+        method: 'GET'
     }))
     const handleSubmit = async (orderId, index) => {
-        const { ready } = getChangeOrderStatus(orderId, "in delivery")
+        const { ready } = getChangeOrderStatus(orderId, "in delivery", rider)
         const msg = await ready()
         console.log(msg);
         if (msg === 'Status changed!') {
             message.success('Distributing a delivery staff');
         }
     }
+
+    function handleChange(value) {
+        setRider(value)
+        console.log(`selected ${value}`);
+    }
+    async function handleKeyDown() {
+        setIsDropLoading(true)
+        const { ready } = getRiderList()
+        const data = await ready()
+        console.log(data);
+        setRiderListData(data)
+        setIsDropLoading(false)
+    }
     useEffect(() => {
-        subscribeUncompletedOrderLst(user.username, (err, orderLst) => { setOrderLst(orderLst);console.log(orderLst); });
+        subscribeUncompletedOrderLst(user.username, (err, orderLst) => { setOrderLst(orderLst); console.log(orderLst); });
     }, [user.username])
 
     if (user) {
@@ -86,8 +108,13 @@ export default function CurrentOrders() {
                                                 </Row>
                                             </List.Item>}
                                     />
-                                    <Button type="primary" onClick={() => handleSubmit(item.orderId, index)}>Orders Ready</Button>
 
+                                    <Button type="primary" onClick={() => handleSubmit(item.orderId, index)}>Orders Ready</Button>
+                                    <Select style={{ width: 120 }} onChange={handleChange} onDropdownVisibleChange={handleKeyDown} loading={isDropLoading}>
+                                        {riderListData.map((item) => {
+                                            return <Option key={item.riderName} value={item.riderName}>{item.riderName}</Option>
+                                        })}
+                                    </Select>
                                 </Card>
                             </List.Item>
                         )}
@@ -95,6 +122,7 @@ export default function CurrentOrders() {
                 </Content>
             </Layout>
         )
+
     } else {
         return (
             <Layout>

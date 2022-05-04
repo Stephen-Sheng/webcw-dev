@@ -15,15 +15,15 @@ export default function Orderwait() {
     const style = { padding: '8px 0' };
     const [cusOrderLst, setCusOrderLst] = useState([])
     let navigation = useNavigation()
-    const [, getChangeOrderStatus] = useRequest((orderId, status) => ({
+    const [, getChangeOrderStatus] = useRequest((orderId, status, rider) => ({
         url: '/changeOrderStatus',
         method: 'POST',
-        data: { orderId, status }
+        data: { orderId, status, rider }
     }))
 
-    const handleOk = async (orderId) => {
+    const handleOk = async (orderId, rider) => {
         console.log(orderId);
-        const { ready } = getChangeOrderStatus(orderId, "completed")
+        const { ready } = getChangeOrderStatus(orderId, "completed", rider )
         const msg = await ready()
         console.log(msg);
         if (msg === 'Status changed!') {
@@ -87,7 +87,7 @@ export default function Orderwait() {
                                         </Col>
                                     </Row>
                                     {item.orderStatus === 'in delivery' ? <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                                        <Col className="gutter-row" span={6}> <Button type="primary" onClick={() => handleOk(item.orderId)}> Food Received</Button></Col>
+                                        <Col className="gutter-row" span={6}> <Button type="primary" onClick={() => handleOk(item.orderId, item.riderName)}> Food Received</Button></Col>
                                     </Row> : <div></div>}
                                 </Card>
                             </List.Item>
