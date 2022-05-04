@@ -17,7 +17,7 @@ checkIn = (req, res)=> {
     var timeStamp = currentTime.toLocaleString();//4/23/2022, 6:06:54 PM
     console.log(timeStamp);
 
-    var sql = "INSERT INTO cw.orderList values(?,?,?,'',?,'uncompleted',?)";
+    var sql = "INSERT INTO cw.orderList values(?,?,?,'999',?,'uncompleted',?)";
     var sqlArr = [orderCode,orderInfo.resId,orderInfo.username,orderInfo.menu.pop().total,timeStamp];
     var callBack = (err, data) => {
         if(err){

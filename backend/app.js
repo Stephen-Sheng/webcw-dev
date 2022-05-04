@@ -37,6 +37,8 @@ io.on('connection', (client) => {
             } else {
                 client.emit("cusOrderLst", data.reverse())
                 data.reverse()
+                console.log("sdsdasda")
+                console.log(data)
                 value = data;
             }
         }
