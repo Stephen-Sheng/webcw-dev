@@ -13,6 +13,12 @@ changeOS = (req, res)=> {
                 var sql1 = "UPDATE cw.rider SET status = 'unavailable' WHERE riderName=?"
                 var sqlArr1 = [rider]
                 await dbConfig.SySqlConnect(sql1,sqlArr1)
+                var sql2 = "SELECT riderId FROM cw.rider WHERE riderName=?"
+                var sqlArr2 = [rider]
+                let id = await dbConfig.SySqlConnect(sql2,sqlArr2)
+                var sql3 = "UPDATE cw.orderList SET riderId=? WHERE orderId=?"
+                var sqlArr3 = [id,orderId]
+                await dbConfig.SySqlConnect(sql3,sqlArr3)
             }
             if(status === "completed"){
                 var sql2 = "UPDATE cw.rider SET status = 'available' WHERE riderName=?"
