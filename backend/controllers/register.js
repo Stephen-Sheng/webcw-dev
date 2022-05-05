@@ -18,7 +18,7 @@ reg = async (req, res)=>{
         } else {
             const postcodeResult = await getValidate(postcode)
             if(postcodeResult.data.result){
-                let verCode = JSON.stringify(Math.random() * 10000)
+                let verCode = Math.random().toString().slice(-6)
                 var sql1 = "INSERT into cw.email(username,password,location,userType,emailAddress,code) value(?,?,?,'CUS',?,?)"
                 var sqlArr1 = [username,password,postcode,email,verCode]
                 await dbConfig.SySqlConnect(sql1,sqlArr1)
@@ -55,7 +55,7 @@ reg = async (req, res)=>{
             if(postcodeResult.data.result){
                 var currentTime = new Date();
                 var timeStamp = currentTime.toLocaleString();
-                let verCode = JSON.stringify(Math.random() * 10000)
+                let verCode = Math.random().toString().slice(-6)
                 var sql3 = "INSERT into cw.email(username,password,location,userType,resName,resImg,description,date,emailAddress,code) value(?,?,?,'STO',?,?,?,?,?,?)"
                 var sqlArr3 = [username,password,postcode,resName,resImg,description,timeStamp,email,verCode]
                 await dbConfig.SySqlConnect(sql3,sqlArr3)
@@ -109,11 +109,13 @@ ver = async (req, res) => {
 //判断验证码
 codeCheck = async (req,res) => {
     let {username,verCode} = req.body
-    var sql = "SELECT * FROM cw.email WHERE name=?"
+    var sql = "SELECT * FROM cw.email WHERE username=?"
     var sqlArr = [username]
     let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
     if(data0.length){
-        if(data0[0].code === JSON.stringify(verCode)){
+        console.log(data0[0].code)
+        console.log(JSON.stringify(verCode))
+        if(JSON.stringify(data0[0].code) === JSON.stringify(verCode)){
             if(data0[0].userType === "CUS"){
                 let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
                 let sqlArr_insert = [data0[0].username,data0[0].password,data0[0].location,"CUS"];
