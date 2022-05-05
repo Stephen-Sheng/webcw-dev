@@ -3,10 +3,9 @@ import './Register.css';
 import { useInput } from 'react-hookedup';
 import { Select, Button, Input, Row, Form, Checkbox, Modal, Upload, message } from 'antd';
 import { UserContext } from './context';
-import { Link } from 'react-navi';
+import { Link, useNavigation } from 'react-navi';
 import { HomeOutlined, UploadOutlined } from '@ant-design/icons';
 import { useRequest } from 'react-request-hook';
-import { useNavigation } from 'react-navi';
 import { BigScreen, Mobile, Retina } from './responsive';
 
 const { TextArea } = Input;
@@ -75,6 +74,8 @@ export default function Register() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const usertypeInput = Form.useWatch('usertype', form)
+  const [usernameCode, setUsernameCode] = useState('')
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   let navigation = useNavigation()
   const verifyCode = useInput('')
   const [, getRegisterSubmit] = useRequest((data) => ({
@@ -82,13 +83,25 @@ export default function Register() {
     method: 'POST',
     data
   }))
+  const [, getCheckCode] = useRequest((username, verifyCode) => ({
+    url: '/checkCode',
+    method: 'POST',
+    data: { username, verCode: verifyCode }
+  }))
+  const [, getResendCode] = useRequest((username) => ({
+    url: '/resendCode',
+    method: 'POST',
+    data: { username }
+  }))
 
   const onFinish = async (values) => {
+    setIsSubmitLoading(true)
     console.log('Received values of form: ', values);
     const { ready } = getRegisterSubmit(values)
     try {
+      setUsernameCode(values.username)
       const msg = await ready()
-      console.log("msg", msg);
+      setIsSubmitLoading(false)
       showModal()
       if (msg === "Waiting for verification") {
         message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
@@ -111,7 +124,15 @@ export default function Register() {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
+    const { ready } = getCheckCode(usernameCode, verifyCode.value)
+    try {
+      const msg = await ready()
+      navigation.navigate('/')
+    } catch (error) {
+      console.log(error);
+
+    }
     setIsModalVisible(false);
     navigation.navigate('/')
   };
@@ -119,6 +140,17 @@ export default function Register() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const handleResendClick = async () => {
+    const { ready } = getResendCode(usernameCode)
+    try {
+      const msg = await ready()
+      message.success('Resend Successfully')
+    } catch (error) {
+      message.error('Resend Failed')
+      console.log(error);
+    }
+  }
 
 
   if (!user.username) {
@@ -268,23 +300,23 @@ export default function Register() {
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Mobile>
-                <Button id="back_btn" className='mobile'> <Link href="/">Back</Link>
+                <Button id="back_btn" className='mobile' > <Link href="/">Back</Link>
                 </Button>
-                <Button id="reg_btn" type="primary" htmlType="submit" className='mobile'>
+                <Button id="reg_btn" type="primary" htmlType="submit" className='mobile' loading={isSubmitLoading}>
                   Register
                 </Button>
               </Mobile>
               <BigScreen>
-                <Button id="back_btn"> <Link href="/">Back</Link>
+                <Button id="back_btn" > <Link href="/">Back</Link>
                 </Button>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isSubmitLoading}>
                   Register
                 </Button>
               </BigScreen>
               <Retina>
                 <Button id="back_btn"> <Link href="/">Back</Link>
                 </Button>
-                <Button id="reg_btn" type="primary" htmlType="submit">
+                <Button id="reg_btn" type="primary" htmlType="submit" loading={isSubmitLoading}>
                   Register
                 </Button>
               </Retina>
@@ -293,7 +325,7 @@ export default function Register() {
           <Modal title="Email Verification" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
             <p>We have sent a code to your email, please check your inbox and submit the code!</p>
             <Input placeholder="verification code" value={verifyCode.value} onChange={verifyCode.onChange} />
-            <p style={{marginTop:"2%"}}>Don't receive the code?<Link> Click here to resend the code</Link></p>
+            <p style={{ marginTop: "2%" }}>Don't receive the code?<Button type='link' onClick={handleResendClick}> Click here to resend the code</Button></p>
           </Modal>
         </Row>
       </>
