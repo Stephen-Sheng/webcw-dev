@@ -48,7 +48,7 @@ const tailFormItemLayout = {
     },
   },
 };
-export default function GoogleReg(props) {
+export default function GoogleReg(propsInfo) {
 
   const { user } = useContext(UserContext)
   const { Option } = Select;
@@ -57,16 +57,15 @@ export default function GoogleReg(props) {
   const usertypeInput = Form.useWatch('usertype', form)
   let navigation = useNavigation()
   const [, getRegisterSubmit] = useRequest((data) => ({
-    url: '/register',
+    url: '/googleReg',
     method: 'POST',
     data
   }))
 
   const onFinish = async (values) => {
-    console.log(props);
 
     console.log('Received values of form: ', values);
-    values.username = props.googleInfo.profileObj.name
+    values.username = propsInfo.googleInfo.profileObj.name
     values.flag = "google"
     const { ready } = getRegisterSubmit(values)
     try {

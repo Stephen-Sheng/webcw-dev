@@ -37,10 +37,10 @@ const openNotification = (info) => {
 export default function Login() {
 
   const { user, dispatch } = useContext(UserContext)
-  const [, getUserReq] = useRequest((username, password) => ({
+  const [, getUserReq] = useRequest((username, password, flag) => ({
     url: '/login',
     method: 'POST',
-    data: { username, password }
+    data: { username, password, flag }
   }))
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -93,9 +93,33 @@ export default function Login() {
     setPendingRej(false)
 
   };
-  const responseGoogle = (response) => {
-    console.log(response);
-    navigation.navigate('/google-reg',{ body: response})
+  const responseGoogle = async (response) => {
+    const { ready } = getUserReq(response.profileObj.name, "googlelogin", "google");
+    try {
+      const data = await ready()
+      dispatch({ type: 'LOGIN', username: data.userInfo.name, userType: data.userInfo.userType, storeList: [] })
+      setLoading(true)
+      setVisible(false)
+      setLoading(false)
+
+      if (data.store.length !== 0) {
+        openNotification(data.store)
+      }
+      if (data.userInfo.userType === "STO") {
+        navigation.navigate('/home')
+      } else {
+        navigation.navigate('/')
+      }
+
+    } catch (error) {
+      console.log(error);
+      if (error.code === 530) {
+        navigation.navigate('/google-reg', { body: response })
+
+      }
+    }
+
+
   }
   if (!user.username) {
     return (
