@@ -145,7 +145,8 @@ resendCode = async (req,res) => {
     var sql = "SELECT * FROM cw.email WHERE username=?"
     var sqlArr = [username]
     let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
-    if(data0[0].length){
+
+    if(data0.length){
         let verCode = Math.random().toString().slice(-6)
         var sql1 = "UPDATE cw.email SET code=? WHERE username=?"
         var sqlArr1 = [verCode,username]
