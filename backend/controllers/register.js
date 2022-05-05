@@ -96,7 +96,7 @@ googleReg = async (req,res) => {
         } else {
             const postcodeResult = await getValidate(postcode)
             if(postcodeResult.data.result){
-                let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?)";
+                let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
                 let sqlArr_insert = [username,"googlelogin",postcode,"CUS"];
                 let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
                 res.status(200).send("Registration success")
