@@ -105,12 +105,12 @@ export default function Register() {
       const msg = await ready()
       setIsSubmitLoading(false)
       showModal()
-      if (msg === "Waiting for verification") {
-        message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
-      } else {
-        message.success("You have registered successfully! ");
-      }
-      // navigation.goBack()
+      // if (msg === "Waiting for verification") {
+      //   message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
+      // } else {
+      //   message.success("You have registered successfully! ");
+      // }
+      // // navigation.goBack()
     } catch (error) {
       console.log(error);
       if (error.code === 530) {
@@ -132,6 +132,7 @@ export default function Register() {
       await ready()
       setIsModalVisible(false);
       navigation.navigate('/')
+      message.success("You have successfully registered!")
     } catch (error) {
       console.log(error);
     }
@@ -149,8 +150,6 @@ export default function Register() {
       console.log(error);
     }
   }
-
-
   if (!user.username) {
     return (
       <>
