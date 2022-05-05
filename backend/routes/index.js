@@ -41,4 +41,5 @@ router.get("/verifyPage",register.verPage)
 router.get("/riderList",rider.rider)
 router.post("/googleReg",register.googleReg)
 router.post("/checkCode",register.codeCheck)
+router.post("/resendCode",register.resendCode)
 module.exports = router;

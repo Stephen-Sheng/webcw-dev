@@ -113,8 +113,6 @@ codeCheck = async (req,res) => {
     var sqlArr = [username]
     let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
     if(data0.length){
-        console.log(data0[0].code)
-        console.log(JSON.stringify(verCode))
         if(JSON.stringify(data0[0].code) === JSON.stringify(verCode)){
             if(data0[0].userType === "CUS"){
                 let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
@@ -141,7 +139,25 @@ codeCheck = async (req,res) => {
     }
 }
 
-
+//重新发送验证码
+resendCode = async (req,res) => {
+    let {username} = req.body
+    var sql = "SELECT * FROM cw.email WHERE username=?"
+    var sqlArr = [username]
+    let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
+    if(data0[0].length){
+        let verCode = Math.random().toString().slice(-6)
+        var sql1 = "UPDATE cw.email SET code=? WHERE username=?"
+        var sqlArr1 = [verCode,username]
+        await dbConfig.SySqlConnect(sql1,sqlArr1)
+        //send email
+        sendMail(data0[0].emailAddress,verCode).then(()=>{
+            res.send({ err: 0, msg: "already send email"})
+        }).catch(()=>{
+            res.send({ err: 1, msg: "send email failed"})
+        })
+    }
+}
 
 //google注册
 googleReg = async (req,res) => {
@@ -245,4 +261,4 @@ function sendMail(mail, code) {
 
 
 
-module.exports = {reg,verPage,ver,googleReg,codeCheck};
+module.exports = {reg,verPage,ver,googleReg,codeCheck,resendCode};
