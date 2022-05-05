@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import './Register.css';
+import { useInput } from 'react-hookedup';
 import { Select, Button, Input, Row, Form, Checkbox, Modal, Upload, message } from 'antd';
 import { UserContext } from './context';
 import { Link } from 'react-navi';
@@ -75,6 +76,7 @@ export default function Register() {
   const [form] = Form.useForm();
   const usertypeInput = Form.useWatch('usertype', form)
   let navigation = useNavigation()
+  const verifyCode = useInput('')
   const [, getRegisterSubmit] = useRequest((data) => ({
     url: '/register',
     method: 'POST',
@@ -87,12 +89,13 @@ export default function Register() {
     try {
       const msg = await ready()
       console.log("msg", msg);
+      showModal()
       if (msg === "Waiting for verification") {
         message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
       } else {
         message.success("You have registered successfully! ");
       }
-      navigation.goBack()
+      // navigation.goBack()
     } catch (error) {
       console.log(error);
       if (error.code === 530) {
@@ -104,9 +107,13 @@ export default function Register() {
     }
 
   };
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
 
   const handleOk = () => {
     setIsModalVisible(false);
+    navigation.navigate('/')
   };
 
   const handleCancel = () => {
@@ -218,22 +225,9 @@ export default function Register() {
                 <Option value="customer">Customer</Option>
               </Select>
             </Form.Item>
-            {/* <Form.Item
-              name="gender"
-              label="Gender"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select gender!',
-                },
-              ]}
-            >
-              <Select placeholder="select your gender">
-                <Option value="male">Male</Option>
-                <Option value="female">Female</Option>
-                <Option value="other">Other</Option>
-              </Select>
-            </Form.Item> */}
+            <Form.Item name="email" label="Email Address" required={true}>
+              <Input placeholder="example@example.com" />
+            </Form.Item>
             {usertypeInput === 'merchant' ? <><Form.Item name="resName" label="Store Name" required={true}>
               <Input
                 placeholder="Enter your store name"
@@ -296,8 +290,10 @@ export default function Register() {
               </Retina>
             </Form.Item>
           </Form>
-          <Modal title="Registered successfully" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <Link href="/">Click here to login now </Link>
+          <Modal title="Email Verification" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <p>We have sent a code to your email, please check your inbox and submit the code!</p>
+            <Input placeholder="verification code" value={verifyCode.value} onChange={verifyCode.onChange} />
+            <p style={{marginTop:"2%"}}>Don't receive the code?<Link> Click here to resend the code</Link></p>
           </Modal>
         </Row>
       </>
