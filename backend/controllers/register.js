@@ -84,10 +84,59 @@ ver = async (req, res) => {
     }
 }
 
+//google注册
+googleReg = async (req,res) => {
+    let {username,postcode,usertype} = req.body
+    if(usertype === "customer"){
+        var sql = "SELECT * FROM cw.user WHERE name=?"
+        var sqlArr = [username]
+        let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
+        if(data0.length){
+            res.status(530).send("The username is already registered")
+        } else {
+            const postcodeResult = await getValidate(postcode)
+            if(postcodeResult.data.result){
+                let sql_insert = "INSERT into cw.user(name,location,userType) value(?,?,?)";
+                let sqlArr_insert = [username,postcode,"CUS"];
+                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+                res.status(200).send("Registration success")
+            } else {
+                res.status(903).send("The postcode is invalid")
+            }
+        }
+    } else {
+        let {username,postcode,resName,resImg,description} = req.body
+        var sql = "SELECT * FROM cw.user WHERE name=?"
+        var sqlArr = [username]
+        let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
+
+        var sql1 = "SELECT * FROM cw.verify WHERE name=?"
+        var sqlArr1 = [username]
+        let data1 = await dbConfig.SySqlConnect(sql1, sqlArr1)
+
+        if(data0.length || data1.length){
+            res.status(530).send("The username is already registered")
+        } else {
+            const postcodeResult = await getValidate(postcode)
+            if(postcodeResult.data.result){
+                var currentTime = new Date();
+                var timeStamp = currentTime.toLocaleString();
+                let sql_insert = "INSERT into cw.verify(name,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
+                let sqlArr_insert = [username,postcode,"STO",resName,resImg,description,timeStamp];
+                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+                res.status(200).send("Waiting for verification")
+            } else {
+                res.status(903).send("The postcode is invalid")
+            }
+        }
+    }
+
+}
+
 async function getValidate(postcode) {
     const axios = require('axios')
     const data = await axios.get(`http://api.postcodes.io/postcodes/${postcode}/validate`)
     return data
 }
 
-module.exports = {reg,verPage,ver};
+module.exports = {reg,verPage,ver,googleReg};

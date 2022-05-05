@@ -39,4 +39,5 @@ router.post('/resDetails',restaurant.resDetails)
 router.post("/verify",register.ver)
 router.get("/verifyPage",register.verPage)
 router.get("/riderList",rider.rider)
+router.post("/googleReg",register.googleReg)
 module.exports = router;
