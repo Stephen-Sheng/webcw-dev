@@ -4,26 +4,38 @@ const dbConfig = require("../util/dbconfig");
 reg = async (req, res)=>{
     let{usertype} = req.body
     if(usertype === "customer"){
-        let {username,password,postcode} = req.body
+        let {username,password,postcode,email} = req.body
         var sql = "SELECT * FROM cw.user WHERE name=?"
         var sqlArr = [username]
         let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
-        if(data0.length){
+
+        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sqlArr2 = [username]
+        let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
+
+        if(data0.length || data2.length){
             res.status(530).send("The username is already registered")
         } else {
             const postcodeResult = await getValidate(postcode)
             if(postcodeResult.data.result){
-                let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
-                let sqlArr_insert = [username,password,postcode,"CUS"];
-                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
-                res.status(200).send("Registration success")
+                let verCode = JSON.stringify(Math.random() * 10000)
+                var sql1 = "INSERT into cw.email(username,password,location,userType,emailAddress,code) value(?,?,?,'CUS',?,?)"
+                var sqlArr1 = [username,password,postcode,email,verCode]
+                await dbConfig.SySqlConnect(sql1,sqlArr1)
+                //send email
+                sendMail(email,verCode).then(()=>{
+                    res.send({ err: 0, msg: "already send email"})
+                }).catch(()=>{
+                    res.send({ err: 1, msg: "send email failed"})
+                })
+
             } else {
                 res.status(903).send("The postcode is invalid")
             }
 
         }
     } else {
-        let {username,password,postcode,resName,resImg,description} = req.body
+        let {username,password,postcode,resName,resImg,description,email} = req.body
         var sql = "SELECT * FROM cw.user WHERE name=?"
         var sqlArr = [username]
         let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
@@ -32,17 +44,27 @@ reg = async (req, res)=>{
         var sqlArr1 = [username]
         let data1 = await dbConfig.SySqlConnect(sql1, sqlArr1)
 
-        if(data0.length || data1.length){
+        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sqlArr2 = [username]
+        let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
+
+        if(data0.length || data1.length || data2.length){
             res.status(530).send("The username is already registered")
         } else {
             const postcodeResult = await getValidate(postcode)
             if(postcodeResult.data.result){
                 var currentTime = new Date();
                 var timeStamp = currentTime.toLocaleString();
-                let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
-                let sqlArr_insert = [username,password,postcode,"STO",resName,resImg,description,timeStamp];
-                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
-                res.status(200).send("Waiting for verification")
+                let verCode = JSON.stringify(Math.random() * 10000)
+                var sql3 = "INSERT into cw.email(username,password,location,userType,resName,resImg,description,date,emailAddress,code) value(?,?,?,'STO',?,?,?,?,?,?)"
+                var sqlArr3 = [username,password,postcode,resName,resImg,description,timeStamp,email,verCode]
+                await dbConfig.SySqlConnect(sql3,sqlArr3)
+                //send email
+                sendMail(email,verCode).then(()=>{
+                    res.send({ err: 0, msg: "already send email"})
+                }).catch(()=>{
+                    res.send({ err: 1, msg: "send email failed"})
+                })
             } else {
                 res.status(903).send("The postcode is invalid")
             }
@@ -84,6 +106,41 @@ ver = async (req, res) => {
     }
 }
 
+//判断验证码
+codeCheck = async (req,res) => {
+    let {username,verCode} = req.body
+    var sql = "SELECT * FROM cw.email WHERE name=?"
+    var sqlArr = [username]
+    let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
+    if(data0.length){
+        if(data0[0].code === JSON.stringify(verCode)){
+            if(data0[0].userType === "CUS"){
+                let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?,?)";
+                let sqlArr_insert = [data0[0].username,data0[0].password,data0[0].location,"CUS"];
+                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+
+                let sql_del = "DELETE FROM cw.email WHERE username=?"
+                let sqlArr_del = [username]
+                await dbConfig.SySqlConnect(sql_del,sqlArr_del)
+                res.status(200).send("Registration success")
+            } else {
+                let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
+                let sqlArr_insert = [data0[0].username,data0[0].password,data0[0].location,"STO",data0[0].resName,data0[0].resImg,data0[0].description,data0[0].date];
+                let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
+
+                let sql_del = "DELETE FROM cw.email WHERE username=?"
+                let sqlArr_del = [username]
+                await dbConfig.SySqlConnect(sql_del,sqlArr_del)
+                res.status(200).send("Waiting for verification")
+            }
+        } else {
+            res.status(904).send("wrong code")
+        }
+    }
+}
+
+
+
 //google注册
 googleReg = async (req,res) => {
     let {username,postcode,usertype} = req.body
@@ -91,7 +148,12 @@ googleReg = async (req,res) => {
         var sql = "SELECT * FROM cw.user WHERE name=?"
         var sqlArr = [username]
         let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
-        if(data0.length){
+
+        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sqlArr2 = [username]
+        let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
+
+        if(data0.length || data2.length){
             res.status(530).send("The username is already registered")
         } else {
             const postcodeResult = await getValidate(postcode)
@@ -114,7 +176,11 @@ googleReg = async (req,res) => {
         var sqlArr1 = [username]
         let data1 = await dbConfig.SySqlConnect(sql1, sqlArr1)
 
-        if(data0.length || data1.length){
+        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sqlArr2 = [username]
+        let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
+
+        if(data0.length || data1.length || data2.length){
             res.status(530).send("The username is already registered")
         } else {
             const postcodeResult = await getValidate(postcode)
@@ -139,4 +205,42 @@ async function getValidate(postcode) {
     return data
 }
 
-module.exports = {reg,verPage,ver,googleReg};
+//发邮件配置
+const nodemailer = require('nodemailer');
+//配置邮箱 记得开启邮箱服务
+let transporter = nodemailer.createTransport({
+    host: "smtp.qq.com",
+    secureConnection: true, // use SSL
+    port: 465,
+    secure: true, // secure:true for port 465, secure:false for port 587
+    auth: {
+        user: "544518449@qq.com",   //其他的不要动，更改邮箱
+        pass: "sasbljnjgoxybdga",    // QQ邮箱需要使用的授权码
+    },
+});
+//mail是收邮件的邮箱，code是验证码
+function sendMail(mail, code) {
+    // 设置邮件内容（谁发送什么给谁）
+    let mailOptions = {
+        from: '" Verification Email " <544518449@qq.com>',   // 发件人
+        to: mail,     // 收件人
+        subject: "Email Verification",    // 主题
+        text: `您正在尝试用此邮箱注册,您的验证码是 ${code},有效期5分钟。`,   // 直接发送文本
+    };
+    //异步操作
+    return new Promise((resolve, reject) => {
+        // 使用先前创建的传输器的 sendMail 方法传递消息对象
+        transporter.sendMail(mailOptions, (error, info) => {
+            if(error) reject();
+            else {
+                console.log(`Message: ${info.messageId}`);
+                console.log(`sent: ${info.response}`);
+                resolve();
+            }
+        });
+    });
+}
+
+
+
+module.exports = {reg,verPage,ver,googleReg,codeCheck};
