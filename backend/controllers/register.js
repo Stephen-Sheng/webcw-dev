@@ -9,7 +9,7 @@ reg = async (req, res)=>{
         var sqlArr = [username]
         let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
 
-        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sql2 = "SELECT * FROM cw.email WHERE username=?"
         var sqlArr2 = [username]
         let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
 
@@ -44,7 +44,7 @@ reg = async (req, res)=>{
         var sqlArr1 = [username]
         let data1 = await dbConfig.SySqlConnect(sql1, sqlArr1)
 
-        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sql2 = "SELECT * FROM cw.email WHERE username=?"
         var sqlArr2 = [username]
         let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
 
@@ -149,7 +149,7 @@ googleReg = async (req,res) => {
         var sqlArr = [username]
         let data0 = await dbConfig.SySqlConnect(sql, sqlArr)
 
-        var sql2 = "SELECT * FROM cw.email WHERE usernanme=?"
+        var sql2 = "SELECT * FROM cw.email WHERE username=?"
         var sqlArr2 = [username]
         let data2 = await dbConfig.SySqlConnect(sql2,sqlArr2)
 
