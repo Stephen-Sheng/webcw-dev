@@ -96,8 +96,8 @@ googleReg = async (req,res) => {
         } else {
             const postcodeResult = await getValidate(postcode)
             if(postcodeResult.data.result){
-                let sql_insert = "INSERT into cw.user(name,location,userType) value(?,?,?)";
-                let sqlArr_insert = [username,postcode,"CUS"];
+                let sql_insert = "INSERT into cw.user(name,password,location,userType) value(?,?,?)";
+                let sqlArr_insert = [username,"googlelogin",postcode,"CUS"];
                 let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
                 res.status(200).send("Registration success")
             } else {
@@ -121,8 +121,8 @@ googleReg = async (req,res) => {
             if(postcodeResult.data.result){
                 var currentTime = new Date();
                 var timeStamp = currentTime.toLocaleString();
-                let sql_insert = "INSERT into cw.verify(name,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
-                let sqlArr_insert = [username,postcode,"STO",resName,resImg,description,timeStamp];
+                let sql_insert = "INSERT into cw.verify(name,password,location,userType,resName,resImg,description,date) value(?,?,?,?,?,?,?,?)";
+                let sqlArr_insert = [username,"googlelogin",postcode,"STO",resName,resImg,description,timeStamp];
                 let re = await dbConfig.SySqlConnect(sql_insert, sqlArr_insert);
                 res.status(200).send("Waiting for verification")
             } else {
