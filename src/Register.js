@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './Register.css';
 import { useInput } from 'react-hookedup';
-import { Select, Button, Input, Row, Form, Checkbox, Modal, Upload, message } from 'antd';
+import { Select, Button, Input, Row, Form, Checkbox, Modal, Upload, message, Alert } from 'antd';
 import { UserContext } from './context';
 import { Link, useNavigation } from 'react-navi';
 import { HomeOutlined, UploadOutlined } from '@ant-design/icons';
@@ -76,6 +76,8 @@ export default function Register() {
   const usertypeInput = Form.useWatch('usertype', form)
   const [usernameCode, setUsernameCode] = useState('')
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const [successResend, setSuccessResend] = useState(false)
+  const [failResend, setFailResend] = useState(false)
   let navigation = useNavigation()
   const verifyCode = useInput('')
   const [, getRegisterSubmit] = useRequest((data) => ({
@@ -127,27 +129,23 @@ export default function Register() {
   const handleOk = async () => {
     const { ready } = getCheckCode(usernameCode, verifyCode.value)
     try {
-      const msg = await ready()
+      await ready()
+      setIsModalVisible(false);
       navigation.navigate('/')
     } catch (error) {
       console.log(error);
-
     }
-    setIsModalVisible(false);
-    navigation.navigate('/')
   };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
   const handleResendClick = async () => {
     const { ready } = getResendCode(usernameCode)
     try {
-      const msg = await ready()
-      message.success('Resend Successfully')
+      await ready()
+      setSuccessResend(true)
     } catch (error) {
-      message.error('Resend Failed')
+      setFailResend(true)
       console.log(error);
     }
   }
@@ -323,6 +321,8 @@ export default function Register() {
             </Form.Item>
           </Form>
           <Modal title="Email Verification" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            {successResend && <Alert message="Successfully resend!" type="success" showIcon closable />}
+            {failResend && <Alert message="Resend failed" type="error" showIcon closable />}
             <p>We have sent a code to your email, please check your inbox and submit the code!</p>
             <Input placeholder="verification code" value={verifyCode.value} onChange={verifyCode.onChange} />
             <p style={{ marginTop: "2%" }}>Don't receive the code?<Button type='link' onClick={handleResendClick}> Click here to resend the code</Button></p>
