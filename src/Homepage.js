@@ -47,16 +47,16 @@ export default function Homepage() {
           >
             <Carousel autoplay={true}>
               <div>
-                <h3 style={contentStyle}>1</h3>
+                <h3 style={contentStyle}>< img style={{width:'100%',height:'100%'}} src={require("./images/51.jpg")}/></h3>
               </div>
               <div>
-                <h3 style={contentStyle}>2</h3>
+                <h3 style={contentStyle}>< img style={{width:'100%',height:'100%'}} src={require("./images/52.jpg")}/></h3>
               </div>
               <div>
-                <h3 style={contentStyle}>3</h3>
+                <h3 style={contentStyle}>< img style={{width:'100%',height:'100%'}} src={require("./images/53.jpg")}/></h3>
               </div>
               <div>
-                <h3 style={contentStyle}>4</h3>
+                <h3 style={contentStyle}>< img style={{width:'100%',height:'100%'}} src={require("./images/54.jpg")}/></h3>
               </div>
             </Carousel>
           </Content>
