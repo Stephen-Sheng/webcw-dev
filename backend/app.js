@@ -37,8 +37,6 @@ io.on('connection', (client) => {
             } else {
                 client.emit("cusOrderLst", data.reverse())
                 data.reverse()
-                console.log("sdsdasda")
-                console.log(data)
                 value = data;
             }
         }
@@ -70,10 +68,7 @@ io.on('connection', (client) => {
                 console.log('socket connection failed')
             } else {
                 value = data[0];
-                console.log("111")
-                console.log(orderId)
-                console.log(value)
-                console.log("222")
+
                 //res.send(value);
                 var sql2 = "SELECT * FROM cw.orderInfo WHERE orderId=?"
                 var sqlArr2 = [orderId];
