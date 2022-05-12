@@ -12,7 +12,7 @@ const { Title } = Typography;
 export default function StoreOrder() {
 
     const { user } = useContext(UserContext)
-    const [, setItemPrice] = useState(0)
+    const [itemPrice, setItemPrice] = useState(0)
     const [form] = Form.useForm()
     const navigation = useNavigation()
     const [storeInfo, getStoreInfo] = useResource((id) => ({
@@ -58,7 +58,7 @@ export default function StoreOrder() {
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 780 }}>
                         <Title>Welcome to {data.resName}</Title>
                         <Divider dashed />
-                        <Form form={form} name="dynamic_form_item" onFinish={onFinish}>
+                        <Form form={form} name="dynamic_form_item" onFinish={onFinish} onValuesChange={onChange}>
                             {
                                 data.menu.map(item => {
                                     return (
@@ -78,12 +78,13 @@ export default function StoreOrder() {
                                                 £{item.price}
                                             </Col>
                                             <Col span={4}>
-                                                <Form.Item name={item.itemName} initialValue={0}>
-                                                    <InputNumber min={0} max={10} onChange={onChange} />
+                                                <Form.Item name={item.itemName} initialValue={0} shouldUpdate={true}>
+                                                    <InputNumber min={0} max={10} onChange={(value)=>onChange(value)} />
                                                 </Form.Item>
                                             </Col>
                                             <Col span={4}>
-                                                £{form.getFieldValue(item.itemName) ? item.price * form.getFieldValue(item.itemName) : 0}
+                                                £{form.getFieldValue(item.itemName) === undefined ? 0: item.price * form.getFieldValue(item.itemName) }
+                                                {console.log(itemPrice)}
                                             </Col>
                                             <Divider />
                                         </Row>
