@@ -55,7 +55,7 @@ export default function CusOrderDetail(){
                     {orderDetail.orderStatus}
                 </Col>
                 <Col span={12} style={{right:'-10%'}}>
-                    {orderDetail.riderName}
+                    {orderDetail.riderName === "null"? null: orderDetail.riderName}
                 </Col>
             </Row>
             </Content>
