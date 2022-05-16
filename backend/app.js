@@ -29,7 +29,7 @@ const io = require('socket.io')(server, { cors: true });
 io.on('connection', (client) => {
     client.on('orderList', (username) => {
         let value = [];
-        var sql = "SELECT orderId,price,orderStatus,date,riderName,resName FROM cw.orderList,cw.rider,cw.restaurant WHERE cw.orderList.riderId=cw.rider.riderId AND cw.orderList.resId=cw.restaurant.resId AND username=?";
+        var sql = "SELECT orderId,price,orderStatus,date,riderName,resName,distance,location FROM cw.orderList,cw.rider,cw.restaurant WHERE cw.orderList.riderId=cw.rider.riderId AND cw.orderList.resId=cw.restaurant.resId AND username=?";
         var sqlArr = [username];
         let callBack = (err, data) => {
             if (err) {
@@ -61,7 +61,7 @@ io.on('connection', (client) => {
     client.on('SendItemOrderID', (orderId) => {
         let val = [];
         let value = null;
-        var sql = "SELECT orderId,price,orderStatus,date,riderName,resName FROM cw.orderList,cw.rider,cw.restaurant WHERE cw.orderList.riderId=cw.rider.riderId AND cw.orderList.resId=cw.restaurant.resId AND orderId=?";
+        var sql = "SELECT orderId,price,orderStatus,date,riderName,resName,location,distance FROM cw.orderList,cw.rider,cw.restaurant WHERE cw.orderList.riderId=cw.rider.riderId AND cw.orderList.resId=cw.restaurant.resId AND orderId=?";
         var sqlArr = [orderId];
         var callBack = (err, data)=>{
             if(err){
