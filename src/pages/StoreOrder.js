@@ -43,7 +43,19 @@ export default function StoreOrder() {
         setItemPrice(value)
     }
     if (storeInfo.isLoading || !storeInfo.data) {
-        return <Spin />
+        return (
+            <Layout>
+            <Navmenu selected={['2']} />
+            <Content className="site-layout" style={{ padding: '0 50px', marginTop: 10 }}>
+                <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
+                    <Breadcrumb.Item ><Link href={'/'}>Home</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link href={'/Storelist'}>Store list</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>Order</Breadcrumb.Item>
+                </Breadcrumb>
+                <Spin size="large" tip="Loading..."/>
+            </Content>
+        </Layout>
+        )
     } else {
         const data = storeInfo.data
         return (

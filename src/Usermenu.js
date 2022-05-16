@@ -33,12 +33,12 @@ export default function Usermenu() {
             </Mobile>
             <BigScreen>
                 <Dropdown overlay={menu} placement="bottomRight" arrow>
-                    <Button type="text" id="dropMenu_btn" > Hello,{user.username}!{user.userType} <DownOutlined /> </Button>
+                    <Button type="text" id="dropMenu_btn" > Hello, {user.username}! <DownOutlined /> </Button>
                 </Dropdown>
             </BigScreen>
             <Retina>
                 <Dropdown overlay={menu} placement="bottomRight" arrow>
-                    <Button type="text" id="dropMenu_btn" > Hello,{user.username}!{user.userType} <DownOutlined /> </Button>
+                    <Button type="text" id="dropMenu_btn" > Hello, {user.username}! <DownOutlined /> </Button>
                 </Dropdown>
             </Retina>
         </>

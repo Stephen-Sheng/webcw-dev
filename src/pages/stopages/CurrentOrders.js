@@ -38,7 +38,7 @@ export default function CurrentOrders() {
         console.log(msg);
         if (msg === 'Status changed!') {
             message.success('Distributing a delivery staff');
-            // setRider('')
+            setRider('')
         }
 
     }
@@ -52,7 +52,7 @@ export default function CurrentOrders() {
         const { ready } = getRiderList()
         const data = await ready()
         console.log(data);
-        setRiderListData(data)
+        setRiderListData(data.filter((item)=>item.riderName !== "null"))
         setIsDropLoading(false)
     }
     useEffect(() => {

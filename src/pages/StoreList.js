@@ -23,7 +23,29 @@ export default function StoreList() {
   }, [user, getStoreList])
 
   if (storeList.isLoading) {
-    return <Spin />
+    return (
+      <Layout>
+          <Navmenu selected={['2']} />
+          <Layout>
+            <Layout style={{ padding: '0 24px 24px' }}>
+              <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item><Link href={'/'}>Home</Link></Breadcrumb.Item>
+                <Breadcrumb.Item>Store list</Breadcrumb.Item>
+              </Breadcrumb>
+              <Content
+                className="site-layout-background"
+                style={{
+                  padding: 24,
+                  margin: 0,
+                  minHeight: 280,
+                }}
+              >
+                <Spin size="large" tip="Loading..."/>
+              </Content>
+            </Layout>
+          </Layout>
+        </Layout>
+    )
   } else {
     if (user) {
       console.log(storeList);
