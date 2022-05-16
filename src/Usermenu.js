@@ -15,11 +15,6 @@ export default function Usermenu() {
 
     const menu = (
         <Menu>
-            <Menu.Item key='profile'>
-                <Button className="dropItem" type="text">
-                    User Profile
-                </Button>
-            </Menu.Item>
             <Menu.Item key='logout'>
                 <Button className="dropItem" type="text" onClick={() => { dispatch({ type: 'LOGOUT' }) }}>
                     Log out

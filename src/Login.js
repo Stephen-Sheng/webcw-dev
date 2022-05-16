@@ -189,20 +189,12 @@ export default function Login() {
 
             <Form>
               <Form.Item>
-                <Form.Item name="remember" valuePropName='checked' noStyle>
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                <Link className="login-form-forgot" href="/">
-                  Forgot password
-                </Link>
-              </Form.Item>
-              <Form.Item>
                 New to here?<Link href="Register">register now!</Link>
               </Form.Item>
             </Form>
             <GoogleLogin
               clientId="529729795538-rqabdhqfgvhg3lcjuoj8mc7muhakn92m.apps.googleusercontent.com"
-              buttonText="Login"
+              buttonText="Google Login"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
               cookiePolicy={'single_host_origin'}
