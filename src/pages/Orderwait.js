@@ -5,7 +5,7 @@ import { Content } from "antd/lib/layout/layout";
 import Navmenu from "../Navmenu";
 import { UserContext } from "../context";
 import { useContext } from "react";
-import { CarFilled, CreditCardOutlined, ClockCircleFilled } from '@ant-design/icons'
+import { CarFilled, CreditCardOutlined, ClockCircleFilled, ThunderboltOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import { subscribeUserOrderLst } from "../utils";
 import { useNavigation } from "react-navi";
 
@@ -23,7 +23,7 @@ export default function Orderwait() {
 
     const handleOk = async (orderId, rider) => {
         console.log(orderId);
-        const { ready } = getChangeOrderStatus(orderId, "completed", rider )
+        const { ready } = getChangeOrderStatus(orderId, "completed", rider)
         const msg = await ready()
         console.log(msg);
         if (msg === 'Status changed!') {
@@ -31,7 +31,7 @@ export default function Orderwait() {
         }
 
     };
-    const handleNavigateToDetail = (orderId)=>{
+    const handleNavigateToDetail = (orderId) => {
         navigation.navigate(`/Order/${orderId}`)
 
     }
@@ -64,7 +64,7 @@ export default function Orderwait() {
                         dataSource={cusOrderLst}
                         renderItem={item => (
                             <List.Item >
-                                <Card title={<Button type="text" onClick={()=>handleNavigateToDetail(item.orderId)}>Order ID: {item.orderId}  Store name: {item.resName}</Button>}
+                                <Card title={<Button type="text" onClick={() => handleNavigateToDetail(item.orderId)}>Order ID: {item.orderId}  Store name: {item.resName}</Button>}
 
                                 >
                                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -73,7 +73,7 @@ export default function Orderwait() {
                                         </Col>
                                         {item.orderStatus === "in delivery" || item.orderStatus === "completed" ? <Col className="gutter-row" span={6}>
                                             <div style={style}><CarFilled style={{ fontSize: '24px' }} />  Your delivery by {item.riderName}</div>
-                                        </Col>: <Col className="gutter-row" span={6}><div style={style}><CarFilled style={{ fontSize: '24px' }} /> Not Assigned</div></Col>}
+                                        </Col> : <Col className="gutter-row" span={6}><div style={style}><CarFilled style={{ fontSize: '24px' }} /> Not Assigned</div></Col>}
                                     </Row>
                                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                                         <Col className="gutter-row" span={6}>
@@ -83,6 +83,21 @@ export default function Orderwait() {
                                             <div style={style}>
                                                 {item.orderStatus === 'completed' ? <Tag color="#87d068">{item.orderStatus}</Tag> :
                                                     <Tag color="#108ee9">processing</Tag>}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                                        <Col className="gutter-row" span={6}>
+                                            {item.orderStatus === 'completed' ? null :
+                                                <div style={style}><ThunderboltOutlined style={{ fontSize: '24px' }} /> ETD: {item.distance} min</div>
+                                            }
+                                        </Col>
+                                        <Col className="gutter-row" span={6}>
+                                            <div style={style}>
+                                                {item.riderName === 'null' ? null :
+                                                    item.orderStatus === 'completed' ? null :
+                                                        <div style={style}><EnvironmentOutlined style={{ fontSize: '24px' }} /> {item.riderName} is at {item.location}</div>
+                                                }
                                             </div>
                                         </Col>
                                     </Row>
