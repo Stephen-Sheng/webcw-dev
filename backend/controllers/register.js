@@ -233,8 +233,8 @@ let transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // secure:true for port 465, secure:false for port 587
     auth: {
-        user: "544518449@qq.com",   //其他的不要动，更改邮箱
-        pass: "sasbljnjgoxybdga",    // QQ邮箱需要使用的授权码
+        user: "544518449@qq.com",
+        pass: "sasbljnjgoxybdga",
     },
 });
 //mail是收邮件的邮箱，code是验证码
@@ -244,7 +244,7 @@ function sendMail(mail, code) {
         from: '" Verification Email " <544518449@qq.com>',   // 发件人
         to: mail,     // 收件人
         subject: "Email Verification",    // 主题
-        text: `您正在尝试用此邮箱注册,您的验证码是 ${code},有效期5分钟。`,   // 直接发送文本
+        text: `You are trying to register with this email, your verification code is ${code},The verification code is valid for 5 minutes.`,   // 直接发送文本
     };
     //异步操作
     return new Promise((resolve, reject) => {
