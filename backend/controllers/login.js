@@ -1,7 +1,7 @@
 const dbConfig = require("../util/dbconfig");
 const {notification} = require("antd");
 
-//登陆接口
+//login
 log = (req, res)=>{
     let {username,password} = req.body;
     var sql = "SELECT name,location,userType FROM cw.user WHERE name=? AND password=?";
@@ -11,7 +11,7 @@ log = (req, res)=>{
             console.log('connection failed')
         } else {
             if(data.length){
-                console.log('登陆成功111')
+                console.log('login success')
                 var sql = "SELECT DISTINCT resId FROM cw.notify WHERE username=?";
                 var sqlArr = [username];
                 let data1 = await dbConfig.SySqlConnect(sql, sqlArr)

@@ -4,7 +4,7 @@ const axios = require("axios");
 
 
 
-//餐厅列表接口
+//restaurant list
 res = (req, res)=> {
     let userLoc = null;
     let {username} = req.query;
@@ -23,8 +23,6 @@ res = (req, res)=> {
                 } else {
                     let value = []
                     for (let i in data) {
-                        //console.log(data[i].location); //餐厅地点
-                        //console.log(userLoc);//用户地点
                         const loc1 = await getLocation(userLoc)
                         //console.log(loc1.data.result.longitude)
                         const loc2 = await getLocation(data[i].location)

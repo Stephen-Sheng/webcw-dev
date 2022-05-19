@@ -1,19 +1,19 @@
 const dbConfig = require("../util/dbconfig");
 const axios = require("axios");
 
-//提交订单接口
+//check
 checkIn = async (req, res)=> {
     let {orderInfo} = req.body;
     console.log(typeof orderInfo);
     console.log(orderInfo);
-    //订单号
+    //orderID
     var orderCode='';
     for (var i = 0; i < 6; i++){
         orderCode += Math.floor(Math.random() * 10);
     }
     orderCode = new Date().getTime() + orderCode;  //时间戳，用来生成订单号。
     console.log(orderCode)
-    //时间戳
+    //time
     var currentTime = new Date();
     var timeStamp = currentTime.toLocaleString();//4/23/2022, 6:06:54 PM
     console.log(timeStamp);

@@ -1,6 +1,6 @@
 const dbConfig = require("../util/dbconfig");
 
-//查询空余骑手接口
+//check free rider
 rider = async (req, res)=>{
     var sql = "SELECT riderName FROM cw.rider WHERE status='available'"
     var sqlArr=[]

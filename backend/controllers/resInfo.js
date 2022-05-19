@@ -1,6 +1,6 @@
 const dbConfig = require("../util/dbconfig");
 
-//餐厅列表接口
+//restaurant information
 resIn = (req, res)=> {
     var value = null;
     let {resId} = req.query;

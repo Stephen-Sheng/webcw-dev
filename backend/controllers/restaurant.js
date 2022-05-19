@@ -1,6 +1,6 @@
 const dbConfig = require("../util/dbconfig");
 
-//根据状态查询订单接口
+//get order based on status
 resGetOrder = (req,res) => {
     var value = null;
     let {username,status} = req.query;
@@ -42,7 +42,7 @@ resGetOrder = (req,res) => {
 
 }
 
-//修改信息接口
+//change information for restaurant
 resDetails = (req,res) => {
     let {username,values} = req.body;
 

@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 const cors = require('cors');
 var app = express();
-//改写
+
 var http = require('http');
 const dbConfig = require("./util/dbconfig");
 var server = http.createServer(app);
@@ -19,7 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//app.use('/public/',express.static(‘./public/’))
 app.use(express.static('public'));
 
 
