@@ -44,7 +44,6 @@ log = (req, res)=>{
                     }
 
                 } else {
-                    console.log('用户名或密码错误')
                     res.status(530).send("login failed")
                 }
             }
