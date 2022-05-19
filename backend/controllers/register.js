@@ -24,13 +24,13 @@ reg = async (req, res)=>{
                 await dbConfig.SySqlConnect(sql1,sqlArr1)
                 //send email
                 sendMail(email,verCode).then(()=>{
-                    res.send({ err: 0, msg: "already send email"})
+                    res.status(200).send({ err: 0, msg: "already send email"})
                 }).catch(()=>{
-                    res.send({ err: 1, msg: "send email failed"})
+                    res.status(902).send({ err: 1, msg: "send email failed"})
                 })
 
             } else {
-                res.status(903).send("The postcode is invalid")
+                    res.status(903).send("The postcode is invalid")
             }
 
         }
@@ -61,9 +61,9 @@ reg = async (req, res)=>{
                 await dbConfig.SySqlConnect(sql3,sqlArr3)
                 //send email
                 sendMail(email,verCode).then(()=>{
-                    res.send({ err: 0, msg: "already send email"})
+                    res.status(200).send({ err: 0, msg: "already send email"})
                 }).catch(()=>{
-                    res.send({ err: 1, msg: "send email failed"})
+                    res.status(902).send({ err: 1, msg: "send email failed"})
                 })
             } else {
                 res.status(903).send("The postcode is invalid")
@@ -77,7 +77,7 @@ verPage = async (req,res) => {
     var sql = "SELECT * FROM cw.verify WHERE status IS NULL"
     var sqlArr = []
     let data = await dbConfig.SySqlConnect(sql, sqlArr)
-    res.send(data)
+    res.status(200).send(data)
 }
 
 ver = async (req, res) => {
@@ -153,9 +153,9 @@ resendCode = async (req,res) => {
         await dbConfig.SySqlConnect(sql1,sqlArr1)
         //send email
         sendMail(data0[0].emailAddress,verCode).then(()=>{
-            res.send({ err: 0, msg: "already send email"})
+            res.status(200).send({ err: 0, msg: "already send email"})
         }).catch(()=>{
-            res.send({ err: 1, msg: "send email failed"})
+            res.status(902).send({ err: 1, msg: "send email failed"})
         })
     }
 }

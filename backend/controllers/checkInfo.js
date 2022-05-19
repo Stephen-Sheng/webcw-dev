@@ -46,7 +46,7 @@ checkIn = async (req, res)=> {
                 }
                 dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
             }
-            res.send("{\"orderId\":\"" + orderCode + "\"}");
+            res.status(200).send("{\"orderId\":\"" + orderCode + "\"}");
         }
 
     }

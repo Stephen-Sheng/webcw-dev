@@ -6,7 +6,7 @@ upload = (req, res) => {
 
     console.log(req.file);
     console.log("接收完request")
-    res.send(`http://localhost:5020/images/${req.file.filename}`)
+    res.status(200).send(`http://localhost:5020/images/${req.file.filename}`)
 }
 module.exports = {upload};
 

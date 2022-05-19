@@ -10,7 +10,7 @@ orderList = (req, res)=> {
         if(err){
             console.log('orderList connection failed')
         } else {
-            res.send(data)
+            res.status(200).send(data)
         }
     }
     dbConfig.sqlConnect(sql, sqlArr, callBack)
@@ -39,7 +39,7 @@ orderInfo = (req, res)=> {
                     var key = "menu";
                     var value1 = data;
                     value[key] = value1;
-                    res.send(value);
+                    res.status(200).send(value);
                     //console.log(typeof value)
                     //res.send(value);
                 }

@@ -41,7 +41,7 @@ res = (req, res)=> {
                         // let dis = getDistance(loc1[0], loc1[1], loc2[0], loc2[1])
                         // console.log(dis)
                     }
-                    res.send(value)
+                    res.status(200).send(value)
                 }
             }
             dbConfig.sqlConnect(sql2, sqlArr2, callBack2)
