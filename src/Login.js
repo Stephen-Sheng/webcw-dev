@@ -64,7 +64,6 @@ export default function Login() {
       setLoading(true)
       setVisible(false)
       setLoading(false)
-
       if (data.store.length !== 0) {
         openNotification(data.store)
       }
@@ -73,7 +72,6 @@ export default function Login() {
       } else {
         navigation.navigate('/')
       }
-
     } catch (error) {
       if (error.code === 530) {
         setLoginErr(true)
@@ -82,7 +80,6 @@ export default function Login() {
       } else if (error.code === 912) {
         setPendingRej(true)
       }
-
     }
   };
 
@@ -94,6 +91,7 @@ export default function Login() {
 
   };
   const responseGoogle = async (response) => {
+    console.log(response);
     const { ready } = getUserReq(response.profileObj.name, "googlelogin", "google");
     try {
       const data = await ready()

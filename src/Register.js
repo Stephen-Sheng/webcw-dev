@@ -97,22 +97,21 @@ export default function Register() {
   }))
 
   const onFinish = async (values) => {
+    // trigger button loading status
     setIsSubmitLoading(true)
     console.log('Received values of form: ', values);
+    // submit form to server
     const { ready } = getRegisterSubmit(values)
     try {
+      // if successful, do the email verification
       setUsernameCode(values.username)
       const msg = await ready()
       setIsSubmitLoading(false)
       showModal()
-      // if (msg === "Waiting for verification") {
-      //   message.success("You have registered successfully, but you can't login until you've been approved by the admin! ");
-      // } else {
-      //   message.success("You have registered successfully! ");
-      // }
-      // // navigation.goBack()
     } catch (error) {
+      // give the errors info if failed
       console.log(error);
+      setIsSubmitLoading(false)
       if (error.code === 530) {
         message.error(error.data);
       }
@@ -120,7 +119,6 @@ export default function Register() {
         message.error(error.data)
       }
     }
-
   };
   const showModal = () => {
     setIsModalVisible(true);
@@ -250,7 +248,7 @@ export default function Register() {
               ]}
             >
               <Select placeholder="select your usertype"  >
-                <Option value="merchant">Merchant</Option>
+                <Option value="merchant">Restaurant Owner</Option>
                 <Option value="customer">Customer</Option>
               </Select>
             </Form.Item>

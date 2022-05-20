@@ -4,7 +4,6 @@ import { Link } from "react-navi";
 import { useResource } from 'react-request-hook';
 
 import Navmenu from "../Navmenu"
-import Sidermenu from "../Sidermenu"
 import { UserContext } from "../context";
 
 const { Content } = Layout;
