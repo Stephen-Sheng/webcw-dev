@@ -1,7 +1,7 @@
 const dbConfig = require("../util/dbconfig");
 
 
-//订单列表接口
+//order list
 orderList = (req, res)=> {
     let {username} = req.query;
     var sql = "SELECT orderId,price,orderStatus,date,riderName,resName FROM cw.orderList,cw.rider,cw.restaurant WHERE cw.orderList.riderId=cw.rider.riderId AND cw.orderList.resId=cw.restaurant.resId AND username=?;";
@@ -16,7 +16,7 @@ orderList = (req, res)=> {
     dbConfig.sqlConnect(sql, sqlArr, callBack)
 }
 
-//订单详情接口
+//order information
 orderInfo = (req, res)=> {
     let value = null;
     let {orderId} = req.query;

@@ -1,6 +1,6 @@
 const dbConfig = require("../util/dbconfig");
 
-//修改订单状态接口
+//change order status
 changeOS = (req, res)=> {
     let {orderId,status,rider} = req.body;
     var sql = "UPDATE cw.orderList SET orderStatus = ? WHERE orderId = ?";

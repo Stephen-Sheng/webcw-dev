@@ -1,6 +1,6 @@
 const dbConfig = require("../util/dbconfig");
 
-//注册接口
+//register
 reg = async (req, res)=>{
     let{usertype} = req.body
     if(usertype === "customer"){
@@ -106,7 +106,7 @@ ver = async (req, res) => {
     }
 }
 
-//判断验证码
+//check code
 codeCheck = async (req,res) => {
     let {username,verCode} = req.body
     var sql = "SELECT * FROM cw.email WHERE username=?"
@@ -139,7 +139,7 @@ codeCheck = async (req,res) => {
     }
 }
 
-//重新发送验证码
+//send code again
 resendCode = async (req,res) => {
     let {username} = req.body
     var sql = "SELECT * FROM cw.email WHERE username=?"
@@ -160,7 +160,7 @@ resendCode = async (req,res) => {
     }
 }
 
-//google注册
+//google register
 googleReg = async (req,res) => {
     let {username,postcode,usertype} = req.body
     if(usertype === "customer"){
@@ -224,31 +224,27 @@ async function getValidate(postcode) {
     return data
 }
 
-//发邮件配置
+
 const nodemailer = require('nodemailer');
-//配置邮箱 记得开启邮箱服务
 let transporter = nodemailer.createTransport({
     host: "smtp.qq.com",
-    secureConnection: true, // use SSL
+    secureConnection: true,
     port: 465,
-    secure: true, // secure:true for port 465, secure:false for port 587
+    secure: true,
     auth: {
         user: "544518449@qq.com",
         pass: "rrdkjmdqwldtbdaj",
     },
 });
-//mail是收邮件的邮箱，code是验证码
+
 function sendMail(mail, code) {
-    // 设置邮件内容（谁发送什么给谁）
     let mailOptions = {
-        from: '" Verification Email " <544518449@qq.com>',   // 发件人
-        to: mail,     // 收件人
-        subject: "Email Verification",    // 主题
-        text: `You are trying to register with this email, your verification code is ${code},The verification code is valid for 5 minutes.`,   // 直接发送文本
+        from: '" Verification Email " <544518449@qq.com>',
+        to: mail,
+        subject: "Email Verification",
+        text: `You are trying to register with this email, your verification code is ${code},The verification code is valid for 5 minutes.`,
     };
-    //异步操作
     return new Promise((resolve, reject) => {
-        // 使用先前创建的传输器的 sendMail 方法传递消息对象
         transporter.sendMail(mailOptions, (error, info) => {
             if(error) reject();
             else {

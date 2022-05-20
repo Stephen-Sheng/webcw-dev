@@ -1,11 +1,7 @@
 const dbConfig = require("../util/dbconfig");
 
-//上传文件接口
+//upload file
 upload = (req, res) => {
-    console.log("进入upload")
-
-    console.log(req.file);
-    console.log("接收完request")
     res.status(200).send(`http://localhost:5020/images/${req.file.filename}`)
 }
 module.exports = {upload};

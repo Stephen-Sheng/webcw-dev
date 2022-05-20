@@ -1,4 +1,3 @@
-//获取用户
 const dbConfig = require("../util/dbconfig");
 getUser=(req, res)=>{
     var sql = "SELECT * FROM user";
@@ -14,7 +13,7 @@ getUser=(req, res)=>{
     }
     dbConfig.sqlConnect(sql, sqlArr, callBack)
 }
-//获取指定用户的订单列表
+//get user's order
 getOrder =(req, res)=>{
     let {id} = req.query;
     var sql = "SELECT * FROM cw.order WHERE userID=?";
@@ -30,7 +29,6 @@ getOrder =(req, res)=>{
     }
     dbConfig.sqlConnect(sql, sqlArr, callBack)
 }
-//
 
 
 module.exports = {
