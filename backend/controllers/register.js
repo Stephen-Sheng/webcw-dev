@@ -232,8 +232,8 @@ let transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: "544518449@qq.com",
-        pass: "rrdkjmdqwldtbdaj",
+        user: "change it to your own email address",
+        pass: "change it to your own password",
     },
 });
 
