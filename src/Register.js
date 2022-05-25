@@ -262,7 +262,7 @@ export default function Register() {
               />
             </Form.Item>
               <Form.Item name={"description"} label="Store Description" required={true}>
-                <TextArea placeholder="Autosize height based on content lines" autoSize />
+                <TextArea placeholder="Introduce your store" autoSize />
               </Form.Item>
               <Form.Item
                 label="Store Figure"

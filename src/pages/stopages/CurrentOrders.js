@@ -131,7 +131,7 @@ export default function CurrentOrders() {
     } else {
         return (
             <Layout>
-                <StoNavmenu selected={'3'} />
+                <StoNavmenu selected={'2'} />
                 <Content style={{ margin: '2%', background: '#fff' }}>
                     Please login first and then check your upcoming orders
                 </Content>

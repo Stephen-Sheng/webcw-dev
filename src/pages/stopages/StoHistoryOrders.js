@@ -22,7 +22,14 @@ export default function StoHistoryOrders() {
 
     if (user) {
         if (historyOrders.isLoading || !historyOrders.data) {
-            return <Spin size="large"/>
+            return (
+                <Layout>
+                <StoNavmenu selected={'3'} />
+                <Content style={{ margin: '2%', background: '#fff' }}>
+                    <Spin size="large"/>
+                </Content>
+            </Layout>
+            )
         }else{
             console.log(historyOrders.data);
             return (

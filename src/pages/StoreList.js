@@ -111,10 +111,10 @@ export default function StoreList() {
             <Navmenu selected={['2']} />
             <Layout>
               <Layout style={{ padding: '0 24px 24px' }}>
-                <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
+                {/* <Breadcrumb separator=">" style={{ margin: '16px 0' }}>
                   <Breadcrumb.Item><Link href={'/'}>Home</Link></Breadcrumb.Item>
                   <Breadcrumb.Item>Store list</Breadcrumb.Item>
-                </Breadcrumb>
+                </Breadcrumb> */}
                 <Content
                   className="site-layout-background"
                   style={{

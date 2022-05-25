@@ -114,11 +114,23 @@ export default function Orderwait() {
     } else {
         return (
             <Layout>
-                <Navmenu selected={'3'} />
-                <Content style={{ margin: '2%', background: '#fff' }}>
-                    Please login first and then check your orders
+            <Navmenu selected={['3']} />
+            <Layout>
+              <Layout style={{ padding: '0 24px 24px' }}>
+                
+                <Content
+                  className="site-layout-background"
+                  style={{
+                    padding: 24,
+                    margin: 0,
+                    minHeight: 280,
+                  }}
+                >
+                  Please login first
                 </Content>
+              </Layout>
             </Layout>
+          </Layout>
         )
     }
 
