@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -28,13 +28,10 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: |
-        cd webcw-dev
         npm ci
     - name: Build the app
       run: |
-        cd webcw-dev
         npm run build
     - name: Start the app
       run: |
-        cd webcw-dev
         npm start
