@@ -31,4 +31,5 @@ jobs:
         npm ci
     - name: Start the app
       run: |
-        npm start
+        npm start &
+        npx wait-on --timeout 60000
